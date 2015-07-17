@@ -180,6 +180,11 @@
     <Content Include="retailers\js\datatables\unit_testing\templates\js_data.php" />
     <Content Include="retailers\js\datatables\unit_testing\templates\js_data_mixed_types.php" />
     <Content Include="retailers\js\datatables\unit_testing\templates\two_tables.php" />
+    <Content Include="retailers\js\fileuploader\fileinput.css" />
+    <Content Include="retailers\js\fileuploader\fileinput.min.css" />
+    <Content Include="retailers\js\fileuploader\fileinput.min.js" />
+    <Content Include="retailers\js\fileuploader\fileinput_locale_es.js" />
+    <Content Include="retailers\js\fileuploader\fileinput_locale_fr.js" />
     <Content Include="retailers\js\maps\us-unemployment.json" />
     <Content Include="users_temp\fonts\fontawesome-webfont.eot" />
     <Content Include="users_temp\fonts\fontawesome-webfont.ttf" />
