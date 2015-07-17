@@ -108,6 +108,7 @@
     <Content Include="js\.DS_Store" />
     <Content Include="js\min\.DS_Store" />
     <Content Include="retailers\css\datatables\images\Sorting icons.psd" />
+    <Content Include="retailers\css\retailers.css" />
     <Content Include="retailers\fonts\fonts\fontawesome-webfont.eot" />
     <Content Include="retailers\fonts\fonts\fontawesome-webfont.ttf" />
     <Content Include="retailers\fonts\fonts\fontawesome-webfont.woff" />
@@ -142,6 +143,7 @@
     <Content Include="retailers\fonts\scss\_spinning.scss" />
     <Content Include="retailers\fonts\scss\_stacked.scss" />
     <Content Include="retailers\fonts\scss\_variables.scss" />
+    <Content Include="retailers\images\bkp\picture.jpg" />
     <Content Include="retailers\images\Sorting icons.psd" />
     <Content Include="retailers\js\datatables\images\Sorting icons.psd" />
     <Content Include="retailers\js\datatables\tools\.gitignore" />

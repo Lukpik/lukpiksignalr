@@ -1204,6 +1204,7 @@ legend {
 
 .profile_left {
     background: white;
+    
 }
 /* *********  /contacts  ********************************** */
 /* *********  /custom accordion  **************************** */
@@ -5193,8 +5194,8 @@ ul.project_files li a i {
 
 .avatar-view {
     display: block;
-    height: 220px;
-    width: 220px;
+    height: 180px;
+    width: 180px;
     border: 3px solid #fff;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, .15);

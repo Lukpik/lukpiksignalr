@@ -11,8 +11,10 @@ $(function () {
 
     $('#sidebar-menu li').click(function () {
         if ($(this).is('.active')) {
+            var locationStr = location.href.split('/')[(location.href.split('/').length) - 1];
             $(this).removeClass('active');
-            $('ul', this).slideUp();
+            if (locationStr != 'addproduct.aspx')
+                $('ul', this).slideUp();
             $(this).removeClass('nv');
             $(this).addClass('vn');
         } else {
@@ -52,11 +54,11 @@ $(function () {
 
 /* Sidebar Menu active class */
 $(function () {
-    var url = window.location;
-    $('#sidebar-menu a[href="' + url + '"]').parent('li').addClass('current-page');
-    $('#sidebar-menu a').filter(function () {
-        return this.href == url;
-    }).parent('li').addClass('current-page').parent('ul').slideDown().parent().addClass('active');
+    //var url = window.location;
+    //$('#sidebar-menu a[href="' + url + '"]').parent('li').addClass('current-page');
+    //$('#sidebar-menu a').filter(function () {
+    //    return this.href == url;
+    //}).parent('li').addClass('current-page').parent('ul').slideDown().parent().addClass('active');
 });
 
 /** ******  /left menu  *********************** **/
@@ -315,3 +317,22 @@ $(document).ready(function () {
 
 });
 /** ******  /scrollview  *********************** **/
+
+
+function ActiveLI(liControl) {
+    var str = location.href
+    $(liControl).addClass("current-page");
+    var locationStr = location.href.split('/')[(location.href.split('/').length) - 1];
+    if (locationStr == "products.aspx" || locationStr == "addproduct.aspx") {
+        //$(liControl).find('#liProducts').parent('li').addClass('current-page').parent('ul').slideDown().parent().addClass('active');
+        $(liControl).addClass('current-page').parent('ul').slideDown();
+        $('#liProducts').addClass('active');
+        
+    }
+    else if (locationStr == "inventory.aspx") {
+        //$(liControl).find('#liInventory').parent('li').addClass('current-page').parent('ul').slideDown().parent().addClass('active');
+        $(liControl).addClass('current-page').parent('ul').slideDown();
+        $('#liInventory').addClass('active');
+    }
+    
+}
