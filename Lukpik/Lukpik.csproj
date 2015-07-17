@@ -143,6 +143,13 @@
     <Content Include="retailers\fonts\scss\_spinning.scss" />
     <Content Include="retailers\fonts\scss\_stacked.scss" />
     <Content Include="retailers\fonts\scss\_variables.scss" />
+    <Content Include="retailers\addproduct.html" />
+    <Content Include="retailers\settings.html" />
+    <Content Include="retailers\notifications.html" />
+    <Content Include="retailers\reports.html" />
+    <Content Include="retailers\customers.html" />
+    <Content Include="retailers\inventory.html" />
+    <Content Include="retailers\products.html" />
     <Content Include="retailers\home.html" />
     <Content Include="retailers\images\bkp\picture.jpg" />
     <Content Include="retailers\images\Sorting icons.psd" />
