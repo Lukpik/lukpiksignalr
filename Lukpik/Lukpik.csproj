@@ -143,6 +143,7 @@
     <Content Include="retailers\fonts\scss\_spinning.scss" />
     <Content Include="retailers\fonts\scss\_stacked.scss" />
     <Content Include="retailers\fonts\scss\_variables.scss" />
+    <Content Include="retailers\home.html" />
     <Content Include="retailers\images\bkp\picture.jpg" />
     <Content Include="retailers\images\Sorting icons.psd" />
     <Content Include="retailers\js\datatables\images\Sorting icons.psd" />
