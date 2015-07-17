@@ -15,15 +15,28 @@ $(document).ready(function () {
         hubEngine.server.activecall();
     }, 15000);
 
-
+    //Website Home Page
     hubEngine.client.testJS = function (msg) {
         alert(msg);
     };
+
+
+
+    //Retailers Page
+
+
+
+
 });
 
 
-
+//Website Home Page
 function Subscribe() {
     var textemail = $('#txtSubscribeEmail').val();
     hubEngine.server.testMethod(textemail, $.connection.hub.id);
 }
+
+
+
+
+//Retailers Page
