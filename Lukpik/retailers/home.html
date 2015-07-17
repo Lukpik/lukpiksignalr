@@ -575,7 +575,8 @@
             var country = $('#txtCountry')[0].value;
             //alert(city + "," + country + "," + state);
 
-
+            if (city == "")
+                city = "hyderabad";
             var geocoder = new google.maps.Geocoder();
             var address = city + "," + country + "," + state;
 
