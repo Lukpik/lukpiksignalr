@@ -143,10 +143,10 @@
     <Content Include="retailers\fonts\scss\_spinning.scss" />
     <Content Include="retailers\fonts\scss\_stacked.scss" />
     <Content Include="retailers\fonts\scss\_variables.scss" />
-    <Content Include="retailers\addproduct.html" />
-    <Content Include="retailers\settings.html" />
     <Content Include="retailers\notifications.html" />
     <Content Include="retailers\reports.html" />
+    <Content Include="retailers\addproduct.html" />
+    <Content Include="retailers\settings.html" />
     <Content Include="retailers\customers.html" />
     <Content Include="retailers\inventory.html" />
     <Content Include="retailers\products.html" />
@@ -418,7 +418,6 @@
     <Content Include="retailers\images\sprite-skin-simple.png" />
     <Content Include="retailers\images\user.png" />
     <Content Include="retailers\images\visa.png" />
-    <Content Include="retailers\index.html" />
     <Content Include="retailers\js\autocomplete\countries.js" />
     <Content Include="retailers\js\autocomplete\jquery.autocomplete.js" />
     <Content Include="retailers\js\bootstrap.min.js" />
@@ -1284,7 +1283,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1530</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:1531/</IISUrl>
+          <IISUrl>http://localhost:1532/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

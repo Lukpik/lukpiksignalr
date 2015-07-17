@@ -18,7 +18,7 @@
     <link href="css/custom.css" rel="stylesheet">
     <link href="css/icheck/flat/green.css" rel="stylesheet">
 
-
+    <link href="css/retailers.css" rel="stylesheet" />
     <script src="js/jquery.min.js"></script>
 </head>
 <body class="nav-md">
@@ -59,7 +59,7 @@
                         <div class="menu_section">
                             <h3></h3>
                             <ul class="nav side-menu">
-                                <li id="liHome" class="active"><a href="#"><i class="fa fa-home"></i> Home </a></li>
+                                <li id="liHome" class="active"><a href="home.html"><i class="fa fa-home"></i> Home </a></li>
 
                                 <li id="liProductsMain">
                                     <a href="products.html"><i class="fa fa-tag"></i> Products <span class="fa fa-chevron-down"></span></a>
@@ -80,7 +80,7 @@
 
                             </ul>
                         </div>
-                      
+
                     </div>
                     <!-- /sidebar menu -->
                     <!-- /menu footer buttons -->
@@ -213,10 +213,15 @@
             <!-- /top navigation -->
             <!-- page content -->
             <div class="right_col" role="main">
-                <div class="x_panel">
+                <div class="">
+
                     <div class="page-title">
                         <div class="title_left">
-                            <h3>Plain Page</h3>
+                            <h3>
+
+                                <label style="font-weight: normal;">Home</label>
+
+                            </h3>
                         </div>
                         <div class="title_right">
                             <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
@@ -230,42 +235,298 @@
                         </div>
                     </div>
                     <div class="clearfix"></div>
-                    <div class="row">
-                        <div class="col-md-12 col-sm-12 col-xs-12">
-                            <div class="x_panel" style="height:600px;">
-                                <div class="x_title">
-                                    <h2>Plain Page</h2>
-                                    <ul class="nav navbar-right panel_toolbox">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Your banner looks like this</h2>
+                            <div class="pull-right">
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="profile_img">
+
+                                        <!-- end of image cropping -->
+                                        <div id="crop-avatar">
+                                            <!-- Current avatar -->
+                                            <div class="avatar-view" title="Click to Add / Change image">
+                                                <img src="images/picture.jpg" alt="Avatar">
+                                            </div>
+
+                                            <!-- Cropping modal -->
+                                            <div class="modal fade" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <form class="avatar-form" action="crop.php" enctype="multipart/form-data" method="post">
+                                                            <div class="modal-header">
+                                                                <button class="close" data-dismiss="modal" type="button">&times;</button>
+                                                                <h4 class="modal-title" id="avatar-modal-label">Change Avatar</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="avatar-body">
+
+                                                                    <!-- Upload image and data -->
+                                                                    <div class="avatar-upload">
+                                                                        <input class="avatar-src" name="avatar_src" type="hidden">
+                                                                        <input class="avatar-data" name="avatar_data" type="hidden">
+                                                                        <label for="avatarInput">Local upload</label>
+                                                                        <input class="avatar-input" id="avatarInput" name="avatar_file" type="file">
+                                                                    </div>
+
+                                                                    <!-- Crop and preview -->
+                                                                    <div class="row">
+                                                                        <div class="col-md-9">
+                                                                            <div class="avatar-wrapper"></div>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <div class="avatar-preview preview-lg"></div>
+                                                                            <div class="avatar-preview preview-md"></div>
+                                                                            <div class="avatar-preview preview-sm"></div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row avatar-btns">
+                                                                        <div class="col-md-9">
+                                                                            <div class="btn-group">
+                                                                                <button class="btn btn-primary" data-method="rotate" data-option="-90" type="button" title="Rotate -90 degrees">Rotate Left</button>
+                                                                                <button class="btn btn-primary" data-method="rotate" data-option="-15" type="button">-15deg</button>
+                                                                                <button class="btn btn-primary" data-method="rotate" data-option="-30" type="button">-30deg</button>
+                                                                                <button class="btn btn-primary" data-method="rotate" data-option="-45" type="button">-45deg</button>
+                                                                            </div>
+                                                                            <div class="btn-group">
+                                                                                <button class="btn btn-primary" data-method="rotate" data-option="90" type="button" title="Rotate 90 degrees">Rotate Right</button>
+                                                                                <button class="btn btn-primary" data-method="rotate" data-option="15" type="button">15deg</button>
+                                                                                <button class="btn btn-primary" data-method="rotate" data-option="30" type="button">30deg</button>
+                                                                                <button class="btn btn-primary" data-method="rotate" data-option="45" type="button">45deg</button>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <button class="btn btn-primary btn-block avatar-save" type="submit">Done</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!-- <div class="modal-footer">
+                                                      <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
+                                                    </div> -->
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- /.modal -->
+                                            <!-- Loading state -->
+                                            <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
+                                        </div>
+                                        <!-- end of image cropping -->
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-10" style="padding-left: 30px;">
+                                    <h3>
+                                        <label id="lblStorename">Store name</label>
+                                    </h3>
+                                    <h4>
+                                        <asp:Label id="lblShortDesc">Mens, womens clothing</asp:Label>
+                                    </h4>
+                                    <ul class="list-unstyled user_data">
                                         <li>
-                                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                            <i class="fa fa-map-marker user-profile-icon" style="font-size: 18px;"></i>&nbsp;<label ID="lblStoreAddress">Hyderabad, India</label>
                                         </li>
-                                        <li class="dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li>
-                                                    <a href="#">Settings 1</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Settings 2</a>
-                                                </li>
-                                            </ul>
-                                        </li>
+
                                         <li>
-                                            <a class="close-link"><i class="fa fa-close"></i></a>
+                                            <div style="font-size: 25px;">
+                                                <i class="fa fa-facebook-square" style="padding-right: 8px;"></i>
+                                                <i class="fa fa-twitter-square" style="padding-right: 8px;"></i>
+                                                <i class="fa fa-google-plus-square" style="padding-right: 8px;"></i>
+
+                                            </div>
+
+                                        </li>
+
+                                        <li class="m-top-xs">
+                                            <i class="fa fa-external-link user-profile-icon"></i>
+                                            <a href="http://www.lukpik.com" target="_blank">www.lukpik.com</a>
                                         </li>
                                     </ul>
-                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="x_panel">
+                        <div class="x_title">
+
+                            <h2>Fill the form below</h2>
+
+                            <label id="lblmsg"></label>
+                            <div class="pull-right">
+                                <button id="btnCancel" class="btn btn-primary">Cancel</button>
+
+                                <button id="btnSave" class="btn btn-success">Save</button>
+                            </div>
+
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <div class="row cssmarginbotom">
+                                <div class="col-md-12">
+                                    <h3>Store details</h3>
+                                </div>
+                            </div>
+                            <div class="row cssmarginbotom">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <label>Store name</label>
+                                    <input type="text"id="txtStorename" class="form-control"/>
+                                </div>
+                            </div>
+
+                            <div class="row cssmarginbotom">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <label>Store short description</label>
+                                    <input type="text" id="txtShortDesc" class="form-control"/>
+                                </div>
+                            </div>
+
+                            <div class="row cssmarginbotom">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <label>Store description</label>
+                                    <textarea class="form-control"></textarea>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row cssmarginbotom">
+                                <div class="col-md-12">
+                                    <h3>Store owner details</h3>
+                                </div>
+                            </div>
+                            <div class="row cssmarginbotom">
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <label>Firstname</label>
+                                    <input type="text" id="txtOwnerFirstname" class="form-control" />
+                                    
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <label>Lastname</label>
+                                    <input type="text" id="txtOwnerLastname" class="form-control" />
+                                    
+                                </div>
+                            </div>
+                            <div class="row cssmarginbotom">
+                                <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                    <label>Phone</label>
+                                    <input type="text" id="txtPhone" class="form-control has-feedback-left" />
+                                    <span class="form-control-feedback left" aria-hidden="true">+91</span>
+                                    <span style="cursor: pointer;margin-top:5px;" class="label label-danger pull-right">Verify</span>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <label>Email</label>
+                                    <input type="text" id="txtEmail" class="form-control" />
+                                    <span style="cursor: pointer;margin-top:5px;" class="label label-danger pull-right">Verify</span>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row cssmarginbotom">
+                                <div class="col-md-12">
+                                    <h3>Store address details</h3>
+                                </div>
+                            </div>
+                            <div class="row cssmarginbotom">
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <label>Address Line 1</label>
+                                    <input type="text" id="txtAddressLine1" class="form-control" />
+                                    
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <label>Store description</label>
+                                    <select id="ddState" name="state" onchange="IdentifyLocation();" class="form-control col-md-6">
+
+                                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                        <option value="Telangana">Telangana</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row cssmarginbotom">
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <label>Address Line 2</label>
+                                    <input type="text" id="txtAddressLine2" class="form-control" />
+                                    
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <label>Country</label>
+                                    <input type="text" id="txtCountry" class="form-control" disabled/>
+                                </div>
+                            </div>
+                            <div class="row cssmarginbotom">
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <label>City</label>
+                                    <input type="text" id="txtCity" class="form-control" />
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <label>Pincode</label>
+                                    <input type="text" id="txtPincode" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row cssmarginbotom">
+                                <div class="col-md-12 col-sm-6 col-xs-12">
+                                    <label>Point your location :</label>
+
+                                    <span style="cursor: pointer;" class="label label-success pull-right" onclick="IdentifyLocation();">Identify location</span>
+                                    <div id="map" style="height: 250px; border: solid 1px #CCCCCC;">
+                                    </div>
+                                    <label id="lblMapAddress"></label>
+                                </div>
+
+                            </div>
+                            <hr />
+                            <div class="row cssmarginbotom">
+                                <div class="col-md-12">
+                                    <h3>Add your social links</h3>
+                                </div>
+                            </div>
+                            <div class="row cssmarginbotom">
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <label>Website url</label>
+                                    <input type="text" id="txtWebsiteURL" class="form-control" />
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <label>Facebook</label>
+                                    <input type="text" id="txtFbURL" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row cssmarginbotom">
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <label>Twitter</label>
+                                    <input type="text" id="txtTwitterURL" class="form-control" />
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <label>Google plus</label>
+                                    <input type="text" id="txtGooglePlusURL" class="form-control" />
+                                </div>
+                            </div>
+                            <hr />
+
+
+
+                            <div class="row">
+
+                                <div class="col-ms-12 col-sm-12 col-xs-12" style="text-align: right;">
+                                    <button class="btn btn-primary">Cancel</button>
+                                    <button class="btn btn-success">Save</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!-- /page content -->
 
 
 
             </div>
             <!-- /page content -->
-        </div> 
+        </div>
 
     </div>
 
@@ -288,9 +549,84 @@
     <script src="js/custom.js"></script>
 
     <!-- moris js -->
-    <script src="js/moris/raphael-min.js"></script>
-    <script src="js/moris/morris.js"></script>
+
     <script src="js/moris/example.js"></script>
+    <script src="js/cropping/cropper.min.js"></script>
+    <script src="js/cropping/main.js"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            ActiveLI(liProducts);
+        });
+
+        function InitializeMap() {
+            var latlng = new google.maps.LatLng(17.3700, 78.4800);
+            var myOptions = {
+                zoom: 8,
+                center: latlng,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var map = new google.maps.Map(document.getElementById("map"), myOptions);
+        }
+        window.onload = InitializeMap;
+
+        function IdentifyLocation() {
+            $('#<%=lblMapAddress.ClientID%>').text("");
+            var city = $('#<%=txtCity.ClientID%>')[0].value;
+            var e = document.getElementById("<%=ddState.ClientID%>");
+            var state = e.options[e.selectedIndex].text;
+            var country = $('#<%=txtCountry.ClientID%>')[0].value;
+            //alert(city + "," + country + "," + state);
+
+
+            var geocoder = new google.maps.Geocoder();
+            var address = city + "," + country + "," + state;
+
+            geocoder.geocode({ 'address': address }, function (results, status) {
+
+                if (status == google.maps.GeocoderStatus.OK) {
+                    var latitude = results[0].geometry.location.lat();
+                    var longitude = results[0].geometry.location.lng();
+                    //alert(latitude);
+
+                    //var data = markers[i]
+                    var myLatlng = new google.maps.LatLng(latitude, longitude);
+                    var myOptions = {
+                        zoom: 8,
+                        center: myLatlng,
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                    };
+                    var map = new google.maps.Map(document.getElementById("map"), myOptions);
+                    var marker = new google.maps.Marker({
+                        position: myLatlng,
+                        map: map,
+                        title: address,
+                        draggable: true,
+                        //"icon": '../img/marker.png',
+                        animation: google.maps.Animation.DROP
+                    });
+                    (function (marker) {
+                        google.maps.event.addListener(marker, "click", function (e) {
+                            infoWindow.setContent(address);
+                            infoWindow.open(map, marker);
+                        });
+                        google.maps.event.addListener(marker, "dragend", function (e) {
+                            var lat, lng, addressN;
+                            geocoder.geocode({ 'latLng': marker.getPosition() }, function (results, status) {
+                                if (status == google.maps.GeocoderStatus.OK) {
+                                    lat = marker.getPosition().lat();
+                                    lng = marker.getPosition().lng();
+                                    addressN = results[0].formatted_address;
+                                    //alert("Latitude: " + lat + "\nLongitude: " + lng + "\nAddress: " + address);
+                                    $('#<%=lblMapAddress.ClientID%>').text("Latitude: " + lat + "\nLongitude: " + lng + "\nAddress: " + addressN);
+                                }
+                            });
+                        });
+                    })(marker);
+                }
+            });
+        }
+    </script>
 
 </body>
 </html>
