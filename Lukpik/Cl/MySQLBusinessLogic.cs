@@ -227,6 +227,24 @@ namespace Lukpik.Cl
             return retVal;
         }
 
+        public DataTable GetStoreRetailerDetails(string username)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                string cmdText = "select * from `store` where `Email`='" + username + "'";
+                cmd = new MySqlCommand(cmdText, con);
+                con.Open();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+            }
+            return dt;
+        }
+
         #endregion
 
 

@@ -129,10 +129,26 @@ namespace Lukpik
         }
         #endregion
 
-        #region CONVERTION TO JSON
-        public string ConvertDataTabletoString()
+        public void getRetailerDetails(string username,string clientID)
         {
-            DataTable dt = new DataTable();
+            try
+            {
+                MySQLBusinessLogic bl=new MySQLBusinessLogic();
+                DataTable storeDetails = new DataTable();
+                storeDetails = bl.GetStoreRetailerDetails(username);
+                string jsonStr = ConvertDataTabletoString(storeDetails);
+                Clients.Client(clientID).gotDetails(jsonStr, "1");
+            }
+            catch (Exception ex)
+            {
+                Clients.Client(clientID).gotDetails("", "0");
+            }
+        }
+
+        #region CONVERTION TO JSON
+        public string ConvertDataTabletoString(DataTable dt)
+        {
+            
             System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
             List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
             Dictionary<string, object> row;

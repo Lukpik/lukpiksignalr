@@ -202,6 +202,7 @@
     <Content Include="Scripts\pages\addretailer.js" />
     <Content Include="Scripts\pages\all.js" />
     <Content Include="Scripts\pages\login.js" />
+    <Content Include="Scripts\pages\retailerhome.js" />
     <Content Include="users_temp\fonts\fontawesome-webfont.eot" />
     <Content Include="users_temp\fonts\fontawesome-webfont.ttf" />
     <Content Include="users_temp\fonts\fontawesome-webfont.woff" />
