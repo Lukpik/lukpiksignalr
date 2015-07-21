@@ -212,6 +212,7 @@
     <Content Include="users_temp\includes\twitter\index.php" />
     <Content Include="users_temp\includes\twitter\lib\tmhOAuth.php" />
     <Content Include="users_temp\includes\twitter\lib\tmhUtilities.php" />
+    <None Include="Properties\PublishProfiles\LukpikCustom1.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

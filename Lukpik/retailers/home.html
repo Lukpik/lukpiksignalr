@@ -20,6 +20,7 @@
 
     <link href="css/retailers.css" rel="stylesheet" />
     <script src="js/jquery.min.js"></script>
+    <script src="js/select/select2.full.js"></script>
 </head>
 <body class="nav-md">
 
@@ -309,8 +310,8 @@
                                                                 </div>
                                                             </div>
                                                             <!-- <div class="modal-footer">
-                                                      <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
-                                                    </div> -->
+                                                              <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
+                                                            </div> -->
                                                         </form>
                                                     </div>
                                                 </div>
@@ -329,11 +330,11 @@
                                         <label id="lblStorename">Store name</label>
                                     </h3>
                                     <h4>
-                                        <asp:Label id="lblShortDesc">Mens, womens clothing</asp:Label>
+                                        <asp:label id="lblShortDesc">Mens, womens clothing</asp:label>
                                     </h4>
                                     <ul class="list-unstyled user_data">
                                         <li>
-                                            <i class="fa fa-map-marker user-profile-icon" style="font-size: 18px;"></i>&nbsp;<label ID="lblStoreAddress">Hyderabad, India</label>
+                                            <i class="fa fa-map-marker user-profile-icon" style="font-size: 18px;"></i>&nbsp;<label id="lblStoreAddress">Hyderabad, India</label>
                                         </li>
 
                                         <li>
@@ -379,14 +380,14 @@
                             <div class="row cssmarginbotom">
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <label>Store name</label>
-                                    <input type="text"id="txtStorename" class="form-control"/>
+                                    <input type="text" id="txtStorename" class="form-control" />
                                 </div>
                             </div>
 
                             <div class="row cssmarginbotom">
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <label>Store short description</label>
-                                    <input type="text" id="txtShortDesc" class="form-control"/>
+                                    <input type="text" id="txtShortDesc" class="form-control" />
                                 </div>
                             </div>
                             <div class="row cssmarginbotom">
@@ -395,13 +396,102 @@
                                     <textarea class="form-control"></textarea>
                                 </div>
                             </div>
+
+                            <div class="row cssmarginbotom">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <label>Brands you sell</label>
+                                    <div class="">
+                                        <input id="tags_OtherCategories" type="text" class="tags form-control" value="" />
+                                        <div id="suggestions-container3" style="position: relative; float: left; width: 250px; margin: 10px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row cssmarginbotom">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <label>Primary category</label>
+                                    
+                                    <select id="ddPrimaryCategory" name="PrimaryCategory" class="form-control col-md-12">
+                                        <option value="Mens Casual wear">Mens Casual wear</option>
+                                        <option value="Mens Formal wear">Mens Formal wear</option>
+                                        <option value="Mens Ethnic wear">Mens Ethnic wear</option>
+                                        <option value="Mens Inner wear">Mens Inner wear</option>
+                                        <option value="Mens Denim wear">Mens Denim wear</option>
+                                        <option value="Mens-Footwear">Mens-Footwear</option>
+                                        <option value="Women Ethnic wear">Women Ethnic wear</option>
+                                        <option value="Women Western wear">Women Western wear</option>
+                                        <option value="Women Footwear">Women Footwear</option>
+                                        <option value="Kids Footwear">Kids Footwear</option>
+                                        <option value="Kids Apparel">Kids Apparel</option>
+                                        <option value="Bags">Bags</option>
+                                        <option value="Watches">Watches</option>
+                                        <option value="Accessories">Accessories</option>
+                                        <option value="Belts and wallets">Belts and wallets</option>
+                                        <option value="Sunglasses">Sunglasses</option>
+                                        <option value="Jewellery">Jewellery</option>
+                                        <option value="Lingerie/Inner-wear">Lingerie/Inner-wear</option>
+                                        <option value="Others">Others</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row cssmarginbotom">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <label>Other categories</label>
+                                    <br />
+                                    <div class="col-md-3 col-xs-12 col-sm-12 cssmarginbotom">
+                                        <input type="checkbox" class="flat" /> Mens-Apparel&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </div>
+
+                                    <div class="col-md-3 col-xs-12 col-sm-12 cssmarginbotom">
+                                        <input type="checkbox" class="flat" /> Mens-Footwear&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </div>
+
+
+                                    <div class="col-md-3 col-xs-12 col-sm-12 cssmarginbotom">
+                                        <input type="checkbox" class="flat" /> Women Ethnic wear&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </div>
+
+
+                                    <div class="col-md-3 col-xs-12 col-sm-12 cssmarginbotom">
+                                        <input type="checkbox" class="flat" /> Women Western wear&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </div>
+
+                                    <div class="col-md-3 col-xs-12 col-sm-12 cssmarginbotom">
+                                        <input type="checkbox" class="flat" /> Women Footwear&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </div>
+                                    <div class="col-md-3 col-xs-12 col-sm-12 cssmarginbotom">
+                                        <input type="checkbox" class="flat" /> Kids Footwear&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </div>
+                                    <div class="col-md-3 col-xs-12 col-sm-12 cssmarginbotom">
+                                        <input type="checkbox" class="flat" /> Kids Apparel&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </div>
+                                    <div class="col-md-3 col-xs-12 col-sm-12 cssmarginbotom">
+                                        <input type="checkbox" class="flat" /> Bags&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </div>
+                                    <div class="col-md-3 col-xs-12 col-sm-12 cssmarginbotom">
+                                        <input type="checkbox" class="flat" /> Watches&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </div>
+                                    <div class="col-md-3 col-xs-12 col-sm-12 cssmarginbotom">
+                                        <input type="checkbox" class="flat" /> Accessories&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </div>
+                                    <div class="col-md-3 col-xs-12 col-sm-12 cssmarginbotom">
+                                        <input type="checkbox" class="flat" /> Belts and wallets&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </div>
+                                    <div class="col-md-3 col-xs-12 col-sm-12 cssmarginbotom">
+                                        <input type="checkbox" class="flat" /> Sunglasses&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </div>
+                                    <div class="col-md-3 col-xs-12 col-sm-12 cssmarginbotom">
+                                        <input type="checkbox" class="flat" /> Others&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row cssmarginbotom">
                                 <div class="col-md-6 col-sm-12 col-xs-12">
                                     <label>Credit card facility</label>
                                     <br />
-                                    <input type="radio" class="flat" name="isCreditcard" id="rbtnCCYes" value="Yes" checked/>
+                                    <input type="radio" class="flat" name="isCreditcard" id="rbtnCCYes" value="Yes" checked />
                                     <label style="font-weight: normal;">Yes&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                    
+
                                     <input type="radio" class="flat" name="isCreditcard" id="rbtnCCNo" value="No" />
                                     <label style="font-weight: normal;">No&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                 </div>
@@ -428,12 +518,12 @@
                                 </div>
                                 <!--<div class="col-md-6 col-sm-12 col-xs-12">
                                     <label>Trail room facility</label>
-                                    
 
-                                    
+
+
                                 </div>-->
                             </div>
-                          
+
                             <hr />
                             <div class="row cssmarginbotom">
                                 <div class="col-md-12">
@@ -444,12 +534,12 @@
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <label>Firstname</label>
                                     <input type="text" id="txtOwnerFirstname" class="form-control" />
-                                    
+
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <label>Lastname</label>
                                     <input type="text" id="txtOwnerLastname" class="form-control" />
-                                    
+
                                 </div>
                             </div>
                             <div class="row cssmarginbotom">
@@ -475,11 +565,11 @@
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <label>Address Line 1</label>
                                     <input type="text" id="txtAddressLine1" class="form-control" />
-                                    
+
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <label>Store description</label>
-                                    <select id="ddState" name="state" onchange="IdentifyLocation();" class="form-control col-md-6">
+                                    <select id="ddState" name="state" onchange="IdentifyLocation(this);" class="form-control col-md-6">
 
                                         <option value="Andhra Pradesh">Andhra Pradesh</option>
                                         <option value="Telangana">Telangana</option>
@@ -490,17 +580,17 @@
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <label>Address Line 2</label>
                                     <input type="text" id="txtAddressLine2" class="form-control" />
-                                    
+
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <label>Country</label>
-                                    <input type="text" id="txtCountry" class="form-control" value="India" disabled/>
+                                    <input type="text" id="txtCountry" class="form-control" value="India" disabled />
                                 </div>
                             </div>
                             <div class="row cssmarginbotom">
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <label>City</label>
-                                    <input type="text" id="txtCity" class="form-control" onblur="IdentifyLocation();" />
+                                    <input type="text" id="txtCity" class="form-control" onblur="IdentifyLocation(this);" />
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <label>Pincode</label>
@@ -511,7 +601,7 @@
                                 <div class="col-md-12 col-sm-6 col-xs-12">
                                     <label>Point your location :</label>
 
-                                    <span style="cursor: pointer;" class="label label-success pull-right" onclick="IdentifyLocation();">Identify location</span>
+                                    <span style="cursor: pointer;" class="label label-success pull-right" onclick="IdentifyLocation(this);">Identify location</span>
                                     <div id="map" style="height: 250px; border: solid 1px #CCCCCC;">
                                     </div>
                                     <label id="lblMapAddress"></label>
@@ -591,21 +681,48 @@
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            ActiveLI(liProducts);
+            //ActiveLI(liProducts);
         });
 
         function InitializeMap() {
-            var latlng = new google.maps.LatLng(17.3700, 78.4800);
+            var latlng = new google.maps.LatLng(17.356246126552215, 78.38570082031242);
             var myOptions = {
                 zoom: 8,
                 center: latlng,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
             var map = new google.maps.Map(document.getElementById("map"), myOptions);
+            //var marker = new google.maps.Marker({
+            //    position: latlng,
+            //    map: map,
+            //    title: "",
+            //    draggable: true,
+            //    //"icon": '../img/marker.png',
+            //    animation: google.maps.Animation.DROP
+            //});
+            var geocoder = new google.maps.Geocoder();
+            var lat = 17.356246126552215;
+            var long = 78.38570082031242;
+            var latlng = new google.maps.LatLng(lat, long);
+
+            geocoder.geocode({ 'location': latlng }, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    if (results[1]) {
+                        AddMapMarker(lat, long, geocoder);
+                    } else {
+                        window.alert('No results found');
+                    }
+                } else {
+                    window.alert('Geocoder failed due to: ' + status);
+                }
+            });
+
+
+            
         }
         window.onload = InitializeMap;
-
-        function IdentifyLocation() {
+        
+        function IdentifyLocation(control) {
             $('#lblMapAddress').text("");
             var city = $('#txtCity')[0].value;
             var e = document.getElementById("ddState");
@@ -617,7 +734,7 @@
                 city = "hyderabad";
             var geocoder = new google.maps.Geocoder();
             var address = city + "," + country + "," + state;
-
+            
             geocoder.geocode({ 'address': address }, function (results, status) {
 
                 if (status == google.maps.GeocoderStatus.OK) {
@@ -626,43 +743,67 @@
                     //alert(latitude);
 
                     //var data = markers[i]
-                    var myLatlng = new google.maps.LatLng(latitude, longitude);
-                    var myOptions = {
-                        zoom: 8,
-                        center: myLatlng,
-                        mapTypeId: google.maps.MapTypeId.ROADMAP
-                    };
-                    var map = new google.maps.Map(document.getElementById("map"), myOptions);
-                    var marker = new google.maps.Marker({
-                        position: myLatlng,
-                        map: map,
-                        title: address,
-                        draggable: true,
-                        //"icon": '../img/marker.png',
-                        animation: google.maps.Animation.DROP
-                    });
-                    (function (marker) {
-                        google.maps.event.addListener(marker, "click", function (e) {
-                            infoWindow.setContent(address);
-                            infoWindow.open(map, marker);
-                        });
-                        google.maps.event.addListener(marker, "dragend", function (e) {
-                            var lat, lng, addressN;
-                            geocoder.geocode({ 'latLng': marker.getPosition() }, function (results, status) {
-                                if (status == google.maps.GeocoderStatus.OK) {
-                                    lat = marker.getPosition().lat();
-                                    lng = marker.getPosition().lng();
-                                    addressN = results[0].formatted_address;
-                                    //alert("Latitude: " + lat + "\nLongitude: " + lng + "\nAddress: " + address);
-                                    $('#lblMapAddress').text("Latitude: " + lat + "\nLongitude: " + lng + "\nAddress: " + addressN);
-                                }
-                            });
-                        });
-                    })(marker);
+                    AddMapMarker(latitude, longitude, geocoder);
                 }
             });
         }
-    </script>
 
+        function AddMapMarker(mapLat, mapLong, geocoder) {
+            var myLatlng = new google.maps.LatLng(mapLat, mapLong);
+            var myOptions = {
+                zoom: 12,
+                center: myLatlng,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var map = new google.maps.Map(document.getElementById("map"), myOptions);
+            var marker = new google.maps.Marker({
+                position: myLatlng,
+                map: map,
+                //title: address,
+                draggable: true,
+                //"icon": '../img/marker.png',
+                animation: google.maps.Animation.DROP
+            });
+            (function (marker) {
+                google.maps.event.addListener(marker, "click", function (e) {
+                    infoWindow.setContent(address);
+                    infoWindow.open(map, marker);
+                });
+                google.maps.event.addListener(marker, "dragend", function (e) {
+                    var lat, lng, addressN;
+                    geocoder.geocode({ 'latLng': marker.getPosition() }, function (results, status) {
+                        if (status == google.maps.GeocoderStatus.OK) {
+                            lat = marker.getPosition().lat();
+                            lng = marker.getPosition().lng();
+                            addressN = results[0].formatted_address;
+                            
+                            $('#lblMapAddress').text("Latitude: " + lat + "\nLongitude: " + lng + "\nAddress: " + addressN);
+                        }
+                    });
+                });
+            })(marker);
+        }
+    </script>
+    <script>
+        function onAddTag(tag) {
+            alert("Added a tag: " + tag);
+        }
+
+        function onRemoveTag(tag) {
+            alert("Removed a tag: " + tag);
+        }
+
+        function onChangeTag(input, tag) {
+            alert("Changed a tag: " + tag);
+        }
+
+        $(function () {
+            $('#tags_OtherCategories').tagsInput({
+                width: 'auto'
+            });
+        });
+    </script>
+    
+    <script src="js/tags/jquery.tagsinput.min.js"></script>
 </body>
 </html>
