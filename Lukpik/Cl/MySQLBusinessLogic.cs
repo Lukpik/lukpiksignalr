@@ -105,36 +105,74 @@ namespace Lukpik.Cl
             }
             return retVal;
         }
-        public bool AddStore(string storename, string storecity, string storephone, DateTime firstOpeneddate, string email, string fname, string lname, int isVerified, int activationFlag, string passsword, int cardsAccesped, int homedeliveryflag, int trailflag)
+
+        public bool CheckStoreExistence(string storename, string email)
         {
-            bool retVal = false;
+            // 0 - Transaction failed
+            // 1 - Transaction succeeded
+
+            bool retVal = true;
+            DataTable dt = new DataTable();
             try
             {
-                //string cmdText = "insert into test_table(test_column1,test_column2) values(@col1,@col2)";
-                string cmdText = "insert into `store` (`store_name`,`store_city`,`store_phone`,`first_opened_date`,`Email`,`StoreOwnerFirstName`,`StoreOwnerLastName`,`IsVerified`,`ActivationFlag`,`password`,`Cardsaccepted`,`homedeliveryflag`,`trialroomflag`) values(@storename,@storecity,@storephone,@firstOpeneddate,@email,@fname, @lname, @isVerified,@activationFlag,@passsword,@cardsAccesped,@homedeliveryflag,@trailflag);";
+                string cmdText = "select 1 from `store` where `Email`='" + email + "'";
                 cmd = new MySqlCommand(cmdText, con);
-                cmd.Parameters.AddWithValue("@storename", storename);
-                cmd.Parameters.AddWithValue("@storecity", storecity);
-                cmd.Parameters.AddWithValue("@storephone", storephone);
-                cmd.Parameters.AddWithValue("@firstOpeneddate", firstOpeneddate);
-                cmd.Parameters.AddWithValue("@email", email);
-                cmd.Parameters.AddWithValue("@fname", fname);
-                cmd.Parameters.AddWithValue("@lname", lname);
-                cmd.Parameters.AddWithValue("@isVerified", isVerified);
-                cmd.Parameters.AddWithValue("@activationFlag", activationFlag);
-                cmd.Parameters.AddWithValue("@passsword", passsword);
-                cmd.Parameters.AddWithValue("@cardsAccesped", cardsAccesped);
-                cmd.Parameters.AddWithValue("@homedeliveryflag", homedeliveryflag);
-                cmd.Parameters.AddWithValue("@trailflag", trailflag);
-
                 con.Open();
-                cmd.ExecuteNonQuery();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
                 con.Close();
-                retVal = true;
+                if (dt.Rows.Count > 0)
+                    retVal = true;
+                else
+                    retVal = false;
             }
             catch (Exception ex)
             {
-                retVal = false;
+                retVal = true;
+            }
+            return retVal;
+        }
+        public int AddStore(string storename, string storecity, string storephone, DateTime firstOpeneddate, DateTime remodeldate, string email, string fname, string lname, int isVerified, int activationFlag, string passsword, int cardsAccepted, int homedeliveryflag, int trailflag)
+        {
+            // 0 - Transaction failed
+            // 1 - Transaction succeeded
+            // 2 - Username already existed
+            int retVal = 0;
+            try
+            {
+                if (!CheckStoreExistence(storename, email))
+                {
+                    //string cmdText = "insert into test_table(test_column1,test_column2) values(@col1,@col2)";
+                    string cmdText = "insert into `store` (`store_name`,`store_city`,`store_phone`,`first_opened_date`,`last_remodel_date`,`Email`,`StoreOwnerFirstName`,`StoreOwnerLastName`,`IsVerified`,`ActivationFlag`,`password`,`Cardsaccepted`,`homedeliveryflag`,`trialroomflag`) values(@storename,@storecity,@storephone,@firstOpeneddate,@remodeldate,@email,@fname, @lname, @isVerified,@activationFlag,@passsword,@cardsAccepted,@homedeliveryflag,@trailflag);";
+                    cmd = new MySqlCommand(cmdText, con);
+                    cmd.Parameters.AddWithValue("@storename", storename);
+                    cmd.Parameters.AddWithValue("@storecity", storecity);
+                    cmd.Parameters.AddWithValue("@storephone", storephone);
+                    cmd.Parameters.AddWithValue("@firstOpeneddate", firstOpeneddate);
+                    cmd.Parameters.AddWithValue("@remodeldate", remodeldate);
+                    cmd.Parameters.AddWithValue("@email", email);
+                    cmd.Parameters.AddWithValue("@fname", fname);
+                    cmd.Parameters.AddWithValue("@lname", lname);
+                    cmd.Parameters.AddWithValue("@isVerified", isVerified);
+                    cmd.Parameters.AddWithValue("@activationFlag", activationFlag);
+                    cmd.Parameters.AddWithValue("@passsword", passsword);
+                    cmd.Parameters.AddWithValue("@cardsAccepted", cardsAccepted);
+                    cmd.Parameters.AddWithValue("@homedeliveryflag", homedeliveryflag);
+                    cmd.Parameters.AddWithValue("@trailflag", trailflag);
+
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                    retVal = 1;
+                }
+                else
+                {
+                    retVal = 2;
+                }
+            }
+            catch (Exception ex)
+            {
+                retVal = 0;
             }
             return retVal;
         }

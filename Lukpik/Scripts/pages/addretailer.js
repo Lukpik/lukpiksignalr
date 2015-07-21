@@ -18,9 +18,11 @@ $(document).ready(function () {
     //Website Home Page
     hubEngine.client.testJS = function (msg) {
         $('#lblmsg').show();
-        if (msg == "success")
+        if (msg == "1")
             $('#lblmsg').text("You have successfully registered with us, please check you mail for password. ");
-        else
+        else if (msg == "2")
+            $('#lblmsg').text("Email already exists. Please try with different email.");
+        else if (msg == "0")
             $('#lblmsg').text("Something went wrong, please try again later.");
     };
 
@@ -45,7 +47,7 @@ function AddStore() {
     var phonenum = $('#txtPhonenum').val();
     var city = $('#txtCity').val();
     if (firstname != "" && lastname != "" && email != "" && storesname != "" && phonenum != "" && city != "")
-        hubEngine.server.testInsert(firstname, lastname, email, storesname, phonenum, city, $.connection.hub.id);
+        hubEngine.server.addStore(firstname, lastname, email, storesname, phonenum, city, $.connection.hub.id);
     else {
         $('#lblmsg').show();
         $('#lblmsg').text("Please fill all the fields.");
