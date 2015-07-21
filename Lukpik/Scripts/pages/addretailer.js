@@ -17,7 +17,11 @@ $(document).ready(function () {
 
     //Website Home Page
     hubEngine.client.testJS = function (msg) {
-        alert(msg);
+        $('#lblmsg').show();
+        if (msg == "success")
+            $('#lblmsg').text("You have successfully registered with us, please check you mail for password. ");
+        else
+            $('#lblmsg').text("Something went wrong, please try again later.");
     };
 
 
@@ -32,9 +36,20 @@ $(document).ready(function () {
 
 //Website Home Page
 function AddStore() {
+    $('#lblmsg').hide();
     //var textemail = $('#txtSubscribeEmail').val();
-
-    hubEngine.server.testInsert("val1","val2", $.connection.hub.id);
+    var firstname = $('#txtFirstname').val();
+    var lastname = $('#txtLastname').val();
+    var email = $('#txtEmail').val();
+    var storesname = $('#txtStorename').val();
+    var phonenum = $('#txtPhonenum').val();
+    var city = $('#txtCity').val();
+    if (firstname != "" && lastname != "" && email != "" && storesname != "" && phonenum != "" && city != "")
+        hubEngine.server.testInsert(firstname, lastname, email, storesname, phonenum, city, $.connection.hub.id);
+    else {
+        $('#lblmsg').show();
+        $('#lblmsg').text("Please fill all the fields.");
+    }
 }
 
 

@@ -105,20 +105,28 @@ namespace Lukpik.Cl
             }
             return retVal;
         }
-        public bool AddUser(string username, string pwd, string email, string type, int isActive, DateTime dt)
+        public bool AddStore(string storename, string storecity, string storephone, DateTime firstOpeneddate, string email, string fname, string lname, int isVerified, int activationFlag, string passsword, int cardsAccesped, int homedeliveryflag, int trailflag)
         {
             bool retVal = false;
             try
             {
                 //string cmdText = "insert into test_table(test_column1,test_column2) values(@col1,@col2)";
-                string cmdText = "insert into `user_registration` (`usr_uname`,`usr_password`,`usr_email`,`usr_type`,`usr_active`,`datetimereg`) values(@username,@pwd,@email,@type,@isActive,@dt);";
+                string cmdText = "insert into `store` (`store_name`,`store_city`,`store_phone`,`first_opened_date`,`Email`,`StoreOwnerFirstName`,`StoreOwnerLastName`,`IsVerified`,`ActivationFlag`,`password`,`Cardsaccepted`,`homedeliveryflag`,`trialroomflag`) values(@storename,@storecity,@storephone,@firstOpeneddate,@email,@fname, @lname, @isVerified,@activationFlag,@passsword,@cardsAccesped,@homedeliveryflag,@trailflag);";
                 cmd = new MySqlCommand(cmdText, con);
-                cmd.Parameters.AddWithValue("@username", username);
-                cmd.Parameters.AddWithValue("@pwd", pwd);
+                cmd.Parameters.AddWithValue("@storename", storename);
+                cmd.Parameters.AddWithValue("@storecity", storecity);
+                cmd.Parameters.AddWithValue("@storephone", storephone);
+                cmd.Parameters.AddWithValue("@firstOpeneddate", firstOpeneddate);
                 cmd.Parameters.AddWithValue("@email", email);
-                cmd.Parameters.AddWithValue("@type", type);
-                cmd.Parameters.AddWithValue("@isActive", isActive);
-                cmd.Parameters.AddWithValue("@dt", dt);
+                cmd.Parameters.AddWithValue("@fname", fname);
+                cmd.Parameters.AddWithValue("@lname", lname);
+                cmd.Parameters.AddWithValue("@isVerified", isVerified);
+                cmd.Parameters.AddWithValue("@activationFlag", activationFlag);
+                cmd.Parameters.AddWithValue("@passsword", passsword);
+                cmd.Parameters.AddWithValue("@cardsAccesped", cardsAccesped);
+                cmd.Parameters.AddWithValue("@homedeliveryflag", homedeliveryflag);
+                cmd.Parameters.AddWithValue("@trailflag", trailflag);
+
                 con.Open();
                 cmd.ExecuteNonQuery();
                 con.Close();
@@ -126,6 +134,7 @@ namespace Lukpik.Cl
             }
             catch (Exception ex)
             {
+                retVal = false;
             }
             return retVal;
         }
