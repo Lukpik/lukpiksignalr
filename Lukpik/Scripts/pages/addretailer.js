@@ -19,7 +19,7 @@ $(document).ready(function () {
     hubEngine.client.testJS = function (msg) {
         $('#lblmsg').show();
         if (msg == "1")
-            $('#lblmsg').text("You have successfully registered with us, please check you mail for password. ");
+            $('#lblmsg').text("You have successfully registered with us, please check you mail for password. <a href='retailers/lohin.html'>Click here to login</a>");
         else if (msg == "2")
             $('#lblmsg').text("Email already exists. Please try with different email.");
         else if (msg == "0")

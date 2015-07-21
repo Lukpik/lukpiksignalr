@@ -53,15 +53,19 @@
                         <div>
                             <input type="password" id="txtPassword" class="form-control" placeholder="Password" required="" />
                         </div>
+                        
                         <div>
-                            <a class="btn btn-default submit" href="index.html">Log in</a>
+                            <a class="btn btn-default submit" onclick="Login();">Log in</a>
                             <a class="reset_pass" href="#">Lost your password?</a>
                         </div>
+                        
+                            <label id="lblmsg" style="display:none;"></label>
+                        
                         <div class="clearfix"></div>
                         <div class="separator">
-
+                            
                             <p class="change_link">New to LukPik?
-                                <a href="../retailers.html" class="to_register"> Create Account </a>
+                                <a href="../retailers.html#contact" class="to_register"> Create Account </a>
                             </p>
                             <div class="clearfix"></div>
                             <br />
@@ -82,7 +86,8 @@
     <!--Signal R-->
     <script src="../Scripts/jquery.signalR-2.2.0.js"></script>
     <script src="../signalr/hubs"></script>
-    <script src="../Scripts/main.js"></script>
+    <script src="../Scripts/pages/login.js"></script>
+    <script src="../Scripts/pages/all.js"></script>
 </body>
 
 </html>

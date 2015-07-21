@@ -186,7 +186,7 @@ namespace Lukpik.Cl
             try
             {
                 DataTable dt = new DataTable();
-                string cmdText = "select * from `user_registration` where `usr_uname`='" + username + "' and `usr_password`='" + pwd + "'";
+                string cmdText = "select 1 from `store` where `Email`='" + username + "' and `password`='" + pwd + "'";
                 cmd = new MySqlCommand(cmdText, con);
                 con.Open();
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
@@ -195,7 +195,7 @@ namespace Lukpik.Cl
                 if (dt.Rows.Count == 1)
                 {
                     retVal = true;
-                    AddtoLoginHistory(username, DateTime.Now);
+                    //AddtoLoginHistory(username, DateTime.Now);
                 }
                 else
                     retVal = false;

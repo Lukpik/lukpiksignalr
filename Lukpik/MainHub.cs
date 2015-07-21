@@ -8,6 +8,7 @@ using Lukpik.Cl;
 using System.Text;
 using System.Security.Cryptography;
 using System.IO;
+using System.Data;
 namespace Lukpik
 {
     [HubName("allHubs")]
@@ -30,18 +31,20 @@ namespace Lukpik
             name = "praveen" + name;
             Clients.Client(clientID).testJS(name);
         }
+
+        #region ADD STORE AND PASSWORD GENERATION
         public void addStore(string fname, string lname, string email, string storename, string phonenum, string city, string clientID)
         {
             //string passsword
             Random rnd = new Random();
             int length = rnd.Next(6, 12); // creates a number between 1 and 12
-            string password =  CreatePassword(length);
+            string password = CreatePassword(length);
             password = Encrypt(password);
             MySQLBusinessLogic bl = new MySQLBusinessLogic();
-            int result=bl.AddStore(storename, city, phonenum, DateTime.Now,DateTime.Now, email, fname, lname, 0, 0, password, 1, 0, 1);
+            int result = bl.AddStore(storename, city, phonenum, DateTime.Now, DateTime.Now, email, fname, lname, 0, 0, password, 1, 0, 1);
             if (result == 1)
                 Clients.Client(clientID).testJS("1");
-            else if(result==2)
+            else if (result == 2)
                 Clients.Client(clientID).testJS("2");
             else
                 Clients.Client(clientID).testJS("0");
@@ -102,5 +105,49 @@ namespace Lukpik
             }
             return cipherText;
         }
+
+        #endregion
+
+        #region LOGIN
+        public void login(string username, string pwd, string clientID)
+        {
+            try
+            {
+                MySQLBusinessLogic bl = new MySQLBusinessLogic();
+                if (bl.LoginUser(username, Encrypt(pwd)) == true)
+                {
+                    Clients.Client(clientID).loginResult(username, "1");
+                }
+                else
+                {
+                    Clients.Client(clientID).loginResult(username, "0");
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+        #endregion
+
+        #region CONVERTION TO JSON
+        public string ConvertDataTabletoString()
+        {
+            DataTable dt = new DataTable();
+            System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+            List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+            Dictionary<string, object> row;
+            foreach (DataRow dr in dt.Rows)
+            {
+                row = new Dictionary<string, object>();
+                foreach (DataColumn col in dt.Columns)
+                {
+                    row.Add(col.ColumnName, dr[col]);
+                }
+                rows.Add(row);
+            }
+            return serializer.Serialize(rows);
+
+        }
+        #endregion
     }
 }
