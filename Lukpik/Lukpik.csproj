@@ -143,6 +143,8 @@
     <Content Include="retailers\fonts\scss\_spinning.scss" />
     <Content Include="retailers\fonts\scss\_stacked.scss" />
     <Content Include="retailers\fonts\scss\_variables.scss" />
+    <Content Include="retailers\forgotpassword.html" />
+    <Content Include="retailers\register.html" />
     <Content Include="retailers\login.html" />
     <Content Include="retailers\notifications.html" />
     <Content Include="retailers\reports.html" />
