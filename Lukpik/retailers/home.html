@@ -396,7 +396,7 @@
                             <div class="row cssmarginbotom">
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <label>Store description</label>
-                                    <textarea class="form-control"></textarea>
+                                    <textarea id="txtStoreDescription" class="form-control"></textarea>
                                 </div>
                             </div>
 
@@ -572,7 +572,7 @@
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <label>Store description</label>
-                                    <select id="ddState" name="state" onchange="IdentifyLocation(this);" class="form-control col-md-6">
+                                    <select id="ddState" name="state" onchange="IdentifyLocation();" class="form-control col-md-6">
 
                                         <option value="Andhra Pradesh">Andhra Pradesh</option>
                                         <option value="Telangana">Telangana</option>
@@ -593,7 +593,7 @@
                             <div class="row cssmarginbotom">
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <label>City</label>
-                                    <input type="text" id="txtCity" class="form-control" onblur="IdentifyLocation(this);" />
+                                    <input type="text" id="txtCity" class="form-control" onblur="IdentifyLocation();" />
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <label>Pincode</label>
@@ -604,7 +604,7 @@
                                 <div class="col-md-12 col-sm-6 col-xs-12">
                                     <label>Point your location :</label>
 
-                                    <span style="cursor: pointer;" class="label label-success pull-right" onclick="IdentifyLocation(this);">Identify location</span>
+                                    <span style="cursor: pointer;" class="label label-success pull-right" onclick="IdentifyLocation();">Identify location</span>
                                     <div id="map" style="height: 250px; border: solid 1px #CCCCCC;">
                                     </div>
                                     <label id="lblMapAddress"></label>
@@ -725,7 +725,7 @@
         }
         window.onload = InitializeMap;
         
-        function IdentifyLocation(control) {
+        function IdentifyLocation() {
             $('#lblMapAddress').text("");
             var city = $('#txtCity')[0].value;
             var e = document.getElementById("ddState");

@@ -26,8 +26,28 @@ $(document).ready(function () {
             var obj = jQuery.parseJSON(jsObj);
 
             if (typeof (obj) != typeof (undefined)) {
+                //Store details
+                $('#txtStorename').val(obj[0].store_name);
+                $('#txtShortDesc').val(obj[0].store_name);
+                $('#txtStoreDescription').val(obj[0].StoreDescription);
 
+                //Store owner details
+                
+                $('#txtOwnerFirstname').val(obj[0].StoreOwnerFirstName);
+                $('#txtOwnerLastname').val(obj[0].StoreOwnerLastName);
+                $('#txtEmail').val(obj[0].Email);
+
+                $('#txtPhone').val(obj[0].store_phone);
+                $('#txtCity').val(obj[0].store_city);
+
+
+                //Social pages
+                $('#txtWebsiteURL').val(obj[0].SocialWebsite);
+                $('#txtFbURL').val(obj[0].SocialFacebookPage);
+                $('#txtTwitterURL').val(obj[0].SocialTwitterPage);
+                $('#txtGooglePlusURL').val(obj[0].SocialGooglePage);
             }
+            IdentifyLocation();
         }
     };
 
