@@ -16,7 +16,7 @@ public class MySqlBL
     private MySqlCommand cmd;
     public MySqlBL()
     {
-        string connStr = ConfigurationManager.ConnectionStrings["DAILYEXPENSES_MYSQL"].ToString();
+        string connStr = ConfigurationManager.ConnectionStrings["ERETAILDB"].ToString();
         con = new MySqlConnection(connStr);
 
 

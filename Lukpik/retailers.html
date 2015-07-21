@@ -13,6 +13,8 @@
     <link href="css/styles.css" rel="stylesheet">
     <link href="css/queries.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
+    <!--Latest JQuery-->
+    <script src="Scripts/jquery-2.1.1.min.js"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -293,14 +295,16 @@
                             <input type="text" style="width:100%" name="" value="" placeholder="Last name" required>
                         </div>
                     </div>-->
-                    <input type="text" style="width:100%;margin-bottom:10px;" name="" value="" placeholder="First name" required>
-                    <input type="text" style="width:100%;margin-bottom:10px;" name="" value="" placeholder="Last name" required>
-                    <input type="text" style="width:100%;margin-bottom:10px;" name="" value="" placeholder="Email" required>
-                    <input type="text" style="width:100%;margin-bottom:10px;" name="" value="" placeholder="Store name" required>
-                    <input type="text" style="width:100%;margin-bottom:10px;" name="" value="" placeholder="Your 10 digit phone number" required>
-                    <input type="text" style="width:60%;margin-bottom:10px;" name="" value="" placeholder="City" required>
-                    <textarea style="width:100%;margin-bottom:10px;" name="" placeholder="Add your comments" required></textarea>
-                    <input type="submit" value="Send" onclick="location.href = 'retailers/home.html'" />
+                    <input type="text" style="width:100%;margin-bottom:10px;" name="" value="" placeholder="First name" id="txtFirstname" required>
+                    <input type="text" style="width:100%;margin-bottom:10px;" name="" value="" placeholder="Last name" id="txtLastname" required>
+                    <input type="text" style="width:100%;margin-bottom:10px;" name="" value="" placeholder="Email" id="txtEmail" required>
+                    <input type="text" style="width:100%;margin-bottom:10px;" name="" value="" placeholder="Store name" id="txtStorename" required>
+                    <input type="text" style="width:100%;margin-bottom:10px;" name="" value="" placeholder="Your 10 digit phone number" id="txtPhonenum" required>
+                    <input type="text" style="width:60%;margin-bottom:10px;" name="" value="" placeholder="City" id="txtCity" required>
+                    <br />
+                    <!--<textarea style="width:100%;margin-bottom:10px;" name="" placeholder="Add your comments" required></textarea>-->
+                    <input type="submit" value="Send" onclick="AddStore();" />
+                    <p style="color:white;">Succtess, please check ur mail</p>
                 </div>
                 <div class="col-md-3"></div>
             </div>
@@ -348,5 +352,12 @@
     <script src="js/scripts.js"></script>
     <script src="js/jquery.flexslider.js"></script>
     <script src="js/modernizr.js"></script>
+    
+    <!--Signal R-->
+    <script src="../Scripts/jquery.signalR-2.2.0.js"></script>
+    <script src="../signalr/hubs"></script>
+
+
+    <script src="Scripts/pages/addretailer.js"></script>
 </body>
 </html>
