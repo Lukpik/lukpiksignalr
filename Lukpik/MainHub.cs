@@ -32,7 +32,7 @@ namespace Lukpik
             Clients.Client(clientID).testJS(name);
         }
 
-        #region ADD STORE AND PASSWORD GENERATION
+        #region ADD / UPDATE STORE AND PASSWORD GENERATION
         public void addStore(string fname, string lname, string email, string storename, string phonenum, string city, string clientID)
         {
             //string passsword
@@ -106,6 +106,25 @@ namespace Lukpik
             return cipherText;
         }
 
+        public void updateStores(string storename,string storetype,string shortdesc,string storedesc,string brands,string othercategories,string iscreditcard,string istrail,string ishomedelivery,string ownerfirstname,string ownerlastname,string phone,string email,string addline1,string addline2,string city,string state,string country,string pincode,string latitude,string longitude,string websiteurl,string fburl,string twitterurl,string googleurl,string clientID)
+        {
+            //1. update store table
+            //2. add brands to brand table
+            //3. add categories ro categories table
+            try
+            {
+                MySQLBusinessLogic bl = new MySQLBusinessLogic();
+                bool result = bl.UpdateStoreDetails(storename, storetype, shortdesc, storedesc, brands, othercategories, Convert.ToInt32(iscreditcard), Convert.ToInt32(istrail), Convert.ToInt32(ishomedelivery), ownerfirstname, ownerlastname, phone, email, addline1, addline2, city, state, country, pincode, Convert.ToDouble(latitude), Convert.ToDouble(longitude), websiteurl, fburl, twitterurl, googleurl,DateTime.Now);
+                if (result == true)
+                    Clients.Client(clientID).updatedStores("1");
+                else
+                    Clients.Client(clientID).updatedStores("0");
+            }
+            catch (Exception ex)
+            {
+                Clients.Client(clientID).updatedStores("0");
+            }
+        }
         #endregion
 
         #region LOGIN

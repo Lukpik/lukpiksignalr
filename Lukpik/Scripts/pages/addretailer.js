@@ -1,4 +1,5 @@
 ﻿var hubEngine;
+var validEmail;
 $(document).ready(function () {
     //Hub Connection and functions
     hubEngine = $.connection.allHubs;
@@ -46,16 +47,41 @@ function AddStore() {
     var storesname = $('#txtStorename').val();
     var phonenum = $('#txtPhonenum').val();
     var city = $('#txtCity').val();
+    
     if (firstname != "" && lastname != "" && email != "" && storesname != "" && phonenum != "" && city != "")
-        hubEngine.server.addStore(firstname, lastname, email, storesname, phonenum, city, $.connection.hub.id);
+        if (!validEmail) {
+            $('#lblmsg').show();
+            $('#lblmsg').text("Incorrect Email Format!");
+        }
+        else
+            hubEngine.server.addStore(firstname, lastname, email, storesname, phonenum, city, $.connection.hub.id);
     else {
         $('#lblmsg').show();
         $('#lblmsg').text("Please fill all the fields.");
     }
 }
 
-
-
-
-
-//Retailers Page
+function ValidateEmail() {
+    var email = $("#txtEmail").val();
+    if (!validateEmail(email)) {
+        validEmail = false;
+        $('#lblmsg').show();
+        $('#lblmsg').text("Incorrect Email Format!");
+        
+    }
+    else if (validateEmail(email)) {
+        $('#lblmsg').hide();
+        $('#lblmsg').text("");
+        
+        validEmail = true;
+    }
+}
+function validateEmail(email) {
+    var emailReg = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+    var valid = emailReg.test(email);
+    if (!valid) {
+        return false;
+    } else {
+        return true;
+    }
+}

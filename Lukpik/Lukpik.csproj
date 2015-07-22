@@ -199,6 +199,7 @@
     <Content Include="retailers\js\fileuploader\fileinput_locale_es.js" />
     <Content Include="retailers\js\fileuploader\fileinput_locale_fr.js" />
     <Content Include="retailers\js\maps\us-unemployment.json" />
+    <Content Include="Scripts\jquery.dpToast.js" />
     <Content Include="Scripts\pages\addretailer.js" />
     <Content Include="Scripts\pages\all.js" />
     <Content Include="Scripts\pages\login.js" />

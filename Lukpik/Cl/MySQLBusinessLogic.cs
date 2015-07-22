@@ -177,6 +177,50 @@ namespace Lukpik.Cl
             return retVal;
         }
 
+        public bool UpdateStoreDetails(string storename, string storetype, string shortdesc, string storedesc, string brands, string othercategories, int iscreditcard, int istrail, int ishomedelivery, string ownerfirstname, string ownerlastname, string phone, string email, string addline1, string addline2, string city, string state, string country, string pincode, double latitude, double longitude, string websiteurl, string fburl, string twitterurl, string googleurl, DateTime datemodified)
+        {
+            bool retVal = false;
+            try
+            {
+                //StoreTagLine - fpor short description
+                string cmdText = "SET SQL_SAFE_UPDATES = 0; update `store` set `store_name`=@storename,`store_type`=@storetype,`StoreTagLine`=@shortdesc,`StoreDescription`=@storedesc,`Cardsaccepted`=@iscreditcard,`trialroomflag`=@istrail,`homedeliveryflag`=@ishomedelivery, `StoreOwnerFirstName`=@ownerfirstname, `StoreOwnerLastName`=@ownerlastname, `store_phone`=@phone, `store_street_addressline1`=@addline1, `store_street_addressline2`=@addline2, `store_city`=@city,`store_state`=@state, `store_country`=@country, `store_postal_code`=@pincode, `Latitude`=@latitude, `Longitude`=@longitude, `StoreWebsite`=@websiteurl, `StoreFacebookPage`=@fburl, `StoreTwitterPage`=@twitterurl, `StoreGooglePage`=@googleurl,`last_remodel_date`=@datemodified where `Email`='" + email + "' ";
+                cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddWithValue("@storename", storename);
+                cmd.Parameters.AddWithValue("@storetype", storetype);
+                cmd.Parameters.AddWithValue("@shortdesc", shortdesc);
+                cmd.Parameters.AddWithValue("@storedesc", storedesc);
+                cmd.Parameters.AddWithValue("@iscreditcard", iscreditcard);
+                cmd.Parameters.AddWithValue("@istrail", istrail);
+                cmd.Parameters.AddWithValue("@ishomedelivery", ishomedelivery);
+                cmd.Parameters.AddWithValue("@ownerfirstname", ownerfirstname);
+                cmd.Parameters.AddWithValue("@ownerlastname", ownerlastname);
+                cmd.Parameters.AddWithValue("@phone", phone);
+                cmd.Parameters.AddWithValue("@addline1", addline1);
+                cmd.Parameters.AddWithValue("@addline2", addline2);
+                cmd.Parameters.AddWithValue("@city", city);
+                cmd.Parameters.AddWithValue("@state", state);
+                cmd.Parameters.AddWithValue("@country", country);
+                cmd.Parameters.AddWithValue("@pincode", pincode);
+                cmd.Parameters.AddWithValue("@latitude", latitude);
+                cmd.Parameters.AddWithValue("@longitude", longitude);
+                cmd.Parameters.AddWithValue("@websiteurl", websiteurl);
+                cmd.Parameters.AddWithValue("@fburl", fburl);
+                cmd.Parameters.AddWithValue("@twitterurl", twitterurl);
+                cmd.Parameters.AddWithValue("@googleurl", googleurl);
+                cmd.Parameters.AddWithValue("@datemodified", datemodified);
+                
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+                retVal = true;
+            }
+            catch (Exception)
+            {
+                retVal = false;
+            }
+            return retVal;
+        }
+
         # endregion
 
         # region USER LOGIN

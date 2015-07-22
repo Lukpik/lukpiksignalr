@@ -23,7 +23,7 @@
     <script src="js/select/select2.full.js"></script>
     <!--Latest JQuery-->
     <script src="Scripts/jquery-2.1.1.min.js"></script>
-
+    <script src="../Scripts/jquery.dpToast.js"></script>
 </head>
 <body class="nav-md">
 
@@ -98,7 +98,7 @@
                         <a data-toggle="tooltip" data-placement="top" title="Lock">
                             <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
                         </a>
-                        <a data-toggle="tooltip" data-placement="top" title="Logout">
+                        <a data-toggle="tooltip" data-placement="top" title="Logout" onclick="eraseCookie('lukpikretailer_usename');">
                             <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
                         </a>
                     </div>
@@ -330,21 +330,22 @@
 
                                 <div class="col-md-10" style="padding-left: 30px;">
                                     <h3>
-                                        <label id="lblStorename">Store name</label>
+                                        <label id="lblStorename"></label>
                                     </h3>
                                     <h4>
-                                        <asp:label id="lblShortDesc">Mens, womens clothing</asp:label>
+                                        <asp:label id="lblShortDesc"></asp:label>
                                     </h4>
                                     <ul class="list-unstyled user_data">
                                         <li>
-                                            <i class="fa fa-map-marker user-profile-icon" style="font-size: 18px;"></i>&nbsp;<label id="lblStoreAddress">Hyderabad, India</label>
+                                            <i class="fa fa-map-marker user-profile-icon" style="font-size: 18px;"></i>&nbsp;<label id="lblStoreAddress"></label>
                                         </li>
 
                                         <li>
                                             <div style="font-size: 25px;">
-                                                <i class="fa fa-facebook-square" style="padding-right: 8px;"></i>
-                                                <i class="fa fa-twitter-square" style="padding-right: 8px;"></i>
-                                                <i class="fa fa-google-plus-square" style="padding-right: 8px;"></i>
+                                                <a id="ancFb" target="_blank" href="#"><i class="fa fa-facebook-square" style="padding-right: 8px;"></i></a>
+                                                <a id="ancTwitter" target="_blank" href="#"><i class="fa fa-twitter-square" style="padding-right: 8px;"></i></a>
+                                                <a id="ancGoogle" target="_blank" href="#"><i class="fa fa-google-plus-square" style="padding-right: 8px;"></i></a>
+                                                
 
                                             </div>
 
@@ -360,16 +361,20 @@
 
                         </div>
                     </div>
+                    <div id="alertIDTop">
+
+                    </div>
+                    
                     <div class="x_panel">
                         <div class="x_title">
 
                             <h2>Fill the form below</h2>
 
-                            <label id="lblmsg"></label>
+                            
                             <div class="pull-right">
                                 <button id="btnCancel" class="btn btn-primary">Cancel</button>
 
-                                <button id="btnSave" class="btn btn-success">Save</button>
+                                <button id="btnSave" class="btn btn-success" onclick="UpdateStoredetails();">Save</button>
                             </div>
 
                             <div class="clearfix"></div>
@@ -386,7 +391,19 @@
                                     <input type="text" id="txtStorename" class="form-control" />
                                 </div>
                             </div>
+                            <div class="row cssmarginbotom">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <label>Store type</label>
 
+                                    <select id="ddStoreTYpe" name="StoreType" class="form-control col-md-12">
+                                        <option value="Exclusive Branded">Exclusive Branded</option>
+                                        <option value="Fashion/Designer Boutique">Fashion / Designer Boutique</option>
+                                        <option value="Mixed / Multibranded">Mixed / Multibranded</option>
+                                        <option value="Standalone Store">Standalone Store</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="row cssmarginbotom">
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <label>Store short description</label>
@@ -404,37 +421,9 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <label>Brands you sell</label>
                                     <div class="">
-                                        <input id="tags_OtherCategories" type="text" class="tags form-control" value="" />
+                                        <input id="tags_Brands" type="text" class="tags form-control" value="levis" />
                                         <div id="suggestions-container3" style="position: relative; float: left; width: 250px; margin: 10px;"></div>
                                     </div>
-                                </div>
-                            </div>
-
-                            <div class="row cssmarginbotom">
-                                <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <label>Primary category</label>
-                                    
-                                    <select id="ddPrimaryCategory" name="PrimaryCategory" class="form-control col-md-12">
-                                        <option value="Mens Casual wear">Mens Casual wear</option>
-                                        <option value="Mens Formal wear">Mens Formal wear</option>
-                                        <option value="Mens Ethnic wear">Mens Ethnic wear</option>
-                                        <option value="Mens Inner wear">Mens Inner wear</option>
-                                        <option value="Mens Denim wear">Mens Denim wear</option>
-                                        <option value="Mens-Footwear">Mens-Footwear</option>
-                                        <option value="Women Ethnic wear">Women Ethnic wear</option>
-                                        <option value="Women Western wear">Women Western wear</option>
-                                        <option value="Women Footwear">Women Footwear</option>
-                                        <option value="Kids Footwear">Kids Footwear</option>
-                                        <option value="Kids Apparel">Kids Apparel</option>
-                                        <option value="Bags">Bags</option>
-                                        <option value="Watches">Watches</option>
-                                        <option value="Accessories">Accessories</option>
-                                        <option value="Belts and wallets">Belts and wallets</option>
-                                        <option value="Sunglasses">Sunglasses</option>
-                                        <option value="Jewellery">Jewellery</option>
-                                        <option value="Lingerie/Inner-wear">Lingerie/Inner-wear</option>
-                                        <option value="Others">Others</option>
-                                    </select>
                                 </div>
                             </div>
                             <div class="row cssmarginbotom">
@@ -442,89 +431,89 @@
                                     <label>Other categories</label>
                                     <br />
                                     <div class="col-md-3 col-xs-12 col-sm-12 cssmarginbotom">
-                                        <input type="checkbox" class="flat" /> Mens-Apparel&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input type="checkbox" name="othercategories" class="flat" /> Mens-Apparel&nbsp;&nbsp;&nbsp;&nbsp;
                                     </div>
 
                                     <div class="col-md-3 col-xs-12 col-sm-12 cssmarginbotom">
-                                        <input type="checkbox" class="flat" /> Mens-Footwear&nbsp;&nbsp;&nbsp;&nbsp;
-                                    </div>
-
-
-                                    <div class="col-md-3 col-xs-12 col-sm-12 cssmarginbotom">
-                                        <input type="checkbox" class="flat" /> Women Ethnic wear&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input type="checkbox" name="othercategories" class="flat" /> Mens-Footwear&nbsp;&nbsp;&nbsp;&nbsp;
                                     </div>
 
 
                                     <div class="col-md-3 col-xs-12 col-sm-12 cssmarginbotom">
-                                        <input type="checkbox" class="flat" /> Women Western wear&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input type="checkbox" name="othercategories" class="flat" /> Women Ethnic wear&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </div>
+
+
+                                    <div class="col-md-3 col-xs-12 col-sm-12 cssmarginbotom">
+                                        <input type="checkbox" name="othercategories" class="flat" /> Women Western wear&nbsp;&nbsp;&nbsp;&nbsp;
                                     </div>
 
                                     <div class="col-md-3 col-xs-12 col-sm-12 cssmarginbotom">
-                                        <input type="checkbox" class="flat" /> Women Footwear&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input type="checkbox" name="othercategories" class="flat" /> Women Footwear&nbsp;&nbsp;&nbsp;&nbsp;
                                     </div>
                                     <div class="col-md-3 col-xs-12 col-sm-12 cssmarginbotom">
-                                        <input type="checkbox" class="flat" /> Kids Footwear&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input type="checkbox" name="othercategories" class="flat" /> Kids Footwear&nbsp;&nbsp;&nbsp;&nbsp;
                                     </div>
                                     <div class="col-md-3 col-xs-12 col-sm-12 cssmarginbotom">
-                                        <input type="checkbox" class="flat" /> Kids Apparel&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input type="checkbox" name="othercategories" class="flat" /> Kids Apparel&nbsp;&nbsp;&nbsp;&nbsp;
                                     </div>
                                     <div class="col-md-3 col-xs-12 col-sm-12 cssmarginbotom">
-                                        <input type="checkbox" class="flat" /> Bags&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input type="checkbox" name="othercategories" class="flat" /> Bags&nbsp;&nbsp;&nbsp;&nbsp;
                                     </div>
                                     <div class="col-md-3 col-xs-12 col-sm-12 cssmarginbotom">
-                                        <input type="checkbox" class="flat" /> Watches&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input type="checkbox" name="othercategories" class="flat" /> Watches&nbsp;&nbsp;&nbsp;&nbsp;
                                     </div>
                                     <div class="col-md-3 col-xs-12 col-sm-12 cssmarginbotom">
-                                        <input type="checkbox" class="flat" /> Accessories&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input type="checkbox" name="othercategories" class="flat" /> Accessories&nbsp;&nbsp;&nbsp;&nbsp;
                                     </div>
                                     <div class="col-md-3 col-xs-12 col-sm-12 cssmarginbotom">
-                                        <input type="checkbox" class="flat" /> Belts and wallets&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input type="checkbox" name="othercategories" class="flat" /> Belts and wallets&nbsp;&nbsp;&nbsp;&nbsp;
                                     </div>
                                     <div class="col-md-3 col-xs-12 col-sm-12 cssmarginbotom">
-                                        <input type="checkbox" class="flat" /> Sunglasses&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input type="checkbox" name="othercategories" class="flat" /> Sunglasses&nbsp;&nbsp;&nbsp;&nbsp;
                                     </div>
                                     <div class="col-md-3 col-xs-12 col-sm-12 cssmarginbotom">
-                                        <input type="checkbox" class="flat" /> Others&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input type="checkbox" name="othercategories" class="flat" /> Others&nbsp;&nbsp;&nbsp;&nbsp;
                                     </div>
                                 </div>
                             </div>
                             <div class="row cssmarginbotom">
                                 <div class="col-md-6 col-sm-12 col-xs-12">
-                                    <label>Credit card facility</label>
+                                    <label>Credit / Debit card accepted</label>
                                     <br />
-                                    <input type="radio" class="flat" name="isCreditcard" id="rbtnCCYes" value="Yes" checked />
+                                    <input type="radio" class="flat" name="isCreditcard" id="rbtnCCYes" value="1" checked />
                                     <label style="font-weight: normal;">Yes&nbsp;&nbsp;&nbsp;&nbsp;</label>
 
-                                    <input type="radio" class="flat" name="isCreditcard" id="rbtnCCNo" value="No" />
+                                    <input type="radio" class="flat" name="isCreditcard" id="rbtnCCNo" value="0" />
                                     <label style="font-weight: normal;">No&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                 </div>
                                 <div class="col-md-6 col-sm-12 col-xs-12">
                                     <label>Trail room facility</label>
                                     <br />
-                                    <input type="radio" class="flat" name="isTrail" id="rbtnTrailYes" value="Yes" checked />
+                                    <input type="radio" class="flat" name="isTrail" id="rbtnTrailYes" value="1" checked />
                                     <label style="font-weight: normal;">Yes&nbsp;&nbsp;&nbsp;&nbsp;</label>
 
-                                    <input type="radio" class="flat" name="isTrail" id="rbtnTrailNo" value="No" />
+                                    <input type="radio" class="flat" name="isTrail" id="rbtnTrailNo" value="0" />
                                     <label style="font-weight: normal;">No&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                 </div>
                             </div>
 
                             <div class="row cssmarginbotom">
-                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-md-6 col-sm-12 col-xs-12">
                                     <label>Home delivery</label>
                                     <br />
-                                    <input type="radio" class="flat" name="isHomedelivery" id="rbtnHDYes" value="Yes" checked />
+                                    <input type="radio" class="flat" name="isHomedelivery" id="rbtnHDYes" value="1"  />
                                     <label style="font-weight: normal;">Yes&nbsp;&nbsp;&nbsp;&nbsp;</label>
 
-                                    <input type="radio" class="flat" name="isHomedelivery" id="rbtnHDNo" value="No" />
+                                    <input type="radio" class="flat" name="isHomedelivery" id="rbtnHDNo" value="0" checked />
                                     <label style="font-weight: normal;">No&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                 </div>
-                                <!--<div class="col-md-6 col-sm-12 col-xs-12">
-                                    <label>Trail room facility</label>
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <!--<button onclick="Test();">Test</button>-->
 
 
 
-                                </div>-->
+                                </div>
                             </div>
 
                             <hr />
@@ -547,15 +536,15 @@
                             </div>
                             <div class="row cssmarginbotom">
                                 <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                    <label>Phone</label>
-                                    <input type="text" id="txtPhone" class="form-control has-feedback-left" />
+                                    <label>Phone<small>&nbsp;(Your 10 digit mobile number)</small></label>
+                                    <input type="text" id="txtPhone" class="form-control has-feedback-left" onkeypress="return isNumberKey(this,event,10)" />
                                     <span class="form-control-feedback left" aria-hidden="true">+91</span>
                                     <span style="cursor: pointer;margin-top:5px;" class="label label-danger pull-right">Verify</span>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <label>Email</label>
-                                    <input type="text" id="txtEmail" class="form-control" />
-                                    <span style="cursor: pointer;margin-top:5px;" class="label label-danger pull-right">Verify</span>
+                                    <input type="text" id="txtEmail" class="form-control" disabled />
+                                    <span style="cursor: pointer;margin-top:5px;" class="label label-success pull-right">Verified</span>
                                 </div>
                             </div>
                             <hr />
@@ -567,11 +556,11 @@
                             <div class="row cssmarginbotom">
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <label>Address Line 1</label>
-                                    <input type="text" id="txtAddressLine1" class="form-control" />
+                                    <input type="text" id="txtAddressLine1" class="form-control"  placeholder=""/>
 
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <label>Store description</label>
+                                    <label>State</label>
                                     <select id="ddState" name="state" onchange="IdentifyLocation();" class="form-control col-md-6">
 
                                         <option value="Andhra Pradesh">Andhra Pradesh</option>
@@ -597,7 +586,7 @@
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <label>Pincode</label>
-                                    <input type="text" id="txtPincode" class="form-control" />
+                                    <input type="text" id="txtPincode" onkeypress="return isNumberKey(this,event,6)" class="form-control" />
                                 </div>
                             </div>
                             <div class="row cssmarginbotom">
@@ -607,6 +596,7 @@
                                     <span style="cursor: pointer;" class="label label-success pull-right" onclick="IdentifyLocation();">Identify location</span>
                                     <div id="map" style="height: 250px; border: solid 1px #CCCCCC;">
                                     </div>
+                                    <!--Latitude: <span id="latitude"></span>, Longitude: <span id="longitude"></span>-->
                                     <label id="lblMapAddress"></label>
                                 </div>
 
@@ -640,16 +630,20 @@
                             <hr />
 
 
+                            <div id="alertIDBottom">
 
+                            </div>
                             <div class="row">
 
                                 <div class="col-ms-12 col-sm-12 col-xs-12" style="text-align: right;">
                                     <button class="btn btn-primary">Cancel</button>
-                                    <button class="btn btn-success">Save</button>
+                                    <button class="btn btn-success" onclick="UpdateStoredetails();">Save</button>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                  
                 </div>
                 <!-- /page content -->
 
@@ -687,25 +681,19 @@
             //ActiveLI(liProducts);
         });
 
-        function InitializeMap() {
-            var latlng = new google.maps.LatLng(17.356246126552215, 78.38570082031242);
+        function InitializeMap(lat,long) {
+            
+            var latlng = new google.maps.LatLng(lat, long);
             var myOptions = {
                 zoom: 8,
                 center: latlng,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
             var map = new google.maps.Map(document.getElementById("map"), myOptions);
-            //var marker = new google.maps.Marker({
-            //    position: latlng,
-            //    map: map,
-            //    title: "",
-            //    draggable: true,
-            //    //"icon": '../img/marker.png',
-            //    animation: google.maps.Animation.DROP
-            //});
+          
             var geocoder = new google.maps.Geocoder();
-            var lat = 17.356246126552215;
-            var long = 78.38570082031242;
+            //var lat = 17.356246126552215;
+            //var long = 78.38570082031242;
             var latlng = new google.maps.LatLng(lat, long);
 
             geocoder.geocode({ 'location': latlng }, function (results, status) {
@@ -723,9 +711,11 @@
 
             
         }
-        window.onload = InitializeMap;
+        //window.onload = InitializeMap;
         
         function IdentifyLocation() {
+            var addline1 = $('#txtAddressLine1').val();
+            var addline2 = $('#txtAddressLine2').val();
             $('#lblMapAddress').text("");
             var city = $('#txtCity')[0].value;
             var e = document.getElementById("ddState");
@@ -736,7 +726,7 @@
             if (city == "")
                 city = "hyderabad";
             var geocoder = new google.maps.Geocoder();
-            var address = city + "," + country + "," + state;
+            var address = addline1 + "," + addline2 + "," + city + "," + country + "," + state;
             
             geocoder.geocode({ 'address': address }, function (results, status) {
 
@@ -781,11 +771,14 @@
                             addressN = results[0].formatted_address;
                             
                             $('#lblMapAddress').text("Latitude: " + lat + "\nLongitude: " + lng + "\nAddress: " + addressN);
+                            _latitude = lat;
+                            _longitude = lng;
                         }
                     });
                 });
             })(marker);
         }
+        
     </script>
     <script>
         function onAddTag(tag) {
@@ -801,7 +794,7 @@
         }
 
         $(function () {
-            $('#tags_OtherCategories').tagsInput({
+            $('#tags_Brands').tagsInput({
                 width: 'auto'
             });
         });
