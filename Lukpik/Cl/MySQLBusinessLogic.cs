@@ -292,36 +292,6 @@ namespace Lukpik.Cl
         #endregion
 
 
-        #region SEND MAIL
-
-        public string SendEMail(string from, string to, string subject, string body)
-        {
-            //MailMessage mail = new MailMessage();
-            //mail.To = "me@mycompany.com";
-            //mail.From = "you@yourcompany.com";
-            //mail.Subject = "this is a test email.";
-            //mail.Body = "this is my test email body";
-            //SmtpMail.SmtpServer = "localhost";  //your real server goes here
-            //SmtpMail.Send(mail);
-            try
-            {
-                MailMessage msgobj = new MailMessage();
-                msgobj.From = new MailAddress(from);
-                msgobj.To.Add(to);
-                msgobj.Subject = subject;
-                msgobj.Body = body;
-                msgobj.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
-                SmtpClient client = new SmtpClient();
-                client.Send(msgobj);
-                return "success";
-            }
-            catch (Exception ex)
-            {
-
-                return ex.Message;
-            }
-        }
-
-        #endregion
+   
     }
 }

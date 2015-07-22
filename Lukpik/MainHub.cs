@@ -9,6 +9,7 @@ using System.Text;
 using System.Security.Cryptography;
 using System.IO;
 using System.Data;
+using System.Net.Mail;
 namespace Lukpik
 {
     [HubName("allHubs")]
@@ -38,12 +39,18 @@ namespace Lukpik
             //string passsword
             Random rnd = new Random();
             int length = rnd.Next(6, 12); // creates a number between 1 and 12
-            string password = CreatePassword(length);
-            password = Encrypt(password);
+            string generatedPassword = CreatePassword(length);
+            string password = Encrypt(generatedPassword);
             MySQLBusinessLogic bl = new MySQLBusinessLogic();
             int result = bl.AddStore(storename, city, phonenum, DateTime.Now, DateTime.Now, email, fname, lname, 0, 0, password, 1, 0, 1);
             if (result == 1)
+            {
                 Clients.Client(clientID).testJS("1");
+                string body = "Dear " + fname + "<br> Thanks for Registering with us. Your credentials to proceed with us is as follows.<br>Username: " + email + "<br>Password: " + generatedPassword + "<br><a href='http://localhost:1532/retailers/login.html' target='_blank'>Click here to login</a>";
+                string subject = "Thanks for Registering with us.";
+                SendEMail("mail@hainow.com", email, subject, body);
+                
+            }
             else if (result == 2)
                 Clients.Client(clientID).testJS("2");
             else
@@ -183,6 +190,40 @@ namespace Lukpik
             return serializer.Serialize(rows);
 
         }
+        #endregion
+
+
+        #region SEND MAIL
+
+        public string SendEMail(string from, string to, string subject, string body)
+        {
+            //MailMessage mail = new MailMessage();
+            //mail.To = "me@mycompany.com";
+            //mail.From = "you@yourcompany.com";
+            //mail.Subject = "this is a test email.";
+            //mail.Body = "this is my test email body";
+            //SmtpMail.SmtpServer = "localhost";  //your real server goes here
+            //SmtpMail.Send(mail);
+            try
+            {
+                MailMessage msgobj = new MailMessage();
+                msgobj.IsBodyHtml = true;
+                msgobj.From = new MailAddress(from);
+                msgobj.To.Add(to);
+                msgobj.Subject = subject;
+                msgobj.Body = body;
+                msgobj.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+                SmtpClient client = new SmtpClient();
+                client.Send(msgobj);
+                return "success";
+            }
+            catch (Exception ex)
+            {
+
+                return ex.Message;
+            }
+        }
+
         #endregion
     }
 }
