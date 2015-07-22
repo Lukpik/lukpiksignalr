@@ -64,6 +64,9 @@
                     <li>
                         <a href="main.html#contact">Get in touch</a>
                     </li>
+                    <li>
+                        <a href="retailers/login.html" target="_blank">Retailer Login</a>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -299,12 +302,15 @@
                     <input type="text" style="width:100%;margin-bottom:10px;" name="" value="" placeholder="Last name" id="txtLastname" required>
                     <input type="text" style="width:100%;margin-bottom:10px;" name="" value="" placeholder="Email" id="txtEmail" onblur="ValidateEmail();" required>
                     <input type="text" style="width:100%;margin-bottom:10px;" name="" value="" placeholder="Store name" id="txtStorename" required>
-                    <input type="text" style="width:100%;margin-bottom:10px;" name="" value="" placeholder="Your 10 digit phone number" id="txtPhonenum" required>
+                    <input type="text" style="width:100%;margin-bottom:10px;" name="" value="" placeholder="Your 10 digit phone number" id="txtPhonenum" onkeypress="return isNumberKey(this,event,10)" required>
                     <input type="text" style="width:60%;margin-bottom:10px;" name="" value="" placeholder="City" id="txtCity" required>
                     <br />
                     <!--<textarea style="width:100%;margin-bottom:10px;" name="" placeholder="Add your comments" required></textarea>-->
                     <input type="submit" value="Send" onclick="AddStore();" />
                     <p style="color:#30d4bc;display:none;" id="lblmsg">Success, please check ur mail</p>
+                    <div id="divmsg" style="color:white;">
+                        
+                    </div>
                 </div>
                 <div class="col-md-3"></div>
             </div>
@@ -359,5 +365,6 @@
 
 
     <script src="Scripts/pages/addretailer.js"></script>
+    <script src="Scripts/pages/all.js"></script>
 </body>
 </html>

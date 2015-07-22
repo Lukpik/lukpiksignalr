@@ -22,3 +22,17 @@ function readCookie(name) {
 function eraseCookie(name) {
     createCookie(name, "", -1);
 }
+
+function isNumberKey(control, evt, len) {
+    if ($('#' + control.id).val().length < len) {
+        var charCode = (evt.which) ? evt.which : event.keyCode;
+
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+
+
+        return true;
+    }
+    else
+        return false;
+}

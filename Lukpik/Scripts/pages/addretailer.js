@@ -19,8 +19,10 @@ $(document).ready(function () {
     //Website Home Page
     hubEngine.client.testJS = function (msg) {
         $('#lblmsg').show();
-        if (msg == "1")
-            $('#lblmsg').text("You have successfully registered with us, please check you mail for password. <a href='retailers/lohin.html'>Click here to login</a>");
+        if (msg == "1") {
+            $('#lblmsg').hide();
+            $('#divmsg').append("You have successfully registered with us, please check you mail for password. <a style='color:#b6ff00;' href='retailers/login.html'>Click here to login</a>");
+        }
         else if (msg == "2")
             $('#lblmsg').text("Email already exists. Please try with different email.");
         else if (msg == "0")

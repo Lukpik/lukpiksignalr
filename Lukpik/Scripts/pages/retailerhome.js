@@ -64,28 +64,8 @@ $(document).ready(function () {
                 $('#txtTwitterURL').val(CheckNull(obj[0].SocialTwitterPage));
                 $('#txtGooglePlusURL').val(CheckNull(obj[0].SocialGooglePage));
 
-                //Checkbox
-                //if (CheckNull(obj[0].Cardsaccepted) * 1 == 1)
-                //    $('#rbtnCCYes')[0].attr("checked", true);
-                //else
-                //    $('#rbtnCCNo').prop("checked", false);
-
-                //if (CheckNull(obj[0].trialroomflag) * 1 == 1)
-                //    $('#rbtnTrailYes').prop("checked", true);
-                //else
-                //    $('#rbtnTrailNo').prop("checked", false);
-
-                //if (CheckNull(obj[0].homedeliveryflag) * 1 == 1)
-                //    $('#rbtnHDYes').prop("checked", true);
-                //else
-                //    $('#rbtnHDNo').prop("checked", false);
-
-
-                
-
-
             }
-            if (obj[0].Latitude != "" && obj[0].Longitude != "")
+            if (obj[0].Latitude != "" && obj[0].Latitude != null && obj[0].Longitude != "" && obj[0].Longitude != null)
                 InitializeMap(CheckNull(obj[0].Latitude) * 1, CheckNull(obj[0].Longitude) * 1)
             else
                 IdentifyLocation();
@@ -177,16 +157,3 @@ function Test() {
     document.getElementById("rbtnCCNo").checked = true;
 }
 
-function isNumberKey(control, evt, len) {
-    if ($('#' + control.id).val().length < len) {
-        var charCode = (evt.which) ? evt.which : event.keyCode;
-
-        if (charCode > 31 && (charCode < 48 || charCode > 57))
-            return false;
-
-
-        return true;
-    }
-    else
-        return false;
-}
