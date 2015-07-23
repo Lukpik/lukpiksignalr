@@ -204,6 +204,7 @@
     <Content Include="Scripts\pages\all.js" />
     <Content Include="Scripts\pages\login.js" />
     <Content Include="Scripts\pages\retailerhome.js" />
+    <Content Include="login.html" />
     <Content Include="users_temp\fonts\fontawesome-webfont.eot" />
     <Content Include="users_temp\fonts\fontawesome-webfont.ttf" />
     <Content Include="users_temp\fonts\fontawesome-webfont.woff" />
@@ -288,7 +289,6 @@
     <Content Include="img\team-01.png" />
     <Content Include="img\team-02.png" />
     <Content Include="img\team-03.png" />
-    <Content Include="index.html" />
     <Content Include="js\bootstrap.js" />
     <Content Include="js\bootstrap.min.js" />
     <Content Include="js\jquery.flexslider.js" />

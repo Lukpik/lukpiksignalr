@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,38 +13,11 @@
     <link href="css/styles.css" rel="stylesheet">
     <link href="css/queries.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
-
     <!--Latest JQuery-->
-
     <script src="Scripts/jquery-2.1.1.min.js"></script>
-
-    <!--Signal R-->
-    <script src="Scripts/jquery.signalR-2.2.0.js"></script>
-    <!--<script src="Scripts/jquery.signalR-2.2.0.min.js"></script>-->
-
-    <script src="signalr/hubs"></script>
-    <script src="Scripts/main.js"></script>
-    <script type="text/javascript">
-        var hubEngine;
-        $(document).ready(function () {
-            //Hub Connection and functions
-            hubEngine = $.connection.allHubs;
-            $.connection.hub.logging = true;
-            $.connection.hub.start().done(function () {
-                alert('success');
-            });
-            $.connection.hub.disconnected(function () {
-                setTimeout(function () {
-                    $.connection.hub.start();
-                }, 1000); // Re-start connection after 1 seconds
-            });
-            setInterval(function () {
-                hubEngine.server.activecall();
-            }, 15000);
-        });
-    </script>
 </head>
 <body id="top">
+
     <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
@@ -446,10 +419,10 @@
     <section class="subscribe text-center">
         <div class="container">
             <h1><i class="fa fa-paper-plane"></i><span>Subscribe to stay in the loop</span></h1>
-            <form action="#">
-                <input type="text" name="" value="" placeholder="" required>
-                <input type="submit" name="" value="Send">
-            </form>
+
+            <input type="text" id="txtSubscribeEmail" name="" value="" placeholder="" required>
+            <input type="submit" name="" value="Send" onclick="Subscribe();">
+
         </div>
     </section>
     <section class="dark-bg text-center section-padding contact-wrap" id="contact">
@@ -564,5 +537,16 @@
     <script src="js/scripts.js"></script>
     <script src="js/jquery.flexslider.js"></script>
     <script src="js/modernizr.js"></script>
+
+
+
+    <!--Signal R-->
+    <script src="Scripts/jquery.signalR-2.2.0.js"></script>
+    <script src="signalr/hubs"></script>
+
+    <script src="Scripts/main.js"></script>
+    <script type="text/javascript">
+
+    </script>
 </body>
 </html>
