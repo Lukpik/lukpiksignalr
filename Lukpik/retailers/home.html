@@ -319,6 +319,36 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div id="modalChangePassword" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+                                                <div class="modal-dialog modal-sm">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal">
+                                                                <span aria-hidden="true">×</span>
+                                                            </button>
+                                                            <h4 class="modal-title" id="myModalLabel">Change Password</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <label>Current Password</label>
+                                                            <input id="txtCurrentPwd" type="password" class="form-control"/>
+                                                            <label>New Password</label>
+                                                            
+                                                            <input id="txtPwd" type="password" class="form-control" onkeyup="CheckConfirmationPwd();" />
+                                                            <label>Confirm Password</label>
+                                                            <input id="txtCPwd" type="password" class="form-control" onkeyup="CheckConfirmationPwd();" />
+                                                            <div style="height:30px;">
+                                                                <span id="errorMessage" style="cursor: pointer;margin-top:10px;display:none;" class="label label-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            
+                                                            <button type="button" class="btn btn-success" onclick="ChangePassword();">Save changes</button><br />
+                                                            <small>&nbsp;&nbsp;(You will be redirected to login page after you change password.)</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <!-- /.modal -->
                                             <!-- Loading state -->
                                             <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>

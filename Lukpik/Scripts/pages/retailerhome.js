@@ -1,6 +1,7 @@
 ﻿var hubEngine;
 var _latitude;
 var _longitude;
+var uname;
 $(document).ready(function () {
     //Hub Connection and functions
     hubEngine = $.connection.allHubs;
@@ -79,6 +80,24 @@ $(document).ready(function () {
             AddAlert("error", "Something went wrong, please try again later.");
     };
 
+    hubEngine.client.changedPassword = function (msg) {
+        if (msg == "1") {
+            $('#errorMessage').removeClass("label-danger");
+            $('#errorMessage').addClass("label-success");
+            $('#errorMessage').show();
+            $('#errorMessage').text("Password is changed successfully.");
+            logout();
+        }
+        else if (msg == "2") {
+            $('#errorMessage').show();
+            $('#errorMessage').text("You have entered wrong password.");
+        }
+        else if (msg == "0") {
+            $('#errorMessage').show();
+            $('#errorMessage').text("Something went wrong, please try again later.");
+        }
+    };
+    $('#modalChangePassword').modal('show');
 });
 
 function UpdateStoredetails() {
@@ -157,3 +176,36 @@ function Test() {
     document.getElementById("rbtnCCNo").checked = true;
 }
 
+function CheckConfirmationPwd() {
+    var retval = false;
+    var pwd = $('#txtPwd').val();
+    var cpwd = $('#txtCPwd').val();
+    if (pwd == cpwd) {
+        $('#errorMessage').hide();
+        retval = true;
+    }
+    else {
+        $('#errorMessage').show();
+        $('#errorMessage').text("Password Mismatch");
+        retval = false;
+    }
+    return retval;
+}
+function ChangePassword() {
+    var currPwd = $('#txtCurrentPwd').val();
+    var pwd = $('#txtPwd').val();
+    var cpwd = $('#txtCPwd').val();
+    if (currPwd != "" && pwd != "" && cpwd != "") {
+        if (CheckConfirmationPwd()) {
+            hubEngine.server.changeStorePassword(readCookie("lukpikretailer_usename"), currPwd, pwd, $.connection.hub.id);
+        }
+        else {
+            $('#errorMessage').show();
+            $('#errorMessage').text("Password Mismatch");
+        }
+    }
+    else {
+        $('#errorMessage').show();
+        $('#errorMessage').text("Please fill all the fields.");
+    }
+}

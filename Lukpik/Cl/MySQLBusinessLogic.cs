@@ -221,12 +221,95 @@ namespace Lukpik.Cl
             return retVal;
         }
 
+
         # endregion
 
-        # region USER LOGIN
-        public bool LoginUser(string username, string pwd)
+        #region CHANGE PASSWORD
+
+        public int ChangePassword(string email, string oldpwd, string newpwd)
+        {
+            int retVal = 0;
+            try
+            {
+                if (CheckAuthenticatedUser(email, oldpwd))
+                {
+                    string cmdText = "SET SQL_SAFE_UPDATES = 0; update `store` set `password`=@newpwd where `Email`=@email";
+                    cmd = new MySqlCommand(cmdText, con);
+                    cmd.Parameters.AddWithValue("@newpwd", newpwd);
+                    cmd.Parameters.AddWithValue("@email", email);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                    retVal = 1;
+                }
+                else
+                {
+                    retVal = 2;
+                }
+            }
+            catch (Exception ex)
+            {
+                //0 - if something went wrong(exception)
+                //1 - if passord changed successfully
+                //2 - if authentication fails
+                retVal = 0;
+            }
+            return retVal;
+        }
+
+        public bool CheckAuthenticatedUser(string email, string pwd)
         {
             bool retVal = false;
+            try
+            {
+                DataTable dt = new DataTable();
+                string cmdText = "select 1 from `store` where `Email`='" + email + "' and `password`='" + pwd + "'";
+                cmd = new MySqlCommand(cmdText, con);
+                con.Open();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
+                con.Close();
+                if (dt.Rows.Count == 1)
+                    retVal = true;
+                else
+                    retVal = false;
+            }
+            catch (Exception ex)
+            {
+                retVal = false;
+            }
+            return retVal;
+        }
+        #endregion
+
+        public DataTable GetStoreOwnerName(string email)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                string cmdText = "select `StoreOwnerFirstName`,`StoreOwnerLastName` from `store` where `Email`='" + email + "'";
+                cmd = new MySqlCommand(cmdText, con);
+                con.Open();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
+                con.Close();
+                if (dt.Rows.Count != 1)
+                {
+                    //If no.of rows greater than 1 return send and empty DataTable
+                    dt = new DataTable();
+                }
+            }
+            catch (Exception ex)
+            {
+                dt = new DataTable();
+            }
+            return dt;
+        }
+
+        # region USER LOGIN
+        public int LoginUser(string username, string pwd)
+        {
+            int retVal = 0;
             try
             {
                 DataTable dt = new DataTable();
@@ -238,14 +321,15 @@ namespace Lukpik.Cl
                 con.Close();
                 if (dt.Rows.Count == 1)
                 {
-                    retVal = true;
+                    retVal = 1;
                     //AddtoLoginHistory(username, DateTime.Now);
                 }
                 else
-                    retVal = false;
+                    retVal = 2;
             }
             catch (Exception ex)
             {
+                retVal = 0;
             }
             return retVal;
         }

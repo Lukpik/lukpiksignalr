@@ -46,9 +46,10 @@ namespace Lukpik
             if (result == 1)
             {
                 Clients.Client(clientID).testJS("1");
-                string body = "Dear " + fname + "<br> Thanks for Registering with us. Your credentials to proceed with us is as follows.<br>Username: " + email + "<br>Password: " + generatedPassword + "<br><a href='http://localhost:1532/retailers/login.html' target='_blank'>Click here to login</a>";
+                string body = "Dear " + fname + ",<br> Thanks for Registering with us. Your credentials to proceed with us is as follows.<br>Username: " + email + "<br>Password: " + generatedPassword + "<br><a href='http://localhost:1532/retailers/login.html' target='_blank'>Click here to login</a>";
                 string subject = "Thanks for Registering with us.";
                 SendEMail("mail@hainow.com", email, subject, body);
+                //SendMail(email, subject, body);
                 
             }
             else if (result == 2)
@@ -140,12 +141,20 @@ namespace Lukpik
             try
             {
                 MySQLBusinessLogic bl = new MySQLBusinessLogic();
-                if (bl.LoginUser(username, Encrypt(pwd)) == true)
+                int result=bl.LoginUser(username, Encrypt(pwd));
+                if (result == 1)
                 {
+                    //If success
                     Clients.Client(clientID).loginResult(username, "1");
                 }
-                else
+                else if (result==2)
                 {
+                    //if  username or pwd doent exist
+                    Clients.Client(clientID).loginResult(username, "2");
+                }
+                else 
+                {
+                    //if something gone wrong(exception)
                     Clients.Client(clientID).loginResult(username, "0");
                 }
             }
@@ -192,6 +201,43 @@ namespace Lukpik
         }
         #endregion
 
+        #region CHANGE PASSWORD
+        public void changeStorePassword(string email,string oldpwd,string newpwd, string clientID)
+        {
+            try
+            {
+                // 1 - success
+                // 0 - fail
+                MySQLBusinessLogic bl = new MySQLBusinessLogic();
+                int result = bl.ChangePassword(email, Encrypt(oldpwd), Encrypt(newpwd));
+                if (result == 1)
+                {
+                    Clients.Client(clientID).changedPassword("1");
+                    DataTable dt = new DataTable();
+                    dt = bl.GetStoreOwnerName(email);
+                    if (dt.Rows.Count == 1)
+                    {
+                        string name = dt.Rows[0].ItemArray[0].ToString() + " " + dt.Rows[0].ItemArray[0].ToString();
+                        string body = "Dear " + name + ",<br> It is to intimate you, that you have recently changed your account password.<br><a href='http://localhost:1532/retailers/login.html' target='_blank'>Click here to login</a>";
+                        string subject = "You have changed you password.";
+                        SendEMail("mail@hainow.com", email, subject, body);
+                        //SendMail(email, subject, body);
+                    }
+                }
+                else if (result == 2)
+                {
+                    Clients.Client(clientID).changedPassword("2");
+                }
+                else
+                    Clients.Client(clientID).changedPassword("0");
+                
+            }
+            catch (Exception ex)
+            {
+                Clients.Client(clientID).changedPassword("0");
+            }
+        }
+        #endregion
 
         #region SEND MAIL
 
@@ -222,6 +268,54 @@ namespace Lukpik
 
                 return ex.Message;
             }
+        }
+
+        private void SendMail(string toEmailID, string subject, string htmlBody)
+        {
+            
+            try
+            {
+                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+                var mail = new MailMessage();
+                mail.From = new MailAddress("praveenkumar.vakalapudi@gmail.com");
+                mail.To.Add(toEmailID.Trim());
+                mail.Subject = subject;
+                mail.IsBodyHtml = true;
+                mail.Body = htmlBody;
+                SmtpServer.Port = 587;
+                SmtpServer.UseDefaultCredentials = false;
+                SmtpServer.Credentials = new System.Net.NetworkCredential("praveenkumar.vakalapudi@gmail.com", "9014802155");
+                SmtpServer.EnableSsl = true;
+                //SmtpServer.Send(mail);
+                //isSend = true;
+                try
+                {
+                    SmtpServer.Send(mail);
+                }
+                catch (SmtpFailedRecipientsException ex)
+                {
+                    for (int i = 0; i < ex.InnerExceptions.Length; i++)
+                    {
+                        SmtpStatusCode status = ex.InnerExceptions[i].StatusCode;
+                        if (status == SmtpStatusCode.MailboxBusy || status == SmtpStatusCode.MailboxUnavailable)
+                        {
+                            //"Delivery failed - retrying in 5 seconds."
+                            System.Threading.Thread.Sleep(5000);
+                            SmtpServer.Send(mail);
+                        }
+                        else
+                        {
+                            //"Failed to deliver message"                                
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+            
+            }
+            
         }
 
         #endregion

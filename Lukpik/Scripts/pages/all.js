@@ -36,3 +36,8 @@ function isNumberKey(control, evt, len) {
     else
         return false;
 }
+
+function logout() {
+    eraseCookie('lukpikretailer_usename');
+    location.href = '../retailers.html';
+}

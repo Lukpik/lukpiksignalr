@@ -23,7 +23,9 @@ $(document).ready(function () {
             $('#lblmsg').text("Login success, please wait, we redirect you to your space.");
             location.href = "../retailers/home.html";
         }
-        else if (msg == "0")
+        else if (msg == "2")
+            $('#lblmsg').text("Invalid username / password.");
+        else 
             $('#lblmsg').text("Something went wrong, please try again later.");
     };
 
