@@ -241,14 +241,6 @@
     <Content Include="Scripts\pages\retailerhome.js" />
     <Content Include="login.html" />
     <Content Include="Scripts\processBar.js" />
-    <Content Include="StoreImages\1437652439094TestScrn1.jpg" />
-    <Content Include="StoreImages\1437652567258Test Scrn.jpg" />
-    <Content Include="StoreImages\1437652977804Test Scrn.jpg" />
-    <Content Include="StoreImages\1437653011877Test Scrn.jpg" />
-    <Content Include="StoreImages\1437653368317Test Scrn.jpg" />
-    <Content Include="StoreImages\1437653543516Test Scrn.jpg" />
-    <Content Include="StoreImages\1437655174577DESK1.jpg" />
-    <Content Include="StoreImages\1437658376552Hydrangeas.jpg" />
     <Content Include="users_temp\fonts\fontawesome-webfont.eot" />
     <Content Include="users_temp\fonts\fontawesome-webfont.ttf" />
     <Content Include="users_temp\fonts\fontawesome-webfont.woff" />
@@ -1325,6 +1317,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="StoreImages\" />
     <Folder Include="users\" />
   </ItemGroup>
   <PropertyGroup>
