@@ -110,6 +110,9 @@ $(document).ready(function () {
                 $('#txtAddressLine2').val(CheckNull(obj[0].store_street_addressline2));
                 $('#txtCity').val(CheckNull(obj[0].store_city));
                 $('#txtPincode').val(CheckNull(obj[0].store_postal_code));
+                $('[name=state] option').filter(function () {
+                    return ($(this).text() == obj[0].store_state);
+                }).prop('selected', true);
 
 
                 //Social pages
@@ -237,12 +240,12 @@ function UpdateStoredetails() {
     othercategories = yourArray.toString();
     //var uname = $('#txtUname').val();
     //var pwd = $('#txtPassword').val();
-    if (storename != "" && storetype != "" && brands != "" && ownerFname != "" && ownerLname != "" && mobile != "" && email != "") {
+    if (othercategories!="" && storename != "" && storetype != "" && addLine1 != "" && ownerFname != "" && ownerLname != "" && mobile != "" && email != "" && city != "" && pincode != "") {
         hubEngine.server.updateStores(storename, storetype, shortDesc, storedesc, brands, othercategories, isCreditCard, isTrailfacility, isHomedelivery, ownerFname, ownerLname, mobile, email, addLine1, addLine2, city, state, country, pincode, latitude, longitude, website, fburl, twitterurl, googleurl, $.connection.hub.id);
     }
     else {
         RemoveProgressBarLoader();
-        AddAlert("error", "Please fill all the fields.");
+        AddAlert("error", "Please fill all the mandatory fields.");
     }
 }
 
