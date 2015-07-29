@@ -1,3 +1,5 @@
+
+var _cropJson = "";
 (function (factory) {
   if (typeof define === 'function' && define.amd) {
     define(['jquery'], factory);
@@ -209,6 +211,7 @@
                 ].join();
 
             _this.$avatarData.val(json);
+            _cropJson = json;
           }
         });
 

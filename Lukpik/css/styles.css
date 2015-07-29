@@ -1400,3 +1400,42 @@ Waypoints
         }
 }
 
+.glass_input {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: solid 1px #fff;
+    padding: 15px;
+    width: 60%;
+    color: #fff;
+}
+
+
+.btninput {
+    background: rgba(61, 201, 179, 0.5);
+    /*border: solid 1px rgba(61, 201, 179, 0.5);*/
+    padding: 10px;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+}
+
+    .btninput:hover {
+        background: rgba(61, 201, 179, 1);
+        border: solid 1px rgba(61, 201, 179, 1);
+        color: #fff;
+    }
+
+
+.ajax_loader {
+    /*background: url("/images/spinner_squares_circle.gif") no-repeat center center transparent;*/
+    width: 100%;
+    height: 100%;
+}
+
+.blue-loader .ajax_loader {
+    background: url("/img/ajax-loader.gif") no-repeat center 250px transparent;
+    position:fixed;
+}

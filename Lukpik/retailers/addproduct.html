@@ -22,6 +22,10 @@
     <script src="js/jquery.min.js"></script>
 
     <link href="css/retailers.css" rel="stylesheet" />
+    <link rel="shortcut icon" type="image/x-icon" href="../img/iconSmile.ico" />
+    <link href="js/fileuploader/fileinput.css" rel="stylesheet" />
+    <script src="js/fileuploader/fileinput.min.js"></script>
+    
 </head>
 <body class="nav-md">
 
@@ -61,27 +65,28 @@
                         <div class="menu_section">
                             <h3></h3>
                             <ul class="nav side-menu">
-                                <li id="liHome" ><a href="home.html"><i class="fa fa-home"></i> Home </a></li>
+                                <li id="liHome" class="active" onclick="location.href='home.html'"><a href="home.html"><i class="fa fa-home"></i> Home </a></li>
 
-                                <li id="liProductsMain" class="active">
+                                <li id="liProductsMain">
                                     <a href="products.html"><i class="fa fa-tag"></i> Products <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu" style="display: none">
-                                        <li id="liProducts">
+                                        <li id="liProducts" onclick="location.href = 'products.html'">
                                             <a class="active" href="products.html">Products</a>
                                         </li>
-                                        <li id="liInvantory">
+                                        <li id="liInvantory" onclick="location.href = 'inventory.html'">
                                             <a href="inventory.html">Inventory</a>
                                         </li>
                                     </ul>
                                 </li>
 
-                                <li id="liCustomers"><a href="customers.html"><i class="fa fa-users"></i> Customers </a></li>
-                                <li id="liReports"><a href="reports.html"><i class="fa fa-bar-chart"></i> Reports </a></li>
-                                <li id="liNotifications"><a href="notifications.html"><i class="fa fa-home"></i> Notifications </a></li>
-                                <li id="liSettings"><a href="settings.html"><i class="fa fa-cog"></i> Settings </a></li>
+                                <li id="liCustomers" onclick="location.href='customers.html'"><a href="customers.html"><i class="fa fa-users"></i> Customers </a></li>
+                                <li id="liReports" onclick="location.href='reports.html'"><a href="reports.html"><i class=" fa fa-bar-chart"></i> Reports </a></li>
+                                <li id="liNotifications" onclick="location.href = 'notifications.html'"><a href="notifications.html"><i class="fa fa-home"></i> Notifications </a></li>
+                                <li id="liSettings" onclick="location.href = 'settings.html'"><a href="settings.html"><i class="fa fa-cog"></i> Settings </a></li>
 
                             </ul>
                         </div>
+
 
                     </div>
                     <!-- /sidebar menu -->
@@ -115,7 +120,7 @@
                         <ul class="nav navbar-nav navbar-right">
                             <li class="">
                                 <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    <img src="images/img.jpg" alt="">John Doe
+                                    <img id="imgStoreTop" src="images/default.png" alt=""><span id="txtFirstname"></span>
                                     <span class=" fa fa-angle-down"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-usermenu animated fadeInDown pull-right">
@@ -129,10 +134,10 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="javascript:;">Help</a>
+                                        <a onclick="$('#modalChangePassword').modal('show');">Change Password</a>
                                     </li>
                                     <li>
-                                        <a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
+                                        <a onclick="logout();"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
                                     </li>
                                 </ul>
                             </li>
@@ -220,8 +225,8 @@
                     <div class="page-title">
                         <div class="title_left">
                             <h3>
-                                <a href="products.aspx">Products</a> /
-                                <label style="font-weight: normal;">Add Product</label>
+                                <a href="products.html">Products</a> /
+                                <label style="font-weight: normal;" id="lblHeading">Add Product</label>
 
                             </h3>
                         </div>
@@ -237,6 +242,9 @@
                         </div>
                     </div>
                     <div class="clearfix"></div>
+                    <div id="alertIDTop">
+
+                    </div>
                     <div class="x_panel">
                         <div class="x_title">
                             <!--<div class="col-md-8">
@@ -249,7 +257,7 @@
                             <label id="lblmsg"></label>
                             <div class="pull-right">
                                 <button class="btn btn-primary">Cancel</button>
-                                <button class="btn btn-success" onclick="CheckValidation();">Save</button>
+                                <button id="btnSaveTop" class="btn btn-success" onclick="AddProduct1();">Save</button>
                             </div>
 
                             <!--
@@ -263,7 +271,7 @@
                                 <div class="col-md-8">
                                     <div class="col-md-12 cssmarginbotom col-sm-12 col-xs-12">
                                         <label for="fullname">Full Name * :</label>
-                                        <input type="text" id="txtFullName"  class="form-control" name="fullname" />
+                                        <input type="text" id="txtFullName" class="form-control" name="fullname" />
                                     </div>
 
 
@@ -272,123 +280,92 @@
                                         <label>Gender *:</label>
                                         <p>
 
-                                            <input type="radio" class="flat" name="gender" id="genderAM" value="Male(adult)" checked="" />
+                                            <input type="radio" name="gender" id="genderAM" value="Male" checked="" />
                                             <label style="font-weight: normal;">Male(adult)&nbsp;&nbsp;&nbsp;&nbsp;</label>
 
-                                            <input type="radio" class="flat" name="gender" id="genderAF" value="Female(adult)" />
+                                            <input type="radio" name="gender" id="genderAF" value="Female" />
                                             <label style="font-weight: normal;">Female(adult)&nbsp;&nbsp;&nbsp;&nbsp;</label>
 
 
-                                            <input type="radio" class="flat" name="gender" id="genderBoy" value="Boy(kids)" />
+                                            <input type="radio" name="gender" id="genderBoy" value="Boys" />
                                             <label style="font-weight: normal;">Boy(kids)&nbsp;&nbsp;&nbsp;&nbsp;</label>
 
 
-                                            <input type="radio" class="flat" name="gender" id="genderGirl" value="Girl(kids)" />
+                                            <input type="radio" name="gender" id="genderGirl" value="Girls" />
                                             <label style="font-weight: normal;">Girl(kids)&nbsp;&nbsp;&nbsp;&nbsp;</label>
 
-                                            <input type="radio" class="flat" name="gender" id="genderInfants" value="Infants" />
+                                            <input type="radio" name="gender" id="genderInfants" value="Infants" />
                                             <label style="font-weight: normal;">Infants&nbsp;&nbsp;&nbsp;&nbsp;</label>
 
-                                            <input type="radio" class="flat" name="gender" id="genderOthers" value="others" />
+                                            <input type="radio" name="gender" id="genderOthers" value="others" />
                                             <label style="font-weight: normal;">Does not apply</label>
 
 
                                         </p>
                                     </div>
-
-                                    <div class="col-md-12 cssmarginbotom col-sm-12 col-xs-12">
-                                        <label>Product family *:</label>
-                                        <div class="row">
-                                            <div class="col-md-6 col-sm-12 col-xs-12">
-
-                                                <select id="ddProductFamily" name="productfamily" onchange="ChangeDropdown(this);" class="form-control col-md-6">
-                                                    <!--
-                                                    <option value="dnd">Choose</option>-->
-                                                    <option value="Clothing">Clothing</option>
-                                                    <option value="Foot wear">Foot wear</option>
-                                                    <option value="Accessories">Accessories</option>
-                                                    <option value="Other">Other</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-6 col-sm-12 col-xs-12">
-                                                <input type="text" id="ddTextbox" class="form-control col-md-6" name="fullname" disabled />
-                                            </div>
+                                    <div class="row cssmarginbotom">
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <label>Product family *:</label>
+                                            <select id="ddProductFamily" name="productfamily" onchange="onChangeProductFamily();" class="form-control col-md-6">
+                                                <!--
+                                                <option value="dnd">Choose</option>-->
+                                                <!--<option value="Clothing">Clothing</option>
+                                                <option value="Foot wear">Foot wear</option>
+                                                <option value="Accessories">Accessories</option>
+                                                <option value="Other">Other</option>-->
+                                            </select>
                                         </div>
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <label for="">Price * :</label>
+                                            <input type="text" class="form-control" id="txtPrice" placeholder="1250.00" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 cssmarginbotom col-sm-12 col-xs-12">
+
+
 
 
                                     </div>
 
                                     <div class="col-md-12 cssmarginbotom col-sm-12 col-xs-12">
                                         <label for="message">Description :</label>
-                                        <textarea id="message" class="form-control" name="message"></textarea>
+                                        <textarea id="txtProductDescription" class="form-control"></textarea>
 
                                     </div>
-                                    <div class="col-md-12 cssmarginbotom col-sm-12 col-xs-12">
-                                        <div class="row">
-                                            <div class="col-md-6 col-sm-12 col-xs-12">
-                                                <label for="">Price * :</label>
-                                                <input type="text" class="form-control" name="fullname" placeholder="1250.00" />
-                                            </div>
-                                            <div class="col-md-6 col-sm-12 col-xs-12">
-                                                <label for="">Quantity :</label>
-                                                <input type="text" class="form-control" name="fullname" placeholder="10" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 cssmarginbotom col-sm-12 col-xs-12">
 
-                                        <label class="control-label">Size(s)</label>
-                                        <div class="">
-                                            <input id="tags_Sizes" type="text" class="tags form-control" value="" placeholder="small, medium, large" />
-                                            <div id="suggestions-container1" style="position: relative; float: left; width: 250px; margin: 10px;"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 cssmarginbotom col-sm-12 col-xs-12">
 
-                                        <label class="control-label">Color(s)</label>
-
-                                        <div class="">
-                                            <input id="tags_Colors" type="text" class="tags form-control" value="" />
-                                            <div id="suggestions-container2" style="position: relative; float: left; width: 250px; margin: 10px;"></div>
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="col-md-12 cssmarginbotom col-sm-12 col-xs-12">
                                         <label class="control-label ">Visibility</label><br />
                                         <p>
-                                            <input type="radio" class="flat" name="isvisibe" id="onn" value="on" checked="" />
+                                            <input type="radio" name="isvisibe" id="onn" value="1" checked="" />
                                             <label style="font-weight: normal;">On&nbsp;&nbsp;&nbsp;&nbsp;</label>
 
-                                            <input type="radio" class="flat" name="isvisibe" id="off" value="off" />
+                                            <input type="radio" name="isvisibe" id="off" value="0" />
                                             <label style="font-weight: normal;">Off</label>
                                         </p>
                                     </div>
                                     <div class="col-md-12 cssmarginbotom col-sm-12 col-xs-12">
-                                        <label class="control-label ">Product type</label>
+                                        <label class="control-label ">Product Category</label>
                                         <div class="">
-                                            <select class=" form-control">
-                                                <option>Choose option</option>
-                                                <option>Shirt</option>
-                                                <option>Trouser</option>
-                                                <option>Shoes</option>
-                                                <option>Watches</option>
-                                                <option>T-shirt</option>
-                                                <option>Polos</option>
-                                            </select>
+                                            <select name="productCategory" class="select2_group form-control" id="selectProduct"></select>
                                         </div>
                                     </div>
                                     <div class="col-md-12 cssmarginbotom col-sm-12 col-xs-12">
                                         <label class="control-label ">Brand</label>
-                                        <input type="text" class="form-control" placeholder="Levis" />
+                                        <!--<input type="text" class="form-control" id="txtBrand" placeholder="Levis" />-->
+                                        <select id="ddBrands" name="brands" class="form-control col-md-6"></select>
                                     </div>
                                     <div class="col-md-12 cssmarginbotom col-sm-12 col-xs-12">
                                         <label class="control-label ">Collection</label>
                                         <div class="">
                                             <input id="tags_Collection" type="text" class="tags form-control" value="" />
                                             <div id="suggestions-container" style="position: relative; float: left; width: 250px; margin: 10px;"></div>
+
                                         </div>
                                     </div>
+                                
 
                                 </div>
                             </div>
@@ -411,48 +388,50 @@
                                         <div class="row" id="divImages">
                                         </div>
                                     </div>-->
+                                    <div id="divImgPreview" style="min-height:250px;max-height:250px;overflow-y:auto;border:solid 1px #cccccc;">
 
-                                    <div class="form-group" id="fileUpdloadDiv" >
+                                    </div>
+                                    <div class="form-group" id="fileUpdloadDiv">
                                         <input id="file-5" class="file" type="file" multiple data-preview-file-type="any" data-upload-url="#" data-preview-file-icon="" />
                                     </div>
 
                                 </div>
-                                <script type="text/javascript">
-                                    var cnt = 1;
-                                    function addImage(input, e) {
-                                        if (input.files.length > 0) {
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-md-12 cssmarginbotom col-sm-12 col-xs-12">
+                                    <h3 class="control-label">E-Commerce links</h3>
 
-                                            for (var i = 0; i < input.files.length; i++) {
-                                                input.files[i];
-                                                var reader = new FileReader();
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 cssmarginbotom col-sm-12 col-xs-12">
+                                    <label class="control-label ">Product URL<small>(if this product has online presence on any ecommerce website , please provide any one link)</small></label>
+                                    <input type="text" class="form-control" id="txtECommerceLink" />
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-md-12 cssmarginbotom col-sm-12 col-xs-12">
+                                    <h3 class="control-label">Add your specification</h3>
+                                    <button class="btn btn-primary btn-sm pull-right" onclick="AddSpecification();"><span class="fa fa-plus">&nbsp;</span>Add</button>
+                                    <button class="btn btn-primary btn-sm pull-right" onclick="RemoveSpecification();"><span class="fa fa-eraser">&nbsp;</span>Clear</button>
+                                </div>
+                            </div>
 
-                                                reader.onload = function (e) {
-                                                    var divId = "div" + cnt;
-                                                    var str = '<div class="col-md-3" id="' + divId + '" ><div class="well"><div style="text-align:right;"><span style="cursor:pointer;text-decoration:none;" onclick="RemoveImage(\'' + divId + '\');">X</span></div><img src="' + e.target.result + '" class="img-responsive"/></div></div>';
-                                                    //$('#blah').attr('src', e.target.result);
-                                                    $('#divImages').append(str);
-                                                    cnt++;
-                                                }
-                                                reader.readAsDataURL(input.files[i]);
-                                            }
+                            <div id="divSpecification">
 
+                            </div>
 
+                            <div id="alertIDBottom">
 
-                                        }
-                                    }
-                                    function RemoveImage(id) {
-                                        $('#' + id).empty();
-                                        $('#' + id).remove();
-                                    }
-
-                                </script>
                             </div>
                             <hr />
                             <div class="row">
 
                                 <div class="col-ms-12 col-sm-12 col-xs-12" style="text-align: right;">
                                     <button class="btn btn-primary">Cancel</button>
-                                    <button class="btn btn-success" onclick="CheckValidation();">Save</button>
+                                    <button id="btnSaveBottom" class="btn btn-success" onclick="AddProduct1();">Save</button>
                                 </div>
                             </div>
 
@@ -555,8 +534,7 @@
     <script src="js/editor/bootstrap-wysiwyg.js"></script>
     <script src="js/editor/external/jquery.hotkeys.js"></script>
     <script src="js/editor/external/google-code-prettify/prettify.js"></script>
-    <!-- select2 -->
-    <script src="js/select/select2.full.js"></script>
+
     <!-- form validation -->
     <script type="text/javascript" src="js/parsley/parsley.min.js"></script>
     <!-- textarea resize -->
@@ -758,7 +736,8 @@
         $('#file-5').fileinput({
             language: 'fr',
             uploadUrl: '#',
-            allowedFileExtensions: ['jpg', 'png', 'gif'],
+            maxFileCount: 2,
+            allowedFileExtensions: ['jpg', 'png', 'gif', 'jpeg'],
         });
         //$('#file-es').fileinput({
         //    language: 'es',
@@ -838,35 +817,33 @@
             }
         }
     </script>
-    <link href="js/fileuploader/fileinput.css" rel="stylesheet" />
-    <script src="js/fileuploader/fileinput.min.js"></script>
-    <script src="js/fileuploader/fileinput_locale_es.js"></script>
+
     <!--
     <script src="js/fileuploader/fileinput_locale_fr.js"></script>-->
     <script type="text/javascript">
-        function CheckValidation() {
-            // textbox check
-            var fullname = document.getElementById('<%=txtFullName.ClientID%>').value;
-            $('#<%=txtFullName.ClientID%>').removeClass("addBorder");
+        //function CheckValidation() {
+        //    // textbox check
+        //    var fullname = document.getElementById('<%=txtFullName.ClientID%>').value;
+        //    $('#<%=txtFullName.ClientID%>').removeClass("addBorder");
 
-            //fileupload image check
-            var imgLength = $('#<%=fileUpdloadDiv.ClientID%>').find("img").length;
-            $('#<%=fileUpdloadDiv.ClientID%>').removeClass("addBorder");
+        //    //fileupload image check
+        //    var imgLength = $('#<%=fileUpdloadDiv.ClientID%>').find("img").length;
+        //    $('#<%=fileUpdloadDiv.ClientID%>').removeClass("addBorder");
 
-            if (fullname != "" && imgLength > 0)
-                return true;
-            else {
-                //check condition and add addBorder class for the failed
-                if (fullname == "")
-                    $('#<%=txtFullName.ClientID%>').addClass("addBorder");
-                if (imgLength <= 0)
-                    $('#<%=fileUpdloadDiv.ClientID%>').addClass("addBorder");
-                return false;
-            }
+        //    if (fullname != "" && imgLength > 0)
+        //        return true;
+        //    else {
+        //        //check condition and add addBorder class for the failed
+        //        if (fullname == "")
+        //            $('#<%=txtFullName.ClientID%>').addClass("addBorder");
+        //        if (imgLength <= 0)
+        //            $('#<%=fileUpdloadDiv.ClientID%>').addClass("addBorder");
+        //        return false;
+        //    }
 
 
 
-        }
+        // }
 
     </script>
     <style>
@@ -874,6 +851,17 @@
             border: solid 1px red;
         }
     </style>
+    <script src="../Scripts/pages/addproduct.js"></script>
+    <!--Signal R-->
+    <script src="../Scripts/jquery.signalR-2.2.0.js"></script>
+    <script src="../signalr/hubs"></script>
+    <script src="../Scripts/pages/all.js"></script>
+
+    <script src="../Scripts/processBar.js"></script>
+    <script src="../Scripts/jquery.dpToast.js"></script>
+    <!-- select2 -->
+    <script src="js/select/select2.full.js"></script>
+    <link href="css/select/select2.min.css" rel="stylesheet" />
 
 </body>
 </html>

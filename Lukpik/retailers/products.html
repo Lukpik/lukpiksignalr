@@ -18,8 +18,10 @@
     <link href="css/custom.css" rel="stylesheet">
     <link href="css/icheck/flat/green.css" rel="stylesheet">
 
-
+    <!--Latest JQuery-->
+    <script src="../Scripts/jquery-2.1.1.min.js"></script>
     <script src="js/jquery.min.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="../img/iconSmile.ico" />
 </head>
 <body class="nav-md">
 
@@ -59,27 +61,28 @@
                         <div class="menu_section">
                             <h3></h3>
                             <ul class="nav side-menu">
-                                <li id="liHome" class="active"><a href="home.html"><i class="fa fa-home"></i> Home </a></li>
+                                <li id="liHome" class="active" onclick="location.href='home.html'"><a href="home.html"><i class="fa fa-home"></i> Home </a></li>
 
                                 <li id="liProductsMain">
                                     <a href="products.html"><i class="fa fa-tag"></i> Products <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu" style="display: none">
-                                        <li id="liProducts">
+                                        <li id="liProducts" onclick="location.href = 'products.html'">
                                             <a class="active" href="products.html">Products</a>
                                         </li>
-                                        <li id="liInvantory">
+                                        <li id="liInvantory" onclick="location.href = 'inventory.html'">
                                             <a href="inventory.html">Inventory</a>
                                         </li>
                                     </ul>
                                 </li>
 
-                                <li id="liCustomers"><a href="customers.html"><i class="fa fa-users"></i> Customers </a></li>
-                                <li id="liReports"><a href="reports.html"><i class="fa fa-bar-chart"></i> Reports </a></li>
-                                <li id="liNotifications"><a href="notifications.html"><i class="fa fa-home"></i> Notifications </a></li>
-                                <li id="liSettings"><a href="settings.html"><i class="fa fa-cog"></i> Settings </a></li>
+                                <li id="liCustomers" onclick="location.href='customers.html'"><a href="customers.html"><i class="fa fa-users"></i> Customers </a></li>
+                                <li id="liReports" onclick="location.href='reports.html'"><a href="reports.html"><i class=" fa fa-bar-chart"></i> Reports </a></li>
+                                <li id="liNotifications" onclick="location.href = 'notifications.html'"><a href="notifications.html"><i class="fa fa-home"></i> Notifications </a></li>
+                                <li id="liSettings" onclick="location.href = 'settings.html'"><a href="settings.html"><i class="fa fa-cog"></i> Settings </a></li>
 
                             </ul>
                         </div>
+
 
                     </div>
                     <!-- /sidebar menu -->
@@ -113,7 +116,7 @@
                         <ul class="nav navbar-nav navbar-right">
                             <li class="">
                                 <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    <img src="images/img.jpg" alt="">John Doe
+                                    <img id="imgStoreTop" src="images/default.png" alt=""><span id="txtFirstname"></span>
                                     <span class=" fa fa-angle-down"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-usermenu animated fadeInDown pull-right">
@@ -127,10 +130,10 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="javascript:;">Help</a>
+                                        <a onclick="$('#modalChangePassword').modal('show');">Change Password</a>
                                     </li>
                                     <li>
-                                        <a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
+                                        <a onclick="logout();"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
                                     </li>
                                 </ul>
                             </li>
@@ -211,6 +214,28 @@
                 </div>
             </div>
             <!-- /top navigation -->
+            <!--modal-->
+            <div id="modalDeleteAlert" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                            <h4 class="modal-title" id="">Delete Product</h4>
+                        </div>
+                        <div class="modal-body">
+                            <h3>Are you sure to remove this product?</h3>
+                            
+                        </div>
+                        <div class="modal-footer" id="modalDeleteAlertFooter">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             <!-- page content -->
             <div class="right_col" role="main">
                 <div class="page-title">
@@ -237,7 +262,7 @@
                     <div class="x_content">
                         <div class="row">
                             <div class="col-md-12" style="text-align:center;">
-                                <a class="btn btn-primary" onclick="location.href='addproduct.html'"><span class="fa fa-plus-circle"></span>&nbsp;Add Product</a>&nbsp;&nbsp;
+                                <a class="btn btn-primary" onclick="eraseCookie('productID');location.href='addproduct.html'"><span class="fa fa-plus-circle"></span>&nbsp;Add Product</a>&nbsp;&nbsp;
                                 <button class="btn btn-default"><span class="fa fa-upload"></span>&nbsp;Import</button>
                             </div>
                         </div>
@@ -246,9 +271,12 @@
                 <div class="row">
 
                     <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div id="alertIDTop">
+
+                        </div>
                         <div class="x_panel">
                             <div class="x_title">
-                                <h2>Producrs<small>Sessions</small></h2>
+                                <h2>Products<small>Sessions</small></h2>
                                 <ul class="nav navbar-right panel_toolbox">
                                     <li>
                                         <a href="#"><i class="fa fa-chevron-up"></i></a>
@@ -285,45 +313,13 @@
                                             <th>Price </th>
                                             <th>Status </th>
                                             <th class=" no-link last">
-                                                <span class="nobr">Action</span>
+                                                Action
                                             </th>
                                         </tr>
                                     </thead>
 
-                                    <tbody>
-                                        <tr class="even pointer">
-                                            <td class="a-center ">
-                                                <input type="checkbox" class="tableflat">
-                                            </td>
-                                            <td class=" "><img src="images/product_gallery_images/1_back.png" class="img-responsive" width="80" /></td>
-                                            <td class=" ">May 23, 2014 11:47:56 PM </td>
-                                            <td class=" ">
-                                                121000210 <i class="success fa fa-long-arrow-up"></i>
-                                            </td>
-                                            <td class=" ">John Blank L</td>
-                                            <td class=" ">Paid</td>
-                                            <td class="a-right a-right ">$7.45</td>
-                                            <td class=" last">
-                                                <a href="#">View</a>
-                                            </td>
-                                        </tr>
-                                        <tr class="even pointer">
-                                            <td class="a-center ">
-                                                <input type="checkbox" class="tableflat">
-                                            </td>
-                                            <td class=" "><img src="images/product_gallery_images/1_front.png" class="img-responsive" width="80" /></td>
-                                            <td class=" ">May 23, 2014 11:47:56 PM </td>
-                                            <td class=" ">
-                                                121000210 <i class="success fa fa-long-arrow-up"></i>
-                                            </td>
-                                            <td class=" ">John Blank L</td>
-                                            <td class=" ">Paid</td>
-                                            <td class="a-right a-right ">$7.45</td>
-                                            <td class=" last">
-                                                <a href="#">View</a>
-                                            </td>
-                                        </tr>
-
+                                    <tbody id="tableBody">
+                                      
                                     </tbody>
 
                                 </table>
@@ -372,9 +368,12 @@
 
     <script src="js/custom.js"></script>
 
-    <!-- moris js -->
-
-    <script src="js/moris/example.js"></script>
-
+    <!--Signal R-->
+    <script src="../Scripts/jquery.signalR-2.2.0.js"></script>
+    <script src="../signalr/hubs"></script>
+    <script src="../Scripts/pages/all.js"></script>
+    <script src="../Scripts/pages/productsdisplay.js"></script>
+    <script src="../Scripts/processBar.js"></script>
+    <script src="../Scripts/jquery.dpToast.js"></script>
 </body>
 </html>

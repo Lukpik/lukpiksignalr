@@ -20,13 +20,20 @@ $(document).ready(function () {
     hubEngine.client.testJS = function (msg) {
         $('#lblmsg').show();
         if (msg == "1") {
+            
             $('#lblmsg').hide();
-            $('#divmsg').append("You have successfully registered with us, please check you mail for password. <a style='color:#b6ff00;' href='retailers/login.html'>Click here to login</a>");
+            $('#divmsg').append("You have successfully registered with us, please check your e-mail.");
+            $('#btnRegister').hide();
+            //<a style='color:rgba(61, 201, 179, 1);' href='retailers/login.html'>Click here to login</a>
         }
-        else if (msg == "2")
+        else if (msg == "2") {
             $('#lblmsg').text("Email already exists. Please try with different email.");
-        else if (msg == "0")
+            $('#btnRegister').prop("disabled", false);
+        }
+        else if (msg == "0") {
             $('#lblmsg').text("Something went wrong, please try again later.");
+            $('#btnRegister').prop("disabled", false);
+        }
     };
 
 
@@ -42,6 +49,7 @@ $(document).ready(function () {
 //Website Home Page
 function AddStore() {
     $('#lblmsg').hide();
+    $('#btnRegister').prop("disabled",true);
     //var textemail = $('#txtSubscribeEmail').val();
     var firstname = $('#txtFirstname').val();
     var lastname = $('#txtLastname').val();
@@ -52,12 +60,14 @@ function AddStore() {
     
     if (firstname != "" && lastname != "" && email != "" && storesname != "" && phonenum != "" && city != "")
         if (!validEmail) {
+            $('#btnRegister').prop("disabled", false);
             $('#lblmsg').show();
             $('#lblmsg').text("Incorrect Email Format!");
         }
         else
             hubEngine.server.addStore(firstname, lastname, email, storesname, phonenum, city, $.connection.hub.id);
     else {
+        $('#btnRegister').prop("disabled", false);
         $('#lblmsg').show();
         $('#lblmsg').text("Please fill all the fields.");
     }
@@ -67,6 +77,7 @@ function ValidateEmail() {
     var email = $("#txtEmail").val();
     if (!validateEmail(email)) {
         validEmail = false;
+        $('#btnRegister').prop("disabled", false);
         $('#lblmsg').show();
         $('#lblmsg').text("Incorrect Email Format!");
         

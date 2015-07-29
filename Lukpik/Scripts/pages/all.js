@@ -1,4 +1,18 @@
-﻿function createCookie(name, value, days) {
+﻿
+function Startup() {
+    var fname=localStorage.getItem("fname");
+    if (typeof (fname != typeof (undefined) && fname != null)) {
+        $('#txtFirstname').text(fname);
+    }
+
+    var image = localStorage.getItem("profilepic");
+    if (typeof (image != typeof (undefined) && image != null)) {
+        document.getElementById("imgStoreTop").src = image;
+    }
+}
+
+
+function createCookie(name, value, days) {
     if (days) {
         var date = new Date();
         date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
@@ -39,5 +53,37 @@ function isNumberKey(control, evt, len) {
 
 function logout() {
     eraseCookie('lukpikretailer_usename');
-    location.href = '../retailers.html';
+    location.href = '../login.html';
+}
+
+function findStoreEmail() {
+    if (readCookie("lukpikretailer_usename") == null || readCookie("lukpikretailer_usename") == "") {
+        location.href = '../login.html';
+    }
+}
+
+function AddProgressBarLoader() {
+    
+    processBar = new ajaxLoader("body", { classOveride: 'blue-loader', bgColor: '#000' });// To start process bar
+}
+function RemoveProgressBarLoader() {
+    if (typeof (processBar) != typeof (undefined))
+        processBar.remove();
+}
+
+function AddAlert(typeMSG, message) {
+    $('#alertIDTop').empty();
+    $('#alertIDBottom').empty();
+    var alertType = "alert-success";
+    if (typeMSG == "error")
+        alertType = "alert-danger";
+    var str = '<div id="alertID" class="alert ' + alertType + ' alert-dismissible fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true" onclick="RemoveAlert();">×</span></button><label id="lblmsg">' + message + '</label></div>';
+    $('#alertIDBottom').append(str);
+    $('#alertIDTop').append(str);
+    $.fn.dpToast(message);
+}
+
+function RemoveAlert() {
+    $('#alertIDTop').empty();
+    $('#alertIDBottom').empty();
 }

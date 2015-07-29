@@ -87,6 +87,23 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\.DS_Store" />
+    <Content Include="bin\Lukpik.dll" />
+    <Content Include="bin\Lukpik.pdb" />
+    <Content Include="bin\Microsoft.AspNet.SignalR.Core.dll" />
+    <Content Include="bin\Microsoft.AspNet.SignalR.Core.xml" />
+    <Content Include="bin\Microsoft.AspNet.SignalR.SystemWeb.dll" />
+    <Content Include="bin\Microsoft.AspNet.SignalR.SystemWeb.xml" />
+    <Content Include="bin\Microsoft.Owin.dll" />
+    <Content Include="bin\Microsoft.Owin.Host.SystemWeb.dll" />
+    <Content Include="bin\Microsoft.Owin.Host.SystemWeb.xml" />
+    <Content Include="bin\Microsoft.Owin.Security.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.xml" />
+    <Content Include="bin\Microsoft.Owin.xml" />
+    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="bin\MySql.Data.dll" />
+    <Content Include="bin\Newtonsoft.Json.dll" />
+    <Content Include="bin\Newtonsoft.Json.xml" />
+    <Content Include="bin\Owin.dll" />
     <Content Include="countdowntimer\css\bootstrap-theme.css.map" />
     <Content Include="countdowntimer\css\bootstrap.css.map" />
     <Content Include="countdowntimer\fonts\glyphicons-halflings-regular.eot" />
@@ -104,11 +121,24 @@
     <Content Include="fonts\ptsans_regular_macroman\PTS55F-webfont.ttf" />
     <Content Include="fonts\ptsans_regular_macroman\PTS55F-webfont.woff" />
     <Content Include="fonts\SouthernAire_Personal_Use_Only.ttf" />
+    <Content Include="forgotpassword.html" />
     <Content Include="img\.DS_Store" />
+    <Content Include="img\ajax-loader.gif" />
+    <Content Include="img\ajax-loader_blue.gif" />
+    <Content Include="img\emailicons\email.png" />
+    <Content Include="img\emailicons\facbk.png" />
+    <Content Include="img\emailicons\google.png" />
+    <Content Include="img\emailicons\linkedin.png" />
+    <Content Include="img\emailicons\retailermailbanner.png" />
+    <Content Include="img\emailicons\twitter.png" />
+    <Content Include="img\emailicons\website.png" />
+    <Content Include="index.html" />
     <Content Include="js\.DS_Store" />
     <Content Include="js\min\.DS_Store" />
     <Content Include="retailers\css\datatables\images\Sorting icons.psd" />
     <Content Include="retailers\css\retailers.css" />
+    <Content Include="retailers\FileUploader\ajaxfileupload.js" />
+    <Content Include="retailers\FileUploader\jquery.js" />
     <Content Include="retailers\fonts\fonts\fontawesome-webfont.eot" />
     <Content Include="retailers\fonts\fonts\fontawesome-webfont.ttf" />
     <Content Include="retailers\fonts\fonts\fontawesome-webfont.woff" />
@@ -144,6 +174,8 @@
     <Content Include="retailers\fonts\scss\_stacked.scss" />
     <Content Include="retailers\fonts\scss\_variables.scss" />
     <Content Include="retailers\forgotpassword.html" />
+    <Content Include="retailers\images\default.png" />
+    <Content Include="retailers\images\previewnotavailable.png" />
     <Content Include="retailers\register.html" />
     <Content Include="retailers\login.html" />
     <Content Include="retailers\notifications.html" />
@@ -200,11 +232,23 @@
     <Content Include="retailers\js\fileuploader\fileinput_locale_fr.js" />
     <Content Include="retailers\js\maps\us-unemployment.json" />
     <Content Include="Scripts\jquery.dpToast.js" />
+    <Content Include="Scripts\pages\addproduct.js" />
     <Content Include="Scripts\pages\addretailer.js" />
     <Content Include="Scripts\pages\all.js" />
+    <Content Include="Scripts\pages\forgotpassword.js" />
     <Content Include="Scripts\pages\login.js" />
+    <Content Include="Scripts\pages\productsdisplay.js" />
     <Content Include="Scripts\pages\retailerhome.js" />
     <Content Include="login.html" />
+    <Content Include="Scripts\processBar.js" />
+    <Content Include="StoreImages\1437652439094TestScrn1.jpg" />
+    <Content Include="StoreImages\1437652567258Test Scrn.jpg" />
+    <Content Include="StoreImages\1437652977804Test Scrn.jpg" />
+    <Content Include="StoreImages\1437653011877Test Scrn.jpg" />
+    <Content Include="StoreImages\1437653368317Test Scrn.jpg" />
+    <Content Include="StoreImages\1437653543516Test Scrn.jpg" />
+    <Content Include="StoreImages\1437655174577DESK1.jpg" />
+    <Content Include="StoreImages\1437658376552Hydrangeas.jpg" />
     <Content Include="users_temp\fonts\fontawesome-webfont.eot" />
     <Content Include="users_temp\fonts\fontawesome-webfont.ttf" />
     <Content Include="users_temp\fonts\fontawesome-webfont.woff" />
@@ -218,7 +262,11 @@
     <Content Include="users_temp\includes\twitter\index.php" />
     <Content Include="users_temp\includes\twitter\lib\tmhOAuth.php" />
     <Content Include="users_temp\includes\twitter\lib\tmhUtilities.php" />
+    <Content Include="assets\Thumbs.db" />
+    <Content Include="bin\Lukpik.dll.config" />
+    <Content Include="img\Thumbs.db" />
     <None Include="Properties\PublishProfiles\LukpikCustom1.pubxml" />
+    <Content Include="retailers\FileUploader\FileUploader.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1269,9 +1317,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cl\MySQLBusinessLogic.cs" />
+    <Compile Include="retailers\FileUploader\FileUploader.ashx.cs">
+      <DependentUpon>FileUploader.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Startup.cs" />
-    <Content Include="App_Code\BusinessLogicLayer.cs" />
-    <Content Include="App_Code\MySqlBL.cs" />
     <Compile Include="MainHub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -1293,7 +1342,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1530</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:1532/</IISUrl>
+          <IISUrl>http://localhost:1535/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

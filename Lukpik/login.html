@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>LukPik - Coming soon</title>
+    <title>LukPik | Login</title>
     <link rel="shortcut icon" type="image/x-icon" href="img/iconSmile.ico" />
     <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -25,6 +25,8 @@
 
     <![endif]-->
     <link rel="stylesheet" href="countdowntimer/css/TimeCircles.css">
+
+    <script src="Scripts/processBar.js"></script>
 </head>
 <body id="top" style="overflow-x:hidden;">
     <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
@@ -50,24 +52,18 @@
                     <li class="hidden">
                         <a href="#hero"></a>
                     </li>
+                    
                     <!--<li>
-                        <a href="#intro">Introduction</a>
-                    </li>-->
-                    <li>
                         <a href="main.html">Home</a>
                     </li>
-                    <!--<li>
-                        <a href="#responsive">Responsive Design</a>
-                    </li>-->
+                    
                     <li>
                         <a href="retailers.html">For Retailers</a>
                     </li>
-                    <!--<li>
-                        <a href="#team">Team</a>
-                    </li>-->
+                    
                     <li>
                         <a href="main.html#contact">Get in touch</a>
-                    </li>
+                    </li>-->
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -76,24 +72,7 @@
     </nav>
     <header id="home">
 
-        <!--<nav>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-8 col-xs-offset-2">
-                        <nav class="pull">
-                            <ul class="top-nav">
-                                <li><a href="#intro">Introduction <span class="indicator"><i class="fa fa-angle-right"></i></span></a></li>
-                                <li><a href="#features">Features <span class="indicator"><i class="fa fa-angle-right"></i></span></a></li>
-                                <li><a href="#responsive">Responsive Design <span class="indicator"><i class="fa fa-angle-right"></i></span></a></li>
-                                <li><a href="#portfolio">Portfolio <span class="indicator"><i class="fa fa-angle-right"></i></span></a></li>
-                                <li><a href="#team">Team <span class="indicator"><i class="fa fa-angle-right"></i></span></a></li>
-                                <li><a href="#contact">Get in Touch <span class="indicator"><i class="fa fa-angle-right"></i></span></a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </nav>-->
+        
 
         <style>
             .overlay {
@@ -109,60 +88,43 @@
                         <a id="nav-toggle" class="nav_slide_button" href="#"><span></span></a>
                     </div>
                 </div>-->
+                <br /><br />
                 <div class="row">
                     <div class="col-md-1"></div>
                     <div class="col-md-10  text-center inner" style="text-align:center;">
 
-                        <h1 class="animated fadeInDown">COMING SOON</h1><!--<span>DAYS</span>-->
-                        <!--<label class="labelOne">Pick&nbsp;</label><label class="labelTwo">smart.</label>&nbsp;<label class="labelOne">Look&nbsp;</label><label class="labelTwo">great.</label>-->
-                        <!--<h1 class="animated fadeInDown fontLuk">Luk<span class="fontPik">&nbsp;Pik</span></h1>-->
-                        <div style="text-align:center">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <p class="animated fadeInUp delay-05s">Lukpik helps retailers to get more customers by taking the  inventory online and making it easy for customers to access it from their smartphone.</p>
+                        <span style="font-size:40px;color:white;" class="">RETAILER LOGIN</span>
+                        
+                        <div style="text-align:center;margin-top:20px;">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <input type="text" id="txtUname" style="width:100%;margin-bottom:10px;" class="glass_input" placeholder="Email" onblur="ValidateEmail();" />
+                                <input type="password" id="txtPassword" style="width:100%;margin-bottom:10px;" class="glass_input" placeholder="Password" onkeyup="fnPasswordEnter(event);" /><br />
+                                <button class="btn btninput" onclick="Login();" style="margin-bottom:10px;">Login</button><br />
+                                <span style="color:white;" id="lblmsg"></span>
+                                <div class="row">
+                                    <div class="col-md-12" style="text-align:left;margin-top:20px;color:white;">
+                                        <span>Not yet registered ? Click here to <a href="retailers.html#contact" style="text-decoration:underline;color:rgba(61, 201, 179, 1);">Register</a></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12" style="text-align:left;margin-top:20px;color:white;">
+                                        <span><a href="forgotpassword.html" style="text-decoration:underline;color:rgba(61, 201, 179, 1);">Forgot password ?</a></span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-1"></div>
+                            <div class="col-md-4"></div>
                         </div>
                     </div>
                     <div class="col-md-1"></div>
                 </div>
-                <div class="row" style="color:white;">
-                    <div class="col-sm-offset-1 col-sm-10">
-                        <div class="timing">
-                            <div id="count-down" data-date="2015-09-01 00:00:01">
-
-                            </div>
-                        </div>
-                        <!-- /.timing -->
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10" style="text-align:center;">
-                        <p><span>Subscribe to stay in the loop</span></p>
-                        <form action="http://formspree.io/praveen10889@gmail.com" method="post">
-                            <div style="text-align:center;" class="comSoon">
-
-                                <input type="email" name="" value="" placeholder="Enter your email" required>
-                                &nbsp;&nbsp;
-                                <input type="submit" name="" class="" value="Send">
-                            </div>
-                        </form>
-                    </div>
-
-
-                </div>
+          
+             
                 <div class="col-md-1"></div>
 
 
             </div>
-            <div class="row" style="text-align:center;">
-
-                <div class="col-md-12">
-                    <a href="main.html" class="learn-more-btn ">Go back to home page</a>
-                </div>
-
-            </div>
+            <br /><br />
             
         </section>
     </header>
@@ -204,10 +166,10 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/waypoints.min.js"></script>
+    
     <script src="js/bootstrap.min.js"></script>
     <script src="js/scripts.js"></script>
-    <script src="js/jquery.flexslider.js"></script>
+    
     <script src="js/modernizr.js"></script>
 
 
@@ -222,9 +184,9 @@
     <script src="countdowntimer/js/jquery.placeholder.js"></script>-->
     
     <!--Signal R-->
-    <script src="../Scripts/jquery.signalR-2.2.0.js"></script>
-    <script src="../signalr/hubs"></script>
-    <script src="../Scripts/pages/login.js"></script>
-    <script src="../Scripts/pages/all.js"></script>
+    <script src="Scripts/jquery.signalR-2.2.0.js"></script>
+    <script src="signalr/hubs"></script>
+    <script src="Scripts/pages/login.js"></script>
+    <script src="Scripts/pages/all.js"></script>
 </body>
 </html>

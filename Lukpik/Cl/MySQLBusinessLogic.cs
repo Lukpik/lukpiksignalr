@@ -9,6 +9,7 @@ using System.Net.Mail;
 
 namespace Lukpik.Cl
 {
+    
     public class MySQLBusinessLogic
     {
         private MySqlConnection con;
@@ -221,6 +222,218 @@ namespace Lukpik.Cl
             return retVal;
         }
 
+        public bool UpdateOtherCategories(int storeID, string othercategories)
+        {
+            bool retVal = false;
+            try
+            {
+                //Divide othercategories in to array
+                // Delete from the table name where yu find store id
+                //Insert all the operations again
+                
+                //string[] cat= othercategories.Split(new string[] { "," }, StringSplitOptions.None);
+                string[] cat = othercategories.Split(',');
+                if(DeleteStoreIDfromOtherCat(storeID))
+                {
+                    for(int i = 0; i < cat.Length; i++)
+                    {
+                        //Insertion
+                        int categoryID=Convert.ToInt32(cat[i]);
+                        string cmdText = "insert into `storecategories`(`StoreID`,`CategoryID`) values (" + storeID + "," + categoryID + ")";
+                        cmd = new MySqlCommand(cmdText, con);
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+                    }
+                }
+                
+
+            }
+            catch (Exception ex)
+            {
+            }
+            return retVal;
+        }
+
+        public bool UpdateBrands(int storeID, string brands)
+        {
+            bool retVal = false;
+            try
+            {
+                //Divide othercategories in to array
+                // Delete from the table name where yu find store id
+                //Insert all the operations again
+
+                //string[] cat= othercategories.Split(new string[] { "," }, StringSplitOptions.None);
+                string[] cat = brands.Split(',');
+                if (DeleteStoreIDfromBrands(storeID))
+                {
+                    for (int i = 0; i < cat.Length; i++)
+                    {
+                        //Insertion
+                        //int brandID = Convert.ToInt32(cat[i]);
+                        string brandName = cat[i];
+                        int brandID = InsertBrandandGetID(brandName);
+                        string cmdText = "insert into `storebrands`(`StoreID`,`BrandID`) values (" + storeID + "," + brandID + ")";
+                        cmd = new MySqlCommand(cmdText, con);
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+            }
+            return retVal;
+        }
+
+        public int InsertBrandandGetID(string brandName)
+        {
+            try
+            {
+                List<string> lstOfBrandName = GetAllBrands();
+                string val = lstOfBrandName.FirstOrDefault(x => x == brandName.ToLower());
+                if (val == "" || val == null)
+                {
+                    string cmdText = "insert into `brands`(`brandname`) values ('" + brandName + "')";
+                    cmd = new MySqlCommand(cmdText, con);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                }
+
+            }
+            catch (Exception ex)
+            { }
+            return GetBrandNameID(brandName);
+        }
+
+        public int GetBrandNameID(string brandName)
+        {
+            int bID = 0;
+            try
+            {
+                DataTable dt = new DataTable();
+                string cmdQry = "select `BrandID` from `brands` where `brandname`='" + brandName + "'";
+                cmd = new MySqlCommand(cmdQry, con);
+                con.Open();
+                cmd.ExecuteNonQuery();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
+                con.Close();
+                bID = Convert.ToInt32(dt.Rows[0].ItemArray[0]);
+            }
+            catch (Exception ex)
+            {
+                bID = 0;
+            }
+            return bID;
+        }
+
+        public List<string> GetAllBrands()
+        {
+            List<string> lstBrandNames = new List<string>();
+            try
+            {
+                DataTable dt = new DataTable();
+                string cmdQry = "select `brandname` from `brands` ";
+                cmd = new MySqlCommand(cmdQry, con);
+                con.Open();
+                cmd.ExecuteNonQuery();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
+                con.Close();
+                lstBrandNames = (from row in dt.AsEnumerable() select Convert.ToString(row[dt.Columns[0].ColumnName]).ToLower()).Distinct().ToList();
+            }
+            catch (Exception ex)
+            { }
+            return lstBrandNames;
+        }
+
+        public DataTable GetAllBrandsDataTable()
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                
+                string cmdQry = "select * from `brands` ";
+                cmd = new MySqlCommand(cmdQry, con);
+                con.Open();
+                cmd.ExecuteNonQuery();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
+                con.Close();
+                
+            }
+            catch (Exception ex)
+            { }
+            return dt;
+        }
+
+        private string GetBrandNamefromID(int brandID)
+        {
+            string brandName = "";
+            try
+            {
+                DataTable dt = new DataTable();
+                string cmdQry = "select `brandname` from `brands` where `BrandID`=" + brandID + "";
+                cmd = new MySqlCommand(cmdQry, con);
+                con.Open();
+                cmd.ExecuteNonQuery();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
+                con.Close();
+                brandName = dt.Rows[0].ItemArray[0].ToString();
+            }
+            catch (Exception ex)
+            {
+                brandName = "";
+            }
+            return brandName;
+        }
+
+        public bool DeleteStoreIDfromBrands(int storeID)
+        {
+            bool retVal = false;
+            try
+            {
+                string cmdText = "delete from `storebrands` where `StoreID`=@storeID;";
+                cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddWithValue("@storeID", storeID);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+                retVal = true;
+            }
+            catch (Exception ex)
+            {
+            }
+            return retVal;
+        }
+        public bool DeleteStoreIDfromOtherCat(int storeID)
+        {
+            bool retVal = false;
+            try
+            {
+                string cmdText = "delete from `storecategories` where `StoreID`=@storeID;";
+                cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddWithValue("@storeID", storeID);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+                retVal = true;
+            }
+            catch (Exception ex)
+            {
+            }
+            return retVal;
+        }
+
 
         # endregion
 
@@ -334,15 +547,34 @@ namespace Lukpik.Cl
             return retVal;
         }
 
-        public bool AddtoLoginHistory(string username, DateTime dt)
+        public int RetailerLoginCount(string email)
+        {
+            int retVal = 0;
+            try
+            {
+                string cmdText = "select count(`email`) from `retailersessions` where `email`='" + email + "'";
+                cmd = new MySqlCommand(cmdText, con);
+                con.Open();
+                retVal = Convert.ToInt32(cmd.ExecuteScalar().ToString());
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+            }
+            return retVal;
+        }
+        public bool AddtoRetailerLoginHistory(string email,DateTime date)
         {
             bool retVal = false;
             try
             {
-                string cmdText = "insert into `userlogin_history` (`log_uname`,`log_date`) values(@username,@dt);";
+                DataTable dt = GetStoreID(email);
+                int storeID = Convert.ToInt32(dt.Rows[0].ItemArray[0]);
+                string cmdText = "insert into `retailersessions` (`StoreID`,`logintime`,`email`) values(@storeID,@date,@email);";
                 cmd = new MySqlCommand(cmdText, con);
-                cmd.Parameters.AddWithValue("@username", username);
-                cmd.Parameters.AddWithValue("@dt", dt);
+                cmd.Parameters.AddWithValue("@storeID", storeID);
+                cmd.Parameters.AddWithValue("@date", date);
+                cmd.Parameters.AddWithValue("@email", email);
                 con.Open();
                 cmd.ExecuteNonQuery();
                 con.Close();
@@ -350,17 +582,144 @@ namespace Lukpik.Cl
             }
             catch (Exception ex)
             {
-                retVal = true;
             }
             return retVal;
         }
+        //public bool AddtoLoginHistory(string username, DateTime dt)
+        //{
+        //    bool retVal = false;
+        //    try
+        //    {
+        //        string cmdText = "insert into `userlogin_history` (`log_uname`,`log_date`) values(@username,@dt);";
+        //        cmd = new MySqlCommand(cmdText, con);
+        //        cmd.Parameters.AddWithValue("@username", username);
+        //        cmd.Parameters.AddWithValue("@dt", dt);
+        //        con.Open();
+        //        cmd.ExecuteNonQuery();
+        //        con.Close();
+        //        retVal = true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        retVal = true;
+        //    }
+        //    return retVal;
+        //}
 
         public DataTable GetStoreRetailerDetails(string username)
         {
             DataTable dt = new DataTable();
             try
             {
-                string cmdText = "select * from `store` where `Email`='" + username + "'";
+                string cmdText = "select `store_id`,`store_type`,`store_name`,`store_number`,`store_street_addressline1`,`store_city`,`store_state`,`store_postal_code`,`store_country`,`store_manager`,`store_phone`,`store_fax`,`first_opened_date`,`last_remodel_date`,`Email`,`StoreOwnerFirstName`,`StoreOwnerLastName`,`IsVerified`,`CurrencyFormat`,`StoreDescription`,`StoreWebsite`,`StoreTwitterPage`,`StoreFacebookPage`,`StoreGooglePage`,`StoreAlternativePhoneNumber`,`IsStoreActive`,`StoreImage`,`StoreTagLine`,`Latitude`,`Longitude`,`StoreLukpikUrl`,`ActivationFlag`,`Cardsaccepted`,`homedeliveryflag`,`trialroomflag`,`store_street_addressline2` from `store` where `Email`='" + username + "'";
+                cmd = new MySqlCommand(cmdText, con);
+                con.Open();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+            }
+            return dt;
+        }
+
+        public DataTable GetOtherCategories()
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                string cmdText = "select * from `storetypecategories`";
+                cmd = new MySqlCommand(cmdText, con);
+                con.Open();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                dt = new DataTable();
+            }
+            return dt;
+        }
+
+        public List<string> GetOtherCategoriesbyStoreID(int storeID)
+        {
+            List<string> lst = new List<string>();
+            try
+            {
+                DataTable dt = new DataTable();
+                string cmdText = "select distinct `CategoryID` from `storecategories` where `StoreID`=@storeID";
+                cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddWithValue("storeID", storeID);
+                con.Open();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
+                con.Close();
+                if (dt.Rows.Count > 0)
+                {
+                    int i = 0;
+                    foreach (DataRow item in dt.Rows)
+                    {
+                        lst.Add(item.ItemArray[0].ToString());
+                        i++;
+
+                    }
+                }
+                else
+                {
+                    lst = new List<string>();
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            return lst;
+        }
+
+        public List<string> GetBrandsbyStoreID(int storeID)
+        {
+            List<string> lst = new List<string>();
+            try
+            {
+                DataTable dt = new DataTable();
+                string cmdText = "select `BrandID` from `storebrands` where `StoreID`=@storeID";
+                cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddWithValue("storeID", storeID);
+                con.Open();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
+                con.Close();
+                if (dt.Rows.Count > 0)
+                {
+                    int i = 0;
+                    foreach (DataRow item in dt.Rows)
+                    {
+
+                        string brandName = GetBrandNamefromID(Convert.ToInt32(item.ItemArray[0]));
+                        if (brandName != "")
+                            lst.Add(brandName);
+                        i++;
+
+                    }
+                }
+                else
+                {
+                    lst = new List<string>();
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            return lst;
+        }
+
+        public DataTable GetStoreID(string email)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                string cmdText = "select `store_id` from `store` where `Email`='" + email + "'";
                 cmd = new MySqlCommand(cmdText, con);
                 con.Open();
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
@@ -375,7 +734,327 @@ namespace Lukpik.Cl
 
         #endregion
 
+        #region FORGOT PASSWORD
+        public DataTable GetPassword(string email)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                string cmdText = "select `password`,`StoreOwnerFirstName` from `store` where `Email`='" + email + "'";
+                cmd = new MySqlCommand(cmdText, con);
+                con.Open();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                dt = new DataTable();
+                return dt;
+            }
+            return dt;
+        }
+        #endregion
 
-   
+        #region PRODUCT
+        public int AddProduct(string productname, string gender, int productFamilyID, string productdescription, double price, string quantity, string size, string color, int visibility, int productCategoryID,int productSubCategoryID, int brandID, string collection, string images, int storeID, DateTime dtCreated, string email, List<byte[]> lstByt,byte[] thumbnail,string ecommercelink)
+        {
+            int retVal = 0;
+            try
+            {
+
+                string cmdText = "insert into `products` (`ProductName`,`ProductLong Description`,`ProductFamilyID`,`ProductCategoryID`,`ProductSubCategoryID`,`Price`,`StoreID`,`ProductImage`,`IsVisible`,`CreatedDate`,`CreatedUser`,`ModifiedDate`,`ModifiedUser`,`Gender`,`BrandID`,`image1`,`image2`,`image3`,`image4`,`image5`,`image6`,`ECommerceLink`) values(@productname,@productdescription,@productFamilyID,@productCategoryID,@productSubCategoryID,@price,@storeID,@thumbnail,@visibility,@dtCreated,@email,@mofifiedDate,@mofifiedUser,@gender,@brandID,@image1,@image2,@image3,@image4,@image5,@image6,@ecommercelink);";
+                cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddWithValue("@productname", productname);
+                cmd.Parameters.AddWithValue("@productdescription", productdescription);
+                cmd.Parameters.AddWithValue("@productFamilyID", productFamilyID);
+                cmd.Parameters.AddWithValue("@productCategoryID", productCategoryID);
+                cmd.Parameters.AddWithValue("@productSubCategoryID", productSubCategoryID);
+                cmd.Parameters.AddWithValue("@price", price);
+                cmd.Parameters.AddWithValue("@storeID", storeID);
+                cmd.Parameters.AddWithValue("@thumbnail", thumbnail);
+                cmd.Parameters.AddWithValue("@visibility", visibility);
+                cmd.Parameters.AddWithValue("@dtCreated", dtCreated);
+                cmd.Parameters.AddWithValue("@email", email);
+                cmd.Parameters.AddWithValue("@mofifiedDate", dtCreated);
+                cmd.Parameters.AddWithValue("@mofifiedUser", email);
+                cmd.Parameters.AddWithValue("@gender", gender);
+                cmd.Parameters.AddWithValue("@brandID", brandID);
+                cmd.Parameters.AddWithValue("@image1", lstByt.Count > 0 ? lstByt[0] : null);
+                cmd.Parameters.AddWithValue("@image2", lstByt.Count > 1 ? lstByt[1] : null);
+                cmd.Parameters.AddWithValue("@image3", lstByt.Count > 2 ? lstByt[2] : null);
+                cmd.Parameters.AddWithValue("@image4", lstByt.Count > 3 ? lstByt[3] : null);
+                cmd.Parameters.AddWithValue("@image5", lstByt.Count > 4 ? lstByt[4] : null);
+                cmd.Parameters.AddWithValue("@image6", lstByt.Count > 5 ? lstByt[5] : null);
+                cmd.Parameters.AddWithValue("@ecommercelink", ecommercelink);
+
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+                retVal = 1;
+            }
+            catch (Exception)
+            {
+                retVal = 0;
+            }
+            return retVal;
+        }
+
+        public int UpdateProduct(int productID,string productname, string gender, int productFamilyID, string productdescription, double price, string quantity, string size, string color, int visibility, int productCategoryID, int productSubCategoryID, int brandID, string collection, int storeID, DateTime dtModified, string email, string ecommercelink)
+        {
+            int retVal = 0;
+            try
+            {
+
+                string cmdText = "SET SQL_SAFE_UPDATES = 0; update `products` set `ProductName`=@productname,`ProductLong Description`=@productdescription,`ProductFamilyID`=@productFamilyID,`ProductCategoryID`=@productCategoryID,`ProductSubCategoryID`=@productSubCategoryID,`Price`=@price,`StoreID`=@storeID,`IsVisible`=@visibility,`ModifiedDate`=@modifieddate,`ModifiedUser`=@modifieduser,`Gender`=@gender,`BrandID`=@brandID,`ECommerceLink`=@ecommercelink where `ProductID`=@productID;";
+                // values(@productname,@productdescription,@productFamilyID,@productCategoryID,@productSubCategoryID,@price,@storeID,@thumbnail,@visibility,@dtCreated,@email,@mofifiedDate,@mofifiedUser,@gender,@brandID,@image1,@image2,@image3,@image4,@image5,@image6,@ecommercelink)
+                cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddWithValue("@productname", productname);
+                cmd.Parameters.AddWithValue("@productdescription", productdescription);
+                cmd.Parameters.AddWithValue("@productFamilyID", productFamilyID);
+                cmd.Parameters.AddWithValue("@productCategoryID", productCategoryID);
+                cmd.Parameters.AddWithValue("@productSubCategoryID", productSubCategoryID);
+                cmd.Parameters.AddWithValue("@price", price);
+                cmd.Parameters.AddWithValue("@storeID", storeID);
+                cmd.Parameters.AddWithValue("@visibility", visibility);
+                cmd.Parameters.AddWithValue("@modifieddate", dtModified);
+                cmd.Parameters.AddWithValue("@modifieduser", email);
+                cmd.Parameters.AddWithValue("@gender", gender);
+                cmd.Parameters.AddWithValue("@brandID", brandID);
+                cmd.Parameters.AddWithValue("@ecommercelink", ecommercelink);
+                cmd.Parameters.AddWithValue("@productID", productID);
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+                retVal = 1;
+            }
+            catch (Exception)
+            {
+                retVal = 0;
+            }
+            return retVal;
+        }
+
+        public bool RemoveProduct(int productID)
+        {
+            bool retVal = false;
+            try
+            {
+                string cmdText = "SET SQL_SAFE_UPDATES = 0; delete from `products` where `ProductID`=@productID";
+                cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddWithValue("@productID", productID);
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+                retVal = true;
+            }
+            catch (Exception ex)
+            {
+                retVal = false;
+            }
+            return retVal;
+        }
+        public DataTable GetProductFamily()
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                
+                string cmdText = "select * from `productfamily`";
+                cmd = new MySqlCommand(cmdText, con);
+                con.Open();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                dt = new DataTable();
+            }
+            return dt;
+        }
+
+        public DataTable GetProductType()
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+
+                string cmdText = "select * from `producttypes`";
+                cmd = new MySqlCommand(cmdText, con);
+                con.Open();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                dt = new DataTable();
+            }
+            return dt;
+        }
+
+        public DataTable GetProductImageDetails(int storeID, int productID)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                //string cmdText = " select `ProductName`,`ProductLong Description`,`ProductFamilyID`,`ProductTypeID`,`ProductCategoryID`,`ProductSubCategoryID`,`Price`,`Quantity`,`StoreID`,`ProductImage`,`IsVisible`,`IsVariant`,`CreatedDate`,`CreatedUser`,`ModifiedDate`,`ModifiedUser`,`DiscountPrice`,`IsOnSale`,`IsNewStock`,`image1` from `products` where `StoreID`=@storeID";
+                //a.`image1` ,
+               // string cmdText = "Select a.`ProductName`,a.`ProductLong Description`,a.`ProductCategoryID`,a.`ProductSubCategoryID`,a.`Price`,a.`Quantity`,a.`StoreID`,a.`ProductImage`,a.`IsVisible`, a.`IsVariant`,a.`CreatedDate`,a.`CreatedUser`,a.`ModifiedDate`,a.`ModifiedUser`,a.`DiscountPrice`,a.`IsOnSale`,a.`IsNewStock`,b.Name as  `ProductFamilyName`,c.Name as `ProductTypeName`,d.`brandname` as `BrandName` FROM `products` a, `productfamily` b,`producttypes` c ,`brands` d where b.`ProductFamilyID`=a.`ProductFamilyID` and c.`ProductTypeID`=a.`ProductTypeID` and d.`BrandID`=a.`BrandID` and  a.`StoreID`=@storeID";
+                string columns = "`ProductImage`";
+                string fromCondition = "";
+                if (productID != 0)
+                {
+                    columns = "`image1`,`image2`,`image3`,`image4`,`image5`,`image6`";
+                    fromCondition = "and `ProductID`=@productID";
+                }
+                string cmdText = "Select " + columns + " FROM `products` where `StoreID`=@storeID " + fromCondition + " order by `ModifiedDate` desc ";
+                cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddWithValue("@storeID", storeID);
+                if (productID != 0)
+                {
+                    cmd.Parameters.AddWithValue("@productID", productID);
+                }
+                con.Open();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
+                con.Close();
+                return dt;
+
+            }
+            catch (Exception ex)
+            {
+            }
+            return dt;
+        }
+        
+        public DataTable GetProductDetails(int storeID,int productID)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                //string cmdText = " select `ProductName`,`ProductLong Description`,`ProductFamilyID`,`ProductTypeID`,`ProductCategoryID`,`ProductSubCategoryID`,`Price`,`Quantity`,`StoreID`,`ProductImage`,`IsVisible`,`IsVariant`,`CreatedDate`,`CreatedUser`,`ModifiedDate`,`ModifiedUser`,`DiscountPrice`,`IsOnSale`,`IsNewStock`,`image1` from `products` where `StoreID`=@storeID";
+                //a.`image1` ,
+                string fromCondition = "";
+                if (productID != 0)
+                {
+                    fromCondition = "and a.`ProductID`=@productID";
+                }
+                //Select a.`ProductName`,a.`ProductLong Description` as `ProductLongDescription`,a.`ProductCategoryID`,a.`ProductSubCategoryID`,a.`Price`,a.`Quantity`,a.`StoreID`,a.`ProductImage`,a.`IsVisible`, a.`IsVariant`,a.`CreatedDate`,a.`CreatedUser`,a.`ModifiedDate`,a.`ModifiedUser`,a.`DiscountPrice`,a.`IsOnSale`,a.`IsNewStock`,b.Name as  `ProductFamilyName`,c.Name as `ProductTypeName`,d.`brandname` as `BrandName`,a.`ECommerceLink`,a.`Gender` FROM `products` a, `productfamily` b,`productcategory` c ,`brands` d where b.`ProductFamilyID`=a.`ProductFamilyID` and c.`ProductCategoryID`=a.`ProductCategoryID` and d.`BrandID`=a.`BrandID` and  a.`StoreID`=3  order by a.`ModifiedDate` desc
+                string cmdText = "Select a.`ProductID`,a.`ProductName`,a.`ProductLong Description` as `ProductLongDescription`,a.`ProductCategoryID`,a.`ProductSubCategoryID`,a.`Price`,a.`Quantity`,a.`StoreID`,a.`ProductImage`,a.`IsVisible`, a.`IsVariant`,a.`CreatedDate`,a.`CreatedUser`,a.`ModifiedDate`,a.`ModifiedUser`,a.`DiscountPrice`,a.`IsOnSale`,a.`IsNewStock`,b.Name as  `ProductFamilyName`,c.Name as `ProductTypeName`,d.`brandname` as `BrandName`,a.`ECommerceLink`,a.`Gender` FROM `products` a, `productfamily` b,`productcategory` c ,`brands` d where b.`ProductFamilyID`=a.`ProductFamilyID` and c.`ProductCategoryID`=a.`ProductCategoryID` and d.`BrandID`=a.`BrandID` and  a.`StoreID`=@storeID " + fromCondition + " order by a.`ModifiedDate` desc";
+
+                cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddWithValue("@storeID", storeID);
+                if (productID != 0)
+                {
+                    cmd.Parameters.AddWithValue("@productID", productID);
+                }
+                con.Open();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
+                con.Close();
+                return dt;
+
+            }
+            catch (Exception ex)
+            {
+            }
+            return dt;
+        }
+
+        public DataTable GetProductCategory_SubCategory(string gender, int productFamilyID)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                string cmdText = "select pc.Name as `Category`, CONCAT(psc.ProductSubCategoryID,'_',psc.Name,'_',pc.ProductCategoryID) as `SubCategory`  from `productsubcategory` psc inner join `productcategory` pc on psc.ProductCategoryID = pc.ProductCategoryID and pc.Gender = @gender and pc.ProductfamilyID = @productFamilyID order by pc.ProductCategoryID;";
+                cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddWithValue("@gender", gender);
+                cmd.Parameters.AddWithValue("@productFamilyID", productFamilyID);
+                con.Open();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                dt = new DataTable();
+            }
+            return dt;
+        }
+        #endregion
+
+        public bool UpdateStoreImage(byte[] ImageData, string email, DateTime datemodified)
+        {
+            bool retVal = false;
+            try
+            {
+                string cmdText = "SET SQL_SAFE_UPDATES = 0; update `store` set `StoreImage`=@ImageData,`last_remodel_date`=@datemodified where `Email`='" + email + "' ";
+                cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddWithValue("@ImageData", ImageData);
+                cmd.Parameters.AddWithValue("@datemodified", datemodified);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+                retVal = true;
+            }
+            catch (Exception ex)
+            { }
+            return retVal;
+        }
+
+        public bool UpdateProductImage(byte[] ImageData, string email, DateTime datemodified, int val)
+        {
+            bool retVal = false;
+            try
+            {
+                string cmdText = "";
+                if (val == 0)
+                    cmdText = "SET SQL_SAFE_UPDATES = 0; update `products` set `image1`=@ImageData where `Email`='" + email + "' ";
+                cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddWithValue("@ImageData", ImageData);
+                cmd.Parameters.AddWithValue("@datemodified", datemodified);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+                retVal = true;
+            }
+            catch (Exception ex)
+            { }
+            return retVal;
+        }
+
+
+        public DataTable GetStoreImage(string email)
+        {
+            bool retVal = false;
+            byte[] bytes;
+            //var sevenItems = new byte[];
+            DataTable dt = new DataTable();
+            try
+            {
+                string cmdText = "select `StoreImage` from `store` where `Email`='" + email + "'";
+                cmd = new MySqlCommand(cmdText, con);
+                con.Open();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
+                con.Close();
+                //bytes = dt.Rows[0].ItemArray[0];
+                //byte[] binDate = (byte[])dt.Rows["StoreImage"];
+                if (dt.Rows.Count > 0)
+                    retVal = false;
+                else
+                    retVal = true;
+            }
+            catch (Exception ex)
+            {
+            }
+            return dt;
+        }
+
     }
 }
