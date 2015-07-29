@@ -20,12 +20,13 @@
 
 
     <script src="js/jquery.min.js"></script>
-
+    <!--Latest JQuery-->
+    <script src="../Scripts/jquery-2.1.1.min.js"></script>
     <link href="css/retailers.css" rel="stylesheet" />
     <link rel="shortcut icon" type="image/x-icon" href="../img/iconSmile.ico" />
     <link href="js/fileuploader/fileinput.css" rel="stylesheet" />
     <script src="js/fileuploader/fileinput.min.js"></script>
-    
+
 </head>
 <body class="nav-md">
 
@@ -74,8 +75,8 @@
                                             <a class="active" href="products.html">Products</a>
                                         </li>
                                         <!--<li id="liInvantory" onclick="location.href = 'inventory.html'">
-                        <a href="inventory.html">Inventory</a>
-                    </li>-->
+                                            <a href="addproduct.html">Add Product</a>
+                                        </li>-->
                                     </ul>
                                 </li>
                                 <!--location.href='customers.html'-->
@@ -125,14 +126,14 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-usermenu animated fadeInDown pull-right">
                                     <!--<li>
-                    <a href="javascript:;">  Profile</a>
-                </li>
-                <li>
-                    <a href="javascript:;">
-                        <span class="badge bg-red pull-right">50%</span>
-                        <span>Settings</span>
-                    </a>
-                </li>-->
+                                        <a href="javascript:;">  Profile</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;">
+                                            <span class="badge bg-red pull-right">50%</span>
+                                            <span>Settings</span>
+                                        </a>
+                                    </li>-->
                                     <li>
                                         <a onclick="$('#modalChangePassword').modal('show');" style="cursor:pointer;">Change Password</a>
                                     </li>
@@ -338,7 +339,7 @@
 
                                         </div>
                                     </div>
-                                
+
 
                                 </div>
                             </div>
@@ -472,25 +473,9 @@
         <div id="notif-group" class="tabbed_notifications"></div>
     </div>
 
+    
     <script src="js/bootstrap.min.js"></script>
 
-    <!-- chart js -->
-    <script src="js/chartjs/chart.min.js"></script>
-    <!-- bootstrap progress js -->
-    <script src="js/progressbar/bootstrap-progressbar.min.js"></script>
-    <script src="js/nicescroll/jquery.nicescroll.min.js"></script>
-    <!-- icheck -->
-    <script src="js/icheck/icheck.min.js"></script>
-
-    <script src="js/custom.js"></script>
-    <!-- tags -->
-    <script src="js/tags/jquery.tagsinput.min.js"></script>
-    <!-- switchery -->
-    <script src="js/switchery/switchery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-
-    <!-- chart js -->
-    <script src="js/chartjs/chart.min.js"></script>
     <!-- bootstrap progress js -->
     <script src="js/progressbar/bootstrap-progressbar.min.js"></script>
     <script src="js/nicescroll/jquery.nicescroll.min.js"></script>
@@ -501,8 +486,8 @@
     <!-- switchery -->
     <script src="js/switchery/switchery.min.js"></script>
     <!-- daterangepicker -->
-    <script type="text/javascript" src="js/moment.min2.js"></script>
-    <script type="text/javascript" src="js/datepicker/daterangepicker.js"></script>
+    <!--<script type="text/javascript" src="js/moment.min2.js"></script>-->
+    
     <!-- richtext editor -->
     <script src="js/editor/bootstrap-wysiwyg.js"></script>
     <script src="js/editor/external/jquery.hotkeys.js"></script>
@@ -595,114 +580,9 @@
         });
     </script>
     <!-- /input tags -->
-    <!-- form validation -->
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $.listen('parsley:field:validate', function () {
-                validateFront();
-            });
-            $('#demo-form .btn').on('click', function () {
-                $('#demo-form').parsley().validate();
-                validateFront();
-            });
-            var validateFront = function () {
-                if (true === $('#demo-form').parsley().isValid()) {
-                    $('.bs-callout-info').removeClass('hidden');
-                    $('.bs-callout-warning').addClass('hidden');
-                } else {
-                    $('.bs-callout-info').addClass('hidden');
-                    $('.bs-callout-warning').removeClass('hidden');
-                }
-            };
-        });
-
-        $(document).ready(function () {
-            $.listen('parsley:field:validate', function () {
-                validateFront();
-            });
-            $('#demo-form2 .btn').on('click', function () {
-                $('#demo-form2').parsley().validate();
-                validateFront();
-            });
-            var validateFront = function () {
-                if (true === $('#demo-form2').parsley().isValid()) {
-                    $('.bs-callout-info').removeClass('hidden');
-                    $('.bs-callout-warning').addClass('hidden');
-                } else {
-                    $('.bs-callout-info').addClass('hidden');
-                    $('.bs-callout-warning').removeClass('hidden');
-                }
-            };
-        });
-        try {
-            hljs.initHighlightingOnLoad();
-        } catch (err) { }
-    </script>
-    <!-- /form validation -->
+    
     <!-- editor -->
-    <script>
-        $(document).ready(function () {
-            $('.xcxc').click(function () {
-                $('#descr').val($('#editor').html());
-            });
-        });
-
-        $(function () {
-            function initToolbarBootstrapBindings() {
-                var fonts = ['Serif', 'Sans', 'Arial', 'Arial Black', 'Courier',
-            'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times',
-            'Times New Roman', 'Verdana'],
-                    fontTarget = $('[title=Font]').siblings('.dropdown-menu');
-                $.each(fonts, function (idx, fontName) {
-                    fontTarget.append($('<li><a data-edit="fontName ' + fontName + '" style="font-family:\'' + fontName + '\'">' + fontName + '</a></li>'));
-                });
-                $('a[title]').tooltip({
-                    container: 'body'
-                });
-                $('.dropdown-menu input').click(function () {
-                    return false;
-                })
-                    .change(function () {
-                        $(this).parent('.dropdown-menu').siblings('.dropdown-toggle').dropdown('toggle');
-                    })
-                    .keydown('esc', function () {
-                        this.value = '';
-                        $(this).change();
-                    });
-
-                $('[data-role=magic-overlay]').each(function () {
-                    var overlay = $(this),
-                        target = $(overlay.data('target'));
-                    overlay.css('opacity', 0).css('position', 'absolute').offset(target.offset()).width(target.outerWidth()).height(target.outerHeight());
-                });
-                if ("onwebkitspeechchange" in document.createElement("input")) {
-                    var editorOffset = $('#editor').offset();
-                    $('#voiceBtn').css('position', 'absolute').offset({
-                        top: editorOffset.top,
-                        left: editorOffset.left + $('#editor').innerWidth() - 35
-                    });
-                } else {
-                    $('#voiceBtn').hide();
-                }
-            };
-
-            function showErrorAlert(reason, detail) {
-                var msg = '';
-                if (reason === 'unsupported-file-type') {
-                    msg = "Unsupported format " + detail;
-                } else {
-                    console.log("error uploading file", reason, detail);
-                }
-                $('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>' +
-                    '<strong>File upload error</strong> ' + msg + ' </div>').prependTo('#alerts');
-            };
-            initToolbarBootstrapBindings();
-            $('#editor').wysiwyg({
-                fileUploadError: showErrorAlert
-            });
-            window.prettyPrint && prettyPrint();
-        });
-    </script>
+    
     <!-- /editor -->
 
     <script>
@@ -712,58 +592,7 @@
             maxFileCount: 2,
             allowedFileExtensions: ['jpg', 'png', 'gif', 'jpeg'],
         });
-        //$('#file-es').fileinput({
-        //    language: 'es',
-        //    uploadUrl: '#',
-        //    allowedFileExtensions: ['jpg', 'png', 'gif'],
-        //});
-        //$("#file-5").fileinput({
-        //    'allowedFileExtensions': ['jpg', 'png', 'gif'],
-        //});
-        //$("#file-1").fileinput({
-        //    uploadUrl: '#', // you must set a valid URL here else you will get an error
-        //    allowedFileExtensions: ['jpg', 'png', 'gif'],
-        //    overwriteInitial: false,
-        //    maxFileSize: 1000,
-        //    maxFilesNum: 10,
-        //    //allowedFileTypes: ['image', 'video', 'flash'],
-        //    slugCallback: function (filename) {
-        //        return filename.replace('(', '_').replace(']', '_');
-        //    }
-        //});
-        /*
-        $(".file").on('fileselect', function(event, n, l) {
-            alert('File Selected. Name: ' + l + ', Num: ' + n);
-        });
-        */
-        //$("#file-3").fileinput({
-        //    showUpload: false,
-        //    showCaption: false,
-        //    browseClass: "btn btn-primary btn-lg",
-        //    fileType: "any",
-        //    previewFileIcon: "<i class='glyphicon glyphicon-king'></i>"
-        //});
-        //$("#file-4").fileinput({
-        //    uploadExtraData: { kvId: '10' }
-        //});
-        //$(".btn-warning").on('click', function () {
-        //    if ($('#file-4').attr('disabled')) {
-        //        $('#file-4').fileinput('enable');
-        //    } else {
-        //        $('#file-4').fileinput('disable');
-        //    }
-        //});
-        //$(".btn-info").on('click', function () {
-        //    $('#file-4').fileinput('refresh', { previewClass: 'bg-info' });
-        //});
-        ///*
-        //$('#file-4').on('fileselectnone', function() {
-        //    alert('Huh! You selected no files.');
-        //});
-        //$('#file-4').on('filebrowse', function() {
-        //    alert('File browse clicked for #file-4');
-        //});
-        //*/
+       
         $(document).ready(function () {
             $("#test-upload").fileinput({
                 'showPreview': false,
@@ -793,32 +622,7 @@
 
     <!--
     <script src="js/fileuploader/fileinput_locale_fr.js"></script>-->
-    <script type="text/javascript">
-        //function CheckValidation() {
-        //    // textbox check
-        //    var fullname = document.getElementById('<%=txtFullName.ClientID%>').value;
-        //    $('#<%=txtFullName.ClientID%>').removeClass("addBorder");
-
-        //    //fileupload image check
-        //    var imgLength = $('#<%=fileUpdloadDiv.ClientID%>').find("img").length;
-        //    $('#<%=fileUpdloadDiv.ClientID%>').removeClass("addBorder");
-
-        //    if (fullname != "" && imgLength > 0)
-        //        return true;
-        //    else {
-        //        //check condition and add addBorder class for the failed
-        //        if (fullname == "")
-        //            $('#<%=txtFullName.ClientID%>').addClass("addBorder");
-        //        if (imgLength <= 0)
-        //            $('#<%=fileUpdloadDiv.ClientID%>').addClass("addBorder");
-        //        return false;
-        //    }
-
-
-
-        // }
-
-    </script>
+    
     <style>
         .addBorder {
             border: solid 1px red;

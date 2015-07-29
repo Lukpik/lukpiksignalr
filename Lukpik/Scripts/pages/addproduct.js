@@ -78,7 +78,6 @@ $(document).ready(function () {
 
     hubEngine.client.addedProduct = function (msg) {
         //praveen
-        $('#file-5').fileinput('clear');
         RemoveProgressBarLoader();
         //ProductImageNames = [];
         //ProductImages = [];
