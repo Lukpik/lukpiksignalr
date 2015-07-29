@@ -170,7 +170,7 @@ namespace Lukpik
 
             
                         string subject = "You have changed you password.";
-                        SendEMail("mail@hainow.com", "nagarjuna.kendyala@hotmail.com", subject, body);
+                        //SendEMail("mail@hainow.com", "nagarjuna.kendyala@hotmail.com", subject, body);
         }
 
         #region ADD / UPDATE STORE AND PASSWORD GENERATION
@@ -187,7 +187,9 @@ namespace Lukpik
             {
                 Clients.Client(clientID).testJS("1");
                 string loginRedirect = System.Configuration.ConfigurationManager.AppSettings.GetValues("LoginRedirect").FirstOrDefault().ToString();
-                string body = "Dear " + fname + ",<br> Thanks for Registering with us. Your credentials to proceed with us is as follows.<br>Username: " + email + "<br>Password: " + generatedPassword + "<br><a href='" + loginRedirect + "' target='_blank'>Click here to login</a>";
+                //string body = "Dear " + fname + ",<br> Thanks for Registering with us. Your credentials to proceed with us is as follows.<br>Username: " + email + "<br>Password: " + generatedPassword + "<br><a href='" + loginRedirect + "' target='_blank'>Click here to login</a>";
+
+                string body = "<html><head> <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/> <meta name='viewport' content='width=device-width, initial-scale=1.0'/> <title>Lukpik</title> <style type='text/css'> table{border-collapse: collapse;}td{font-family: Calibri; color: #333333;}@media only screen and (max-width: 480px){body, table, td, p, a, li, blockquote{-webkit-text-size-adjust: none !important;}table{width: 100% !important;}.responsive-image img{height: auto !important; max-width: 100% !important; width: 100% !important;}}</style></head><body style='margin: 10px 0; padding: 0 10px; background: #F5F7FA; font-size: 13px;'> <table border='0' cellpadding='0' cellspacing='0' width='100%'> <tr> <td> <table border='0' cellpadding='0' cellspacing='0' align='center' width='640' bgcolor='#FFFFFF'> <tr> <td style='font-size: 0; line-height: 0; padding: 0;' align='center' class='responsive-image'> <img src='http://www.infactum.org/images/emailicons/retailermailbanner.png' width='100%' alt=''/> </td></tr><tr><td style='font-size: 0; line-height: 0;' height='10'>&nbsp;</td></tr><tr> <td style='padding: 10px 20px 20px 20px;'> <div style='font-size: 25px;color:rgb(42, 177, 237);text-align:center;font-weight:bold;'>Happy to have you on board !</div><br/> <div style='font-size: 20px;color:rgb(91, 90, 90);text-align:center;'> Get ready to wipe the boot stains of your store floor more often. </div><br/> <div style='font-family:Calibri; font-size: 23px;color:rgb(91, 90, 90);text-align:center;font-weight:bold;'> Customers are coming ! </div><br/> <div style='font-family:Calibri; font-size: 16px;color:rgb(91, 90, 90);text-align:justify;'> Please login to lukpik and fill in details about your store. In next few minutes you can start uploading products you want to sell. </div><br/> <div style='font-family:Calibri; font-size: 16px;color:rgb(91, 90, 90);text-align:justify;'> Your login credentials:<br/><br/> <b>Username / Email : </b>" + email + "<br/> <b>Password: </b>" + generatedPassword + "<br/><br/> </div><br/> <div style='font-family:Calibri; font-size: 16px;color:rgb(91, 90, 90);text-align:center;'> <a type='button' style='-webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0px; color: #ffffff; font-size: 20px; background: #22c9ad; padding: 10px 20px 10px 20px; text-decoration: none;' target='_blank' href='" + loginRedirect + "'>Click here to login</a> </div><br/> <br/> <div style='font-family:Calibri; font-size: 16px;color:rgb(91, 90, 90);text-align:justify;'> For any further assistance. Just drop us a mail at <a href='mailto:support@lukpik.com' target='_top'>support@lukpik.com</a>. We will get back to you as soon as we can. <br/><br/> We'll be in touch periodically with additional resources and important updates. <br/><br/>Sincerely,<br/><b>Lukpik Team</b><br/> </div></td></tr><tr> <td></td></tr><tr><td style='font-size: 0; line-height: 0;' height='20'>&nbsp;</td></tr><tr> <td bgcolor='#485465'> <table border='0' cellpadding='0' cellspacing='0' width='100%'> <tr><td style='font-size: 0; line-height: 0;' height='15'>&nbsp;</td></tr><tr> <td style='padding: 0 10px; color: #FFFFFF;'> <table border='0' width='100%'> <tr> <td style='color:white;' width='20%'> <a href='http://www.lukpik.com' target='_blank' style='font-size:15px;color:white;'>Lukpik</a> </td><td style='color:white;' width='80%' align='right'> <div style='text-align:right;'> <a href='mailto:support@lukpik.com' style='text-decoration:none;'> <img src='http://www.infactum.org/images/emailicons/email.png' width='35' style='margin-right:5px;'/> </a> <a href='http://www.facebook.com/Itslukpik' target='_blank' style='text-decoration:none;'> <img src='http://www.infactum.org/images/emailicons/facbk.png' width='35' style='margin-right:5px;'/> </a> <a href='https://twitter.com/Its_lukpik' target='_blank' style='text-decoration:none;'> <img src='http://www.infactum.org/images/emailicons/twitter.png' width='35' style='margin-right:5px;'/> </a> <a href='http://www.lukpik.com' target='_blank' style='text-decoration:none;'> <img src='http://www.infactum.org/images/emailicons/website.png' width='35' style='margin-right:5px;'/> </a> </div></td></tr></table> </td></tr><tr><td style='font-size: 0; line-height: 0;' height='15'>&nbsp;</td></tr></table> </td></tr></table> </td></tr></table></body></html>";
                 string subject = "Thanks for Registering with us.";
                 SendEMail("mail@hainow.com", email, subject, body);
                 //SendMail(email, subject, body);
@@ -387,7 +389,8 @@ namespace Lukpik
                     {
                         string loginRedirect = System.Configuration.ConfigurationManager.AppSettings.GetValues("LoginRedirect").FirstOrDefault().ToString();
                         string name = dt.Rows[0].ItemArray[0].ToString();// + " " + dt.Rows[0].ItemArray[0].ToString();
-                        string body = "Dear " + name + ",<br> It is to intimate you, that you have recently changed your account password.<br><a href='" + loginRedirect + "' target='_blank'>Click here to login</a>";
+                        string midText = "Dear " + name + ",<br> It is to intimate you, that you have recently changed your account password.<br>";
+                        string body = AttachTexttoMailTemplate(midText, loginRedirect, "Intimation of changing password !", false);
                         string subject = "You have changed you password.";
                         SendEMail("mail@hainow.com", email, subject, body);
                         //SendMail(email, subject, body);
@@ -487,6 +490,25 @@ namespace Lukpik
 
         }
 
+        private string AttachTexttoMailTemplate(string middleText,string loginRedirect,string heading,bool disableButton)
+        {
+            //hide button when disableButton is true
+            //show button when disableButton is false
+            string st = "";
+            try
+            {
+                st = "<html><head> <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/> <meta name='viewport' content='width=device-width, initial-scale=1.0'/> <title>Lukpik</title> <style type='text/css'> table{border-collapse: collapse;}td{font-family: Calibri; color: #333333;}@media only screen and (max-width: 480px){body, table, td, p, a, li, blockquote{-webkit-text-size-adjust: none !important;}table{width: 100% !important;}.responsive-image img{height: auto !important; max-width: 100% !important; width: 100% !important;}}</style></head><body style='margin: 10px 0; padding: 0 10px; background: #F5F7FA; font-size: 13px;'> <table border='0' cellpadding='0' cellspacing='0' width='100%'> <tr> <td> <table border='0' cellpadding='0' cellspacing='0' align='center' width='640' bgcolor='#FFFFFF'> <tr> <td style='font-size: 0; line-height: 0; padding: 0;' align='center' class='responsive-image'> <img src='http://www.infactum.org/images/emailicons/retailermailbanner.png' width='100%' alt=''/> </td></tr><tr><td style='font-size: 0; line-height: 0;' height='10'>&nbsp;</td></tr><tr> <td style='padding: 10px 20px 20px 20px;'> <div style='font-size: 25px;color:rgb(42, 177, 237);text-align:center;font-weight:bold;'>" + heading + "</div><br/> <br/> <div style='font-family:Calibri; font-size: 16px;color:rgb(91, 90, 90);text-align:justify;'> " + middleText + " </div><br/>";
+                if (!disableButton)
+                {
+                    st = st + "<br/> <div style='font-family:Calibri; font-size: 16px;color:rgb(91, 90, 90);text-align:center;'> <a type='button' style='-webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0px; color: #ffffff; font-size: 20px; background: #22c9ad; padding: 10px 20px 10px 20px; text-decoration: none;' target='_blank' href='" + loginRedirect + "'>Click here to login</a> </div>";
+                }
+                st = st + "<br/> <br/> <div style='font-family:Calibri; font-size: 16px;color:rgb(91, 90, 90);text-align:justify;'> For any further assistance. Just drop us a mail at <a href='mailto:support@lukpik.com' target='_top'>support@lukpik.com</a>. We will get back to you as soon as we can. <br/><br/> We'll be in touch periodically with additional resources and important updates. <br/><br/>Sincerely,<br/><b>Lukpik Team</b><br/> </div></td></tr><tr> <td></td></tr><tr><td style='font-size: 0; line-height: 0;' height='20'>&nbsp;</td></tr><tr> <td bgcolor='#485465'> <table border='0' cellpadding='0' cellspacing='0' width='100%'> <tr><td style='font-size: 0; line-height: 0;' height='15'>&nbsp;</td></tr><tr> <td style='padding: 0 10px; color: #FFFFFF;'> <table border='0' width='100%'> <tr> <td style='color:white;' width='20%'> <a href='http://www.lukpik.com' target='_blank' style='font-size:15px;color:white;'>Lukpik</a> </td><td style='color:white;' width='80%' align='right'> <div style='text-align:right;'> <a href='mailto:support@lukpik.com' style='text-decoration:none;'> <img src='http://www.infactum.org/images/emailicons/email.png' width='35' style='margin-right:5px;'/> </a> <a href='http://www.facebook.com/Itslukpik' target='_blank' style='text-decoration:none;'> <img src='http://www.infactum.org/images/emailicons/facbk.png' width='35' style='margin-right:5px;'/> </a> <a href='https://twitter.com/Its_lukpik' target='_blank' style='text-decoration:none;'> <img src='http://www.infactum.org/images/emailicons/twitter.png' width='35' style='margin-right:5px;'/> </a> <a href='http://www.lukpik.com' target='_blank' style='text-decoration:none;'> <img src='http://www.infactum.org/images/emailicons/website.png' width='35' style='margin-right:5px;'/> </a> </div></td></tr></table> </td></tr><tr><td style='font-size: 0; line-height: 0;' height='15'>&nbsp;</td></tr></table> </td></tr></table> </td></tr></table></body></html>";
+            }
+            catch (Exception ex)
+            {
+            }
+            return st;
+        }
         #endregion
 
         public void getAllSelectedCategories(string email, string clientID)
@@ -551,9 +573,10 @@ namespace Lukpik
 
                     string fname = dt.Rows[0].ItemArray[1].ToString();
                     string loginRedirect = System.Configuration.ConfigurationManager.AppSettings.GetValues("LoginRedirect").FirstOrDefault().ToString();
-                    string body = "Dear " + fname + ",<br> You have requested for your password. Please find the password below<br>Username: " + email + "<br>Password: " + pwd + "<br><a href='" + loginRedirect + "' target='_blank'>Click here to login</a>";
+                    string midText = "Dear " + fname + ",<br> You have requested for your password. Please find the password below<br>Username: " + email + "<br>Password: " + pwd + "<br>";
                     string subject = "Forgot Password.";
                     Clients.Client(clientID).gotPassword("1");
+                    string body = AttachTexttoMailTemplate(midText, loginRedirect, "Here is your password !", false);
                     SendEMail("mail@hainow.com", email, subject, body);
 
                 }
@@ -577,8 +600,9 @@ namespace Lukpik
             {
                 Clients.Client(clientID).mailSent("1");
                 string fname = name;
-                string body = "Dear " + fname + ",<br> Thank you for contacting us. We will get back to you shortly.";
+                string midText = "Dear " + fname + ",<br> Thank you for contacting us. We will get back to you shortly.";
                 string subject = "Thanks for contacting us.";
+                string body = AttachTexttoMailTemplate(midText, "", "Thank you for Contacting us.", true);
                 SendEMail("mail@hainow.com", email, subject, body);
 
                 string adminsub = "Contact us";
