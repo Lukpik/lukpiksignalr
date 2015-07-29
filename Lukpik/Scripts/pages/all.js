@@ -9,6 +9,7 @@ function Startup() {
     if (typeof (image != typeof (undefined) && image != null)) {
         document.getElementById("imgStoreTop").src = image;
     }
+    $('input').addClass('your-class');
 }
 
 

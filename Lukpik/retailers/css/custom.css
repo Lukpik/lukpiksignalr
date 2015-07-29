@@ -1,3 +1,22 @@
+.your-class::-webkit-input-placeholder {
+    color: #cccccc;
+}
+
+.your-class::-moz-placeholder {
+    color: #cccccc;
+}
+
+
+.your-class:-moz-placeholder {
+    color: #cccccc;
+}
+
+.your-class:-ms-input-placeholder  {
+    color: #cccccc;
+}
+
+
+
 body.nav-sm .container.body .left_col {
     width: 70px;
     padding: 0;
