@@ -93,9 +93,6 @@ function RemoveAlert() {
     $('#alertIDBottom').empty();
 }
 
-function AddAlert() {
-    //alert('hi');
-}
 
 
 

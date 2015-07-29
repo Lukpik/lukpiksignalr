@@ -66,7 +66,7 @@ function CreateTableData(myobj, myobj2) {
 
 
             var productname = myobj[prodCount].ProductName;
-            var cateogory = "";
+            
             var brand = myobj[prodCount].BrandName;
             var price = myobj[prodCount].Price;
             var status = myobj[prodCount].IsVisible;
@@ -75,8 +75,9 @@ function CreateTableData(myobj, myobj2) {
                 isVisible = "Show";
             var trID = "trID" + prodCount;
             var selectID = "select" + prodCount;
-
-            str = str + '<tr class="even pointer" id="' + trID + '"> <td class="a-center "> <input type="checkbox" class="tableflat"> </td><td class=" "><img src="' + imgSrc + '" class="img-responsive" width="80"/></td><td class=" " width="45%">' + productname + ' </td><td class=" "  width="20%"> ' + cateogory + ' </td><td class="a-right a-right ">' + isVisible + '</td><td class=" last"> <select name="action" id="' + selectID + '" onchange="ChooseAction(this,\'' + myobj[prodCount].ProductID + '\',' + trID + ');"><option value="0">Choose </option><option value="1">View / Edit</option><option value="2">Delete</option><option value="3">See info</option></select></td></tr>';
+            var category = myobj[prodCount].ProductCategoryName + " - " + myobj[prodCount].ProductSubCategoryName;
+            str = str + '<tr class="even pointer" id="' + trID + '"> <td class="a-center "> <input type="checkbox" class="tableflat"></td><td class=" "><img src="' + imgSrc + '" class="img-responsive" width="80"/></td><td class=" " width="45%">' + productname + ' </td><td class=" "  width="20%"> ' + category + ' </td><td class="a-right a-right ">' + isVisible + '</td><td class=" last"> <select name="action" id="' + selectID + '" onchange="ChooseAction(this,\'' + myobj[prodCount].ProductID + '\',' + trID + ');"><option value="0">Choose </option><option value="2">Delete</option></select></td></tr>';
+            //<option value="1">View / Edit</option><option value="3">See info</option>
             //<td class=" ">' + brand + '</td><td class=" ">' + price + '</td>
             // <a onclick="EditProduct(\'' + myobj[prodCount].ProductID + '\');">View/Edit</a>
 
@@ -127,6 +128,6 @@ function RemoveProduct(productID, rID) {
 function CloseModal() {
     $('#modalDeleteAlert').modal('hide');
     $('[name=action] option').filter(function () {
-        return ($(this).text() == "Choose action");
+        return ($(this).val() == "0");
     }).prop('selected', true);
 }

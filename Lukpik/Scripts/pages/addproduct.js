@@ -81,8 +81,11 @@ $(document).ready(function () {
         RemoveProgressBarLoader();
         //ProductImageNames = [];
         //ProductImages = [];
-        if (msg == "1")
+        if (msg == "1") {
+            //location.href = "addproduct.html";
             AddAlert("", "Updated successfully.");
+            $('#modalProductAdded').modal('show');
+        }
         else if (msg == "0")
             AddAlert("error", "Something went wrong, please try again later.");
     };
@@ -125,8 +128,80 @@ function Login() {
 }
 
 function AddProduct() {
-    FileSelected();
+    //FileSelected();
 
+    $('#alertIDTop').empty();
+    $('#alertIDBottom').empty();
+    $('#alertID').empty();
+    AddProgressBarLoader();
+    var productname = $('#txtFullName').val();
+    var gender = $('input[name=gender]:checked').val();
+    var productFamilyID = document.getElementById("ddProductFamily").value;
+    var price = $('#txtPrice').val();
+    var productDesc = $('#txtProductDescription').val();
+    var visibility = $('input[name=isvisibe]:checked').val();
+    var productCategorySubCategoryID = document.getElementById("selectProduct").value;
+    var brandID = document.getElementById("ddBrands").value;
+    //var brandID = $('#txtBrand').val();
+    var tags = $('#tags_Collection').val();
+    var ecommercelink = $('#txtECommerceLink').val();
+
+    if (productname != "" && gender != "" && productFamilyID != "" && price != "" && productCategorySubCategoryID != "" && brandID != "") {
+        // productname,  gender,  productFamily,  productdescription, price,  quantity,  size,  color,  visibility, prodyctype,  brand, collection,  images, clientID
+        var productID = readCookie("productID");
+        if (ProductImages.length > 0) {
+            if (productID != null && productID != "") {
+                hubEngine.server.updateProduct(productID, productname, gender, productFamilyID, productDesc, price, "", "", "", visibility, productCategorySubCategoryID, brandID, tags, ProductImages.toString(), readCookie("lukpikretailer_usename"), $.connection.hub.id, ProductImageNames.toString(), ecommercelink);
+            }
+            else {
+                hubEngine.server.addProduct(productname, gender, productFamilyID, productDesc, price, "", "", "", visibility, productCategorySubCategoryID, brandID, tags, ProductImages.toString(), readCookie("lukpikretailer_usename"), $.connection.hub.id, ProductImageNames.toString(), ecommercelink);
+                //AddProduct();
+            }
+        }
+        else {
+            RemoveProgressBarLoader();
+            AddAlert("error", "Please add image(s) to proceed.");
+        }
+    }
+    else {
+        RemoveProgressBarLoader();
+        AddAlert("error", "Please fill mandatory fields.");
+    }
+
+}
+function GetAllImages() {
+    //$('#file-5').fileinput('clear');
+    ProductImages = []; ProductImageNames = [];
+    var j = 1;
+    for (var i = 0; i < $("#file-5")[0].files.length; i++) {
+        currFile = i;
+        var sFileName = $("#file-5")[0].files[i].name;
+        var sFileSize = $("#file-5")[0].files[i].size;
+        var sFileExtension = sFileName.split('.')[sFileName.split('.').length - 1].toLowerCase();
+        if (sFileExtension == 'jpg' || sFileExtension == 'jpeg' || sFileExtension == 'png' || sFileExtension == 'gif') {
+            //if (sFileSize < 10000000) {
+            //$("#divProgress").attr("style", "width:10%");
+            //$("#uploadfilePercentage").text("10%");
+            totalFileCount = $("#file-5")[0].files.length;
+            //$('#dropRegion').attr("style", "display:none;");
+            //S('#progressBar').attr("style", "display:block;");
+            //$('#progressBarETL').attr('style', 'display:block;');
+            //            for (j = 0; j < totalFileCount; j++) {
+            //                var progControl = $("#dvProgess").append($("#fileInput")[0].files[j].name + "<div id='progress" + j + "'></div><div class='progress progress-striped' id='ProgressComp" + j + "' style='width: 400px; height: 15px; '> <div class='bar' id='progbarWidth" + j + "' style='width: 0%; height: 15px;'>&nbsp;</div></div>");
+            //            }
+            //uploadFile();
+            sendFile($("#file-5")[0].files[i], j, $("#file-5")[0].files.length);
+            //}
+            //else {
+            //     $("#fileInput").val("");
+            //     $("#filesizeAlertModal").modal("show");
+            // }
+            j++;
+        }
+        else
+            j++;
+
+    }
 }
 var ProductImages = []; var ProductImageNames = [];
 var currFile = 0;
@@ -190,10 +265,15 @@ function sendFile(file, j, k) {
                     return myXhr;
                 },
                 success: function (result) {
+                    var now = new Date();
+                    now = now.getTime();
 
-                    ProductImages.push(result); ProductImageNames.push(file.name);
-                    if (k === j)
-                        BeginProcess(ProductImages, ProductImageNames.name, 0);
+
+                    if (file.name != "" && file.name != null && result != "" && result != null) {
+                        ProductImageNames.push(now + file.name); ProductImages.push(result);
+                    }
+                    //if (k === j)
+                    //    BeginProcess(ProductImages, ProductImageNames.name, 0);
                 },
                 data: file,
                 cache: false,
@@ -240,16 +320,6 @@ function triggerNextFileUpload() {
     }
 }
 
-function BeginProcess(fileName, orgFileName, isFrom) {
-   
-    //if (orgFileName != "") {
-    //    var now = new Date();
-    //    now = now.getTime();
-    //    hubEngine.server.imgLocationSave(now + orgFileName, fileName, $.connection.hub.id, "AddProduct", imgVal);
-    //}
-    AddProduct1();
-}
-
 function AddSpecification() {
     var divID = "div" + _cnt;
     var str = '<div class="row" id="' + divID + '" style="background-color:#eaeaea;padding-top:10px;margin-bottom:2px;"> <div class="col-md-4 cssmarginbotom col-sm-12 col-xs-12"> <label class="control-label">Size(s)</label> <div class=""> <input id="tags_Sizes" type="text" class="tags form-control" value="" placeholder="small, medium, large"/> <div id="suggestions-container1" style="position: relative; float: left; width: 250px; margin: 10px;"></div></div></div><div class="col-md-4 cssmarginbotom col-sm-12 col-xs-12"><label class="control-label">Color(s)</label> <div class=""> <input id="tags_Colors" type="text" class="tags form-control" value=""/> <div id="suggestions-container2" style="position: relative; float: left; width: 250px; margin: 10px;"></div></div></div><div class="col-md-3 col-sm-12 col-xs-12">  <label for="">Quantity :</label><input type="text" class="form-control" name="fullname" placeholder="10"/> </div><div class="col-md-1 col-sm-12 col-xs-12"><label class="control-label">Delete</label> <button class="btn btn-danger btn-sm" onclick="RemoveDiv(\'' + divID + '\');"><span class="fa fa-minus"></span></button></div></div>';
@@ -257,6 +327,7 @@ function AddSpecification() {
     _cnt++;
 
 }
+
 function RemoveDiv(divID) {
     if (_cnt != 1) {
         $('#' + divID).remove();
@@ -264,71 +335,11 @@ function RemoveDiv(divID) {
     }
 
 }
+
 function RemoveSpecification() {
     $('#divSpecification').empty();
     AddSpecification();
     _cnt = 1;
-}
-
-//function AddProduct() {
-//    $('#alertIDTop').empty();
-//    $('#alertIDBottom').empty();
-//    $('#alertID').empty();
-//    AddProgressBarLoader();
-//    var productname = $('#txtFullName').val();
-//    var gender = $('input[name=gender]:checked').val();
-//    var productFamilyID = document.getElementById("ddProductFamily").value;
-//    var price = $('#txtPrice').val();
-//    var productDesc = $('#txtProductDescription').val();
-//    var visibility = $('input[name=isvisibe]:checked').val();
-//    var productType = document.getElementById("ddProducttype").value;
-//    var brand = $('#txtBrand').val();
-//    var tags = $('#tags_Collection').val();
-//    if (productname != "" && gender != "" && productFamilyID != "" && price != "" && productType != "" && brand != "" && tags != "") {
-//        // productname,  gender,  productFamily,  productdescription, price,  quantity,  size,  color,  visibility, prodyctype,  brand, collection,  images, clientID
-
-//        hubEngine.server.addProduct(productname, gender, productFamilyID, productDesc, price, "", "", "", visibility, productType, brand, tags, "", readCookie("lukpikretailer_usename"), $.connection.hub.id);
-//    }
-//    else {
-//        RemoveProgressBarLoader();
-//        AddAlert("error", "Please fill mandatory fields.");
-//    }
-
-//}
-
-function AddProduct1() {
-    $('#alertIDTop').empty();
-    $('#alertIDBottom').empty();
-    $('#alertID').empty();
-    AddProgressBarLoader();
-    var productname = $('#txtFullName').val();
-    var gender = $('input[name=gender]:checked').val();
-    var productFamilyID = document.getElementById("ddProductFamily").value;
-    var price = $('#txtPrice').val();
-    var productDesc = $('#txtProductDescription').val();
-    var visibility = $('input[name=isvisibe]:checked').val();
-    var productCategorySubCategoryID = document.getElementById("selectProduct").value;
-    var brandID = document.getElementById("ddBrands").value;
-    //var brandID = $('#txtBrand').val();
-    var tags = $('#tags_Collection').val();
-    var ecommercelink = $('#txtECommerceLink').val();
-    
-    if (productname != "" && gender != "" && productFamilyID != "" && price != "" && productCategorySubCategoryID != "" && brandID != "" && tags != "") {
-        // productname,  gender,  productFamily,  productdescription, price,  quantity,  size,  color,  visibility, prodyctype,  brand, collection,  images, clientID
-        var productID = readCookie("productID");
-        if (productID != null && productID != "") {
-            hubEngine.server.updateProduct(productID, productname, gender, productFamilyID, productDesc, price, "", "", "", visibility, productCategorySubCategoryID, brandID, tags, ProductImages.toString(), readCookie("lukpikretailer_usename"), $.connection.hub.id, ProductImageNames.toString(), ecommercelink);
-        }
-        else {
-            hubEngine.server.addProduct(productname, gender, productFamilyID, productDesc, price, "", "", "", visibility, productCategorySubCategoryID, brandID, tags, ProductImages.toString(), readCookie("lukpikretailer_usename"), $.connection.hub.id, ProductImageNames.toString(), ecommercelink);
-            AddProduct();
-        }
-    }
-    else {
-        RemoveProgressBarLoader();
-        AddAlert("error", "Please fill mandatory fields.");
-    }
-
 }
 
 function FillValues(myobj1, myobj2) {
@@ -421,4 +432,25 @@ function FormProductCategory(myobj) {
     $('#selectProduct').append(str);
     $(".select2_group").select2({});
     
+}
+
+function CloseModal() {
+    $('#modalProductAdded').modal('hide');
+    location.href = "addproduct.html";
+}
+
+function isDecimal(evt) {
+    var charCode = (evt.which) ? evt.which : event.keyCode
+
+    if (charCode == 46) {
+        var inputValue = $("#txtPrice").val()
+        if (inputValue.indexOf('.') < 1) {
+            return true;
+        }
+        return false;
+    }
+    if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
 }
