@@ -78,6 +78,7 @@ $(document).ready(function () {
 
     hubEngine.client.addedProduct = function (msg) {
         //praveen
+        $('#file-5').fileinput('clear');
         RemoveProgressBarLoader();
         //ProductImageNames = [];
         //ProductImages = [];
@@ -111,6 +112,11 @@ $(document).ready(function () {
         else {
             AddAlert("error", "Something went wrong, please try again later.");
         }
+    };
+
+    hubEngine.client.changedPassword = function (msg) {
+        RemoveProgressBarLoader();
+        ChangedPassword(msg);
     };
 
 });

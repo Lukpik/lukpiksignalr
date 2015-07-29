@@ -1,5 +1,9 @@
 ﻿
 function Startup() {
+    var uname = readCookie("lukpikretailer_usename");
+    if (typeof (uname) == typeof(undefined) || uname == "") {
+        logout();
+    }
     var fname=localStorage.getItem("fname");
     if (typeof (fname != typeof (undefined) && fname != null)) {
         $('#txtFirstname').text(fname);
@@ -87,4 +91,74 @@ function AddAlert(typeMSG, message) {
 function RemoveAlert() {
     $('#alertIDTop').empty();
     $('#alertIDBottom').empty();
+}
+
+function AddAlert() {
+    //alert('hi');
+}
+
+
+
+function CheckConfirmationPwd() {
+    var retval = false;
+    var pwd = $('#txtPwd').val();
+    var cpwd = $('#txtCPwd').val();
+    if (pwd == cpwd) {
+        $('#errorMessage').hide();
+        retval = true;
+    }
+    else {
+        $('#errorMessage').show();
+        $('#errorMessage').text("Password Mismatch");
+        retval = false;
+    }
+    return retval;
+}
+
+function ChangePassword() {
+    AddProgressBarLoader();
+    var currPwd = $('#txtCurrentPwd').val();
+    var pwd = $('#txtPwd').val();
+    var cpwd = $('#txtCPwd').val();
+    if (currPwd != "" && pwd != "" && cpwd != "") {
+        if (currPwd.length >= 6 && pwd.length >= 6 && cpwd.length >= 6) {
+            if (CheckConfirmationPwd()) {
+                hubEngine.server.changeStorePassword(readCookie("lukpikretailer_usename"), currPwd, pwd, $.connection.hub.id);
+            }
+            else {
+                RemoveProgressBarLoader();
+                $('#errorMessage').show();
+                $('#errorMessage').text("Password Mismatch");
+            }
+        }
+        else {
+            RemoveProgressBarLoader();
+            $('#errorMessage').show();
+            $('#errorMessage').text("Minimum of 6 charecters required to set password.");
+        }
+
+    }
+    else {
+        RemoveProgressBarLoader();
+        $('#errorMessage').show();
+        $('#errorMessage').text("Please fill all the fields.");
+    }
+}
+
+function ChangedPassword(msg) {
+    if (msg == "1") {
+        $('#errorMessage').removeClass("label-danger");
+        $('#errorMessage').addClass("label-success");
+        $('#errorMessage').show();
+        $('#errorMessage').text("Password is changed successfully.");
+        logout();
+    }
+    else if (msg == "2") {
+        $('#errorMessage').show();
+        $('#errorMessage').text("You have entered wrong password.");
+    }
+    else if (msg == "0") {
+        $('#errorMessage').show();
+        $('#errorMessage').text("Something went wrong, please try again later.");
+    }
 }

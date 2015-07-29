@@ -50,6 +50,10 @@ $(document).ready(function () {
         }
     };
 
+    hubEngine.client.changedPassword = function (msg) {
+        RemoveProgressBarLoader();
+        ChangedPassword(msg);
+    };
 });
 
 function CreateTableData(myobj, myobj2) {
