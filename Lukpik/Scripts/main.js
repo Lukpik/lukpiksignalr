@@ -20,6 +20,25 @@ $(document).ready(function () {
     hubEngine.client.testJS = function (msg) {
         //alert(msg);
     };
+    
+
+    hubEngine.client.subscribed = function (msg) {
+        //alert(msg);
+        
+        if (msg == "1") {
+            $('#lblSubmsg').show();
+            $('#lblSubmsg').text("Thank you for your subscription with us.");
+        }
+        else if (msg == "2") {
+            $('#lblSubmsg').show();
+            $('#lblSubmsg').text("You are already in our loop.");
+        }
+        else {
+            $('#lblSubmsg').show();
+            $('#lblSubmsg').text("Something went wrong, please try again later.");
+        }
+        RemoveProgressBarLoader();
+    };
 
     hubEngine.client.mailSent = function (msg) {
         //alert(msg);
@@ -47,8 +66,20 @@ $(document).ready(function () {
 
 //Website Home Page
 function Subscribe() {
+    AddProgressBarLoader();
+    //Common method for both main.html and shoppng.html
     var textemail = $('#txtSubscribeEmail').val();
-    hubEngine.server.testMethod(textemail, $.connection.hub.id);
+    if (textemail != "") {
+        if (validEmailSub)
+            hubEngine.server.subscribe(textemail, $.connection.hub.id);
+        else {
+            $('#lblSubmsg').show();
+            $('#lblSubmsg').text("Incorrect Email format!");
+            RemoveProgressBarLoader();
+        }
+    }
+
+
 }
 
 function ContactUs() {
@@ -63,6 +94,8 @@ function ContactUs() {
         }
         else {
             RemoveProgressBarLoader();
+            $('#lblmsg').show();
+            $('#lblmsg').text("Incorrect Email format!");
         }
 
     }
@@ -90,6 +123,33 @@ function ValidateEmail() {
     }
 }
 function validateEmail(email) {
+    var emailReg = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+    var valid = emailReg.test(email);
+    if (!valid) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+
+function ValidateEmailSub() {
+    //Checks from Retailer registration and login pages
+    var email = $("#txtSubscribeEmail").val();
+    if (!validateEmail(email)) {
+        validEmailSub = false;
+        $('#lblSubmsg').show();
+        $('#lblSubmsg').text("Incorrect Email format!");
+
+    }
+    else if (validateEmailsub(email)) {
+        $('#lblSubmsg').hide();
+        $('#lblSubmsg').text("");
+
+        validEmailSub = true;
+    }
+}
+function validateEmailsub(email) {
     var emailReg = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
     var valid = emailReg.test(email);
     if (!valid) {

@@ -23,7 +23,7 @@ $(document).ready(function () {
     }, 15000);
 
     hubEngine.client.productDetails = function (json1, json2) {
-        RemoveProgressBarLoader();
+        
         if (json1 != "") {
             var obj1 = jQuery.parseJSON(json1);
             var obj2 = jQuery.parseJSON(json2);
@@ -33,7 +33,9 @@ $(document).ready(function () {
             var str = '<tr class="even pointer"> <td class="a-center " colspan="8"> No Products found. Please add your products.</td></tr>';
             $('#tableBody').empty();
             $('#tableBody').append(str);
+            RemoveProgressBarLoader();
         }
+        
     };
 
     hubEngine.client.removedProduct = function (result, trID) {
@@ -90,6 +92,7 @@ function CreateTableData(myobj, myobj2) {
 
     $('#tableBody').empty();
     $('#tableBody').append(str);
+    RemoveProgressBarLoader();
 }
 
 function ChooseAction(control, productID, trID) {

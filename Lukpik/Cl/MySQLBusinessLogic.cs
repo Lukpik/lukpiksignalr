@@ -1056,5 +1056,64 @@ namespace Lukpik.Cl
             return dt;
         }
 
+        #region SUBSCRIPTION
+
+        public int SubscriptionEmail(string email,DateTime date,int subscription)
+        {
+            //return types 
+            //0 - something went wrong
+            //1 - subscribed
+            //2 - already subscribed
+            //3 - unsubscribed
+            int retVal = 0;
+            try
+            {
+                
+                    DataTable dt = new DataTable();
+                    string cmdText = "select `Email` from `subscriptionemails` where `email`=@email";
+                    cmd = new MySqlCommand(cmdText, con);
+                    cmd.Parameters.AddWithValue("@email", email);
+                    con.Open();
+                    MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                    da.Fill(dt);
+                    con.Close();
+                    if (dt.Rows.Count < 1)
+                    {
+                        if (subscription == 1)
+                        {
+                            
+                            //subscription == 1 is to subscribe
+                            string cmdText1 = "insert into `subscriptionemails`(`Email`,`IsSubscribed`,`SubscribedDate`) values(@email,@subscription,@date)";
+                            cmd = new MySqlCommand(cmdText1, con);
+                            cmd.Parameters.AddWithValue("@email", email);
+                            cmd.Parameters.AddWithValue("@date", date);
+                            cmd.Parameters.AddWithValue("@subscription", subscription);
+                            con.Open();
+                            cmd.ExecuteNonQuery();
+                            con.Close();
+                            retVal = 1;
+                        }
+                        
+                    }
+                    else
+                    {
+                        //Already registered
+                        retVal = 2;
+                        if (subscription == 2)
+                        {
+                            //unsubscription
+                        }
+                    }
+                
+
+            }
+            catch (Exception ex)
+            {
+                retVal = 0;
+            }
+            return retVal;
+        }
+        #endregion
+
     }
 }

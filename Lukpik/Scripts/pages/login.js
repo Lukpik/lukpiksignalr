@@ -18,17 +18,20 @@ $(document).ready(function () {
 
     //Website Home Page
     hubEngine.client.loginResult = function (username, msg) {
-        RemoveProgressBarLoader();
         $('#lblmsg').show();
         if (msg == "1") {
             createCookie("lukpikretailer_usename", username, 1);
-            $('#lblmsg').text("Login success, please wait, we redirect you to your space.");
+            $('#lblmsg').text("Login success, please wait while we redirect you to your store.");
             location.href = "../retailers/home.html";
         }
-        else if (msg == "2")
+        else if (msg == "2") {
             $('#lblmsg').text("Invalid username / password.");
-        else 
+            RemoveProgressBarLoader();
+        }
+        else {
             $('#lblmsg').text("Something went wrong, please try again later.");
+            RemoveProgressBarLoader();
+        }
     };
 
 });
@@ -39,7 +42,13 @@ function Login() {
     var uname = $('#txtUname').val();
     var pwd = $('#txtPassword').val();
     if (uname != "" && pwd != "") {
-        hubEngine.server.login(uname,pwd, $.connection.hub.id);
+        if (validEmail)
+            hubEngine.server.login(uname, pwd, $.connection.hub.id);
+        else {
+            RemoveProgressBarLoader();
+            $('#lblmsg').show();
+            $('#lblmsg').text("Incorrect Email Format.");
+        }
     }
     else {
         RemoveProgressBarLoader();

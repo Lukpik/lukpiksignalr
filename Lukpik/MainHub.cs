@@ -56,7 +56,7 @@ namespace Lukpik
 
         }
 
-       
+
         public void corpimg(string x, string y, string h, string w, string r, string filename, string clientID, string email)
         {
             int w1 = Convert.ToInt32(w);
@@ -108,11 +108,11 @@ namespace Lukpik
             //Clients.Client(clientID).storeImgPath(pt);
         }
 
-        public void updateImage(string email, string clientID,string isfrom)
+        public void updateImage(string email, string clientID, string isfrom)
         {
             try
             {
-                
+
                 MySQLBusinessLogic bl = new MySQLBusinessLogic();
                 DataTable dt = bl.GetStoreImage(email);
                 byte[] bytes = (Byte[])dt.Rows[0].ItemArray[0];
@@ -166,11 +166,11 @@ namespace Lukpik
             //name = "praveen" + name;
             //Clients.Client(clientID).testJS(name);
 
-            string body="<html> <head> <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/> <meta name='viewport' content='width=device-width, initial-scale=1.0'/> <title>Responsive email</title> <style type='text/css'> body{margin: 10px 0; padding: 0 10px; background: #F9F2E7; font-size: 13px;}table{border-collapse: collapse;}td{font-family: Calibri; color: #333333;}@media only screen and (max-width: 480px){body,table,td,p,a,li,blockquote{-webkit-text-size-adjust:none !important;}table{width: 100% !important;}.responsive-image img{height: auto !important; max-width: 50% !important; width: 50% !important;}}</style> </head> <body> <table border='0' cellpadding='0' cellspacing='0' width='100%'> <tr> <td> <table border='0' cellpadding='0' cellspacing='0' align='center' width='640' bgcolor='#FFFFFF'> <tr> <td style='font-size: 0; line-height: 0; padding: 0 10px; background:url(http://www.lukpik.com/img/comingsoon.png)' height='140' align='center' class='responsive-image'> <img src='http://www.lukpik.com/img/logowhite.png' width='200' alt=''/> </td></tr><tr><td style='font-size: 0; line-height: 0;' height='30'>&nbsp;</td></tr><tr> <td style='padding: 10px 10px 20px 10px;'> <div style='font-size: 25px;color:rgb(42, 177, 237);text-align:center;font-weight:bold;'>We are happy to have you on board !</div><br/> <div style='font-size: 20px;color:rgb(91, 90, 90);text-align:center;'> Get ready to wipe the boot stains of your store floor more often. </div><br/> <div style='font-family:Calibri; font-size: 25px;color:rgb(91, 90, 90);text-align:center;font-weight:bold;'> Customers are coming ! </div><br/> <div style='font-family:Calibri; font-size: 18px;color:rgb(91, 90, 90);text-align:justify;'> You are almost there , please login to lukpik and fill in details about your store and with in few minutes you can start uploading products you want to sell. </div></td></tr><tr><td style='font-size: 0; line-height: 0;' height='1' bgcolor='#F9F9F9'>&nbsp;</td></tr><tr><td style='font-size: 0; line-height: 0;' height='30'>&nbsp;</td></tr><tr> <td> </td></tr><tr><td style='font-size: 0; line-height: 0;' height='20'>&nbsp;</td></tr><tr> <td bgcolor='#485465'> <table border='0' cellpadding='0' cellspacing='0' width='100%'> <tr><td style='font-size: 0; line-height: 0;' height='15'>&nbsp;</td></tr><tr> <td style='padding: 0 10px; color: #FFFFFF;'> Lukpik </td></tr><tr><td style='font-size: 0; line-height: 0;' height='15'>&nbsp;</td></tr></table> </td></tr></table> </td></tr></table> </body></html>";
+            string body = "<html> <head> <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/> <meta name='viewport' content='width=device-width, initial-scale=1.0'/> <title>Responsive email</title> <style type='text/css'> body{margin: 10px 0; padding: 0 10px; background: #F9F2E7; font-size: 13px;}table{border-collapse: collapse;}td{font-family: Calibri; color: #333333;}@media only screen and (max-width: 480px){body,table,td,p,a,li,blockquote{-webkit-text-size-adjust:none !important;}table{width: 100% !important;}.responsive-image img{height: auto !important; max-width: 50% !important; width: 50% !important;}}</style> </head> <body> <table border='0' cellpadding='0' cellspacing='0' width='100%'> <tr> <td> <table border='0' cellpadding='0' cellspacing='0' align='center' width='640' bgcolor='#FFFFFF'> <tr> <td style='font-size: 0; line-height: 0; padding: 0 10px; background:url(http://www.lukpik.com/img/comingsoon.png)' height='140' align='center' class='responsive-image'> <img src='http://www.lukpik.com/img/logowhite.png' width='200' alt=''/> </td></tr><tr><td style='font-size: 0; line-height: 0;' height='30'>&nbsp;</td></tr><tr> <td style='padding: 10px 10px 20px 10px;'> <div style='font-size: 25px;color:rgb(42, 177, 237);text-align:center;font-weight:bold;'>We are happy to have you on board !</div><br/> <div style='font-size: 20px;color:rgb(91, 90, 90);text-align:center;'> Get ready to wipe the boot stains of your store floor more often. </div><br/> <div style='font-family:Calibri; font-size: 25px;color:rgb(91, 90, 90);text-align:center;font-weight:bold;'> Customers are coming ! </div><br/> <div style='font-family:Calibri; font-size: 18px;color:rgb(91, 90, 90);text-align:justify;'> You are almost there , please login to lukpik and fill in details about your store and with in few minutes you can start uploading products you want to sell. </div></td></tr><tr><td style='font-size: 0; line-height: 0;' height='1' bgcolor='#F9F9F9'>&nbsp;</td></tr><tr><td style='font-size: 0; line-height: 0;' height='30'>&nbsp;</td></tr><tr> <td> </td></tr><tr><td style='font-size: 0; line-height: 0;' height='20'>&nbsp;</td></tr><tr> <td bgcolor='#485465'> <table border='0' cellpadding='0' cellspacing='0' width='100%'> <tr><td style='font-size: 0; line-height: 0;' height='15'>&nbsp;</td></tr><tr> <td style='padding: 0 10px; color: #FFFFFF;'> Lukpik </td></tr><tr><td style='font-size: 0; line-height: 0;' height='15'>&nbsp;</td></tr></table> </td></tr></table> </td></tr></table> </body></html>";
 
-            
-                        string subject = "You have changed you password.";
-                        //SendEMail("support@lukpik.com", "nagarjuna.kendyala@hotmail.com", subject, body);
+
+            string subject = "You have changed you password.";
+            //SendEMail("support@lukpik.com", "nagarjuna.kendyala@hotmail.com", subject, body);
         }
 
         #region ADD / UPDATE STORE AND PASSWORD GENERATION
@@ -288,10 +288,28 @@ namespace Lukpik
         #endregion
 
         #region LOGIN
+        private void CreateIfMissing()
+        {
+            try
+            {
+                //var dir = new DirectoryInfo(@"..\\");
+                //File.Create(dir.FullName + "\\file.ext");
+
+                string st = Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase)));
+                st=st.Replace("file:\\", "");
+                var dir = new DirectoryInfo(@st + "\\Lukpik\\StoreImages\\");
+                File.Create(dir.FullName + "\\file.ext");
+
+            }
+            catch (Exception ex)
+            {
+            }
+        }
         public void login(string username, string pwd, string clientID)
         {
             try
             {
+                //CreateIfMissing();
                 MySQLBusinessLogic bl = new MySQLBusinessLogic();
                 int result = bl.LoginUser(username, Encrypt(pwd));
                 if (result == 1)
@@ -314,6 +332,7 @@ namespace Lukpik
             }
             catch (Exception ex)
             {
+                Clients.Client(clientID).loginResult(username, "0");
             }
         }
 
@@ -504,7 +523,7 @@ namespace Lukpik
 
         }
 
-        private string AttachTexttoMailTemplate(string middleText,string loginRedirect,string heading,bool disableButton)
+        private string AttachTexttoMailTemplate(string middleText, string loginRedirect, string heading, bool disableButton)
         {
             //hide button when disableButton is true
             //show button when disableButton is false
@@ -607,8 +626,8 @@ namespace Lukpik
         }
         #endregion
 
-        #region CONTACT US
-        public void contactUs(string name, string email, string phone, string message,string clientID)
+        #region CONTACT US & SUBSCRIPTION
+        public void contactUs(string name, string email, string phone, string message, string clientID)
         {
             try
             {
@@ -628,11 +647,38 @@ namespace Lukpik
                 Clients.Client(clientID).mailSent("0");
             }
         }
+
+        public void subscribe(string email, string clientID)
+        {
+            try
+            {
+                MySQLBusinessLogic bl = new MySQLBusinessLogic();
+                int result = bl.SubscriptionEmail(email, DateTime.Now, 1);
+                if (result == 1)
+                {
+                    //Subscribed
+                    Clients.Client(clientID).subscribed("1");
+                }
+                else if (result == 2)
+                {
+                    //Already registered
+                    Clients.Client(clientID).subscribed("2");
+                }
+                else
+                {
+                    Clients.Client(clientID).subscribed("0");
+                }
+            }
+            catch (Exception ex)
+            {
+                Clients.Client(clientID).subscribed("0");
+            }
+        }
         #endregion
 
         #region PRODUCTS
 
-        public void addProduct(string productname, string gender, string productFamilyId, string productdescription, string price, string quantity, string size, string color, string visibility, string productCat_Sub_ID, string brandID, string collection, string images, string email, string clientID, string fileNames1,string ecommecelink)
+        public void addProduct(string productname, string gender, string productFamilyId, string productdescription, string price, string quantity, string size, string color, string visibility, string productCat_Sub_ID, string brandID, string collection, string images, string email, string clientID, string fileNames1, string ecommecelink)
         {
             try
             {
@@ -693,10 +739,10 @@ namespace Lukpik
                 //{
                 //    brandID = bl.InsertBrandandGetID(brand);
                 //}
-                
+
                 DataTable dt = bl.GetStoreID(email);
                 int storeID = Convert.ToInt32(dt.Rows[0].ItemArray[0]);
-                int retVal = bl.AddProduct(productname, gender, Convert.ToInt32(productFamilyId), productdescription, Convert.ToDouble(price), quantity, size, color, Convert.ToInt32(visibility), productCategoryID,productSubCategoryID, Convert.ToInt32(brandID), collection, images, storeID, DateTime.Now, email, lstByte, PrvImg, ecommecelink);
+                int retVal = bl.AddProduct(productname, gender, Convert.ToInt32(productFamilyId), productdescription, Convert.ToDouble(price), quantity, size, color, Convert.ToInt32(visibility), productCategoryID, productSubCategoryID, Convert.ToInt32(brandID), collection, images, storeID, DateTime.Now, email, lstByte, PrvImg, ecommecelink);
                 if (retVal == 1)
                     Clients.Client(clientID).addedProduct("1");
                 else
@@ -714,14 +760,14 @@ namespace Lukpik
             {
                 int productCategoryID = Convert.ToInt32(productCat_Sub_ID.Split('_')[1]);
                 int productSubCategoryID = Convert.ToInt32(productCat_Sub_ID.Split('_')[0]);
-                int pro_ID=0;
-                if(productID!="")
-                    pro_ID=Convert.ToInt32(productID);
+                int pro_ID = 0;
+                if (productID != "")
+                    pro_ID = Convert.ToInt32(productID);
                 MySQLBusinessLogic bl = new MySQLBusinessLogic();
-                 DataTable dt = bl.GetStoreID(email);
+                DataTable dt = bl.GetStoreID(email);
                 int storeID = Convert.ToInt32(dt.Rows[0].ItemArray[0]);
-                int result = bl.UpdateProduct(pro_ID, productname, gender,Convert.ToInt32(productFamilyId), productdescription,Convert.ToDouble(price), quantity, size, color, Convert.ToInt32(visibility), productCategoryID,productSubCategoryID, Convert.ToInt32(brandID), collection, storeID, DateTime.Now, email, ecommecelink);
-                if(result==1)
+                int result = bl.UpdateProduct(pro_ID, productname, gender, Convert.ToInt32(productFamilyId), productdescription, Convert.ToDouble(price), quantity, size, color, Convert.ToInt32(visibility), productCategoryID, productSubCategoryID, Convert.ToInt32(brandID), collection, storeID, DateTime.Now, email, ecommecelink);
+                if (result == 1)
                     Clients.Client(clientID).addedProduct("1");
                 else
                     Clients.Client(clientID).addedProduct("0");
@@ -732,7 +778,7 @@ namespace Lukpik
                 Clients.Client(clientID).addedProduct("0");
             }
         }
-        public void removeProduct(string productID,string trID, string clientID)
+        public void removeProduct(string productID, string trID, string clientID)
         {
             try
             {
@@ -755,12 +801,12 @@ namespace Lukpik
                 Clients.Client(clientID).removedProduct("0", trID);
             }
         }
-        public void getProductDetails(string email, string productID,string clientID)
+        public void getProductDetails(string email, string productID, string clientID)
         {
             try
             {
-                int prod_ID=0;
-                if(productID!="")
+                int prod_ID = 0;
+                if (productID != "")
                     prod_ID = Convert.ToInt32(productID);
                 MySQLBusinessLogic bl = new MySQLBusinessLogic();
                 DataTable dtStore = bl.GetStoreID(email);
@@ -791,7 +837,8 @@ namespace Lukpik
                                 else
                                     json2 += ",\"NoImage\"";
                             }
-                            else {
+                            else
+                            {
                                 json2 += ",\"NoImage\"";
                             }
                         }
@@ -810,8 +857,8 @@ namespace Lukpik
                 Clients.Client(clientID).productDetails("");
             }
         }
-        
-        
+
+
 
         public void getProductFamily(string clientID)
         {
@@ -906,7 +953,7 @@ namespace Lukpik
                 Clients.Client(clientID).changedOptions("");
             }
         }
-      
+
         #endregion
 
     }

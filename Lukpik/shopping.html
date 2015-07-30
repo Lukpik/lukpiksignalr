@@ -23,6 +23,9 @@
 
     <![endif]-->
     <link rel="stylesheet" href="countdowntimer/css/TimeCircles.css">
+    <!--Latest JQuery-->
+    <script src="Scripts/jquery-2.1.1.min.js"></script>
+    <script src="Scripts/processBar.js"></script>
     <script>
         (function (i, s, o, g, r, a, m) {
             i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
@@ -156,9 +159,10 @@
 
                         <div style="text-align:center;" class="comSoon">
 
-                            <input type="email" name="" value="" placeholder="Enter your email" required>
+                            <input type="email" name="" id="txtSubscribeEmail" value="" onblur="ValidateEmailSub();" placeholder="Enter your email" required>
                             &nbsp;&nbsp;
-                            <input type="submit" name="" class="" value="Send">
+                            <input type="submit" name="" class="" value="Send" onclick = "Subscribe();">
+                            <br /><span style="color:white;display:none;" id="lblSubmsg"></span>
                         </div>
 
                     </div>
@@ -217,10 +221,10 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/waypoints.min.js"></script>
+    
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/scripts.js"></script>
-    <script src="js/jquery.flexslider.js"></script>
+    
+    
     <script src="js/modernizr.js"></script>
 
 
@@ -236,7 +240,7 @@
     <script type="text/javascript">
         $(function () {
             // Invoke the plugin
-            $('input, textarea').placeholder();
+            //$('input, textarea').placeholder();
         });
     </script>
     <script>
@@ -263,5 +267,12 @@
       );
 
     </script>
+    <!--Signal R-->
+    <script src="Scripts/jquery.signalR-2.2.0.js"></script>
+    <script src="signalr/hubs"></script>
+
+    <script src="Scripts/main.js"></script>
+    <script src="Scripts/pages/all.js"></script>
+
 </body>
 </html>

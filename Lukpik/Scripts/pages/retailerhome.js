@@ -164,13 +164,15 @@ $(document).ready(function () {
     };
 
     hubEngine.client.updatedStores = function (msg) {
-        RemoveProgressBarLoader();
+        
         if (msg == "1") {
             AddAlert("", "Updated successfully.");
             localStorage.setItem("fname", $('#txtOwnerFirstname').val());
         }
         else if (msg == "0")
             AddAlert("error", "Something went wrong, please try again later.");
+
+        RemoveProgressBarLoader();
     };
 
     hubEngine.client.changedPassword = function (msg) {

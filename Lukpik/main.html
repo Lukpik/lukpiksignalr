@@ -117,12 +117,15 @@
                 </div>-->
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2 text-center inner" style="text-align:center;">
+                        <label style="color:white;font-size:25px;" class="animated fadeInDown">Hyperlocal fashion discovery app</label>
+                        <br /><br />
                         <img src="img/logoyellow.png" class="img-responsive animated fadeInDown" />
-                        <!--<h1 class="animated fadeInDown">HALCYON<span>DAYS</span></h1>-->
-                        <label class="labelOne">Pick&nbsp;</label><label class="labelTwo">smart.</label>&nbsp;<label class="labelOne">Look&nbsp;</label><label class="labelTwo">great.</label>
-                        <!--<h1 class="animated fadeInDown fontLuk">Luk<span class="fontPik">&nbsp;Pik</span></h1>-->
-                        <!--<p class="animated fadeInUp delay-05s">An exclusive HTML5/CSS3 freebie by Peter Finlan, for <em>Codrops</em></p>-->
+                        
+                        <label class="labelOne">Look&nbsp;</label><label class="labelTwo">online.</label>&nbsp;<label class="labelOne">Pick&nbsp;</label><label class="labelTwo">offline.</label>
                     </div>
+                </div>
+                <div class="row">
+                    
                 </div>
                 <div class="row" style="text-align:center;">
                     <div class="col-md-3"></div>
@@ -438,9 +441,9 @@
         <div class="container">
             <h1><i class="fa fa-paper-plane"></i><span>Subscribe to stay in the loop</span></h1>
 
-            <input type="text" id="txtSubscribeEmail" name="" value="" placeholder="" required>
+            <input type="text" id="txtSubscribeEmail" name="" value="" onblur="ValidateEmailSub();" placeholder="" required>
             <input type="submit" name="" value="Send" onclick="Subscribe();">
-
+            <br /><span style="color:white;display:none;" id="lblSubmsg"></span>
         </div>
     </section>
     <section class="dark-bg text-center section-padding contact-wrap" id="contact">
