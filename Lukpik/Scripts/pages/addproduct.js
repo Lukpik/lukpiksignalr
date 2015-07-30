@@ -322,7 +322,7 @@ function triggerNextFileUpload() {
 
 function AddSpecification() {
     var divID = "div" + _cnt;
-    var str = '<div class="row" id="' + divID + '" style="background-color:#eaeaea;padding-top:10px;margin-bottom:2px;"> <div class="col-md-4 cssmarginbotom col-sm-12 col-xs-12"> <label class="control-label">Size(s)</label> <div class=""> <input id="tags_Sizes" type="text" class="tags form-control" value="" placeholder="small, medium, large"/> <div id="suggestions-container1" style="position: relative; float: left; width: 250px; margin: 10px;"></div></div></div><div class="col-md-4 cssmarginbotom col-sm-12 col-xs-12"><label class="control-label">Color(s)</label> <div class=""> <input id="tags_Colors" type="text" class="tags form-control" value=""/> <div id="suggestions-container2" style="position: relative; float: left; width: 250px; margin: 10px;"></div></div></div><div class="col-md-3 col-sm-12 col-xs-12">  <label for="">Quantity :</label><input type="text" class="form-control" name="fullname" placeholder="10"/> </div><div class="col-md-1 col-sm-12 col-xs-12"><label class="control-label">Delete</label> <button class="btn btn-danger btn-sm" onclick="RemoveDiv(\'' + divID + '\');"><span class="fa fa-minus"></span></button></div></div>';
+    var str = '<div class="row" id="' + divID + '" style="background-color:#eaeaea;padding-top:10px;margin-bottom:2px;"> <div class="col-md-4 cssmarginbotom col-sm-12 col-xs-12"> <label class="control-label">Size(s)</label> <div class=""> <input id="tags_Sizes" type="text" class="tags form-control" value="" placeholder="small, medium, large"/> <div id="suggestions-container1" style="position: relative; float: left; width: 250px; margin: 10px;"></div></div></div><div class="col-md-4 cssmarginbotom col-sm-12 col-xs-12"><label class="control-label">Color(s)</label> <div class=""> <input id="tags_Colors" type="text" class="tags form-control" value=""/> <div id="suggestions-container2" style="position: relative; float: left; width: 250px; margin: 10px;"></div></div></div><div class="col-md-3 col-sm-12 col-xs-12">  <label for="">Quantity :</label><input type="text" class="form-control" name="fullname" placeholder="10"/> </div><div class="col-md-1 col-sm-12 col-xs-12"><label class="control-label">Delete</label> <button class="btn btn-danger btn-sm" onclick="RemoveDiv(\'' + divID + '\');"><span class="fa fa-remove"></span></button></div></div>';
     $('#divSpecification').append(str);
     _cnt++;
 
@@ -453,4 +453,9 @@ function isDecimal(evt) {
         return false;
     }
     return true;
+}
+
+function ClearFileUpload() {
+    $('#file-5').fileinput('clear');
+    //$('#w20').modal('show');
 }
