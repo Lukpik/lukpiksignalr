@@ -307,7 +307,7 @@ var _cropJson = "";
 
     alert: function (msg) {
       var $alert = [
-            '<div class="alert alert-danger avater-alert">',
+            '<div class="alert alert-danger avater-alert" style="display:none;">',
               '<button type="button" class="close" data-dismiss="alert">&times;</button>',
               msg,
             '</div>'

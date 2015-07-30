@@ -398,9 +398,11 @@
                                     <label>Brands you sell</label>
                                     <div class="" id="divBrands">
                                         <input id="tags_BrandsText" type="text" class="form-control" value="" placeholder="Brands you sell [comma seperated]" />
+                                        <!--<input id="tags_Brands" type="text" class="tags form-control" />
+    <div id="suggestions-container3" style="position: relative; float: left; width: 250px; margin: 10px;"></div>-->
+                                        
                                     </div>
-                                    <!--<input id="tags_Brands" type="text" class="tags form-control" value="levis,diesel" />
-                                    <div id="suggestions-container3" style="position: relative; float: left; width: 250px; margin: 10px;"></div>-->
+                                    
                                 </div>
                             </div>
                             <div class="row cssmarginbotom">
@@ -775,8 +777,10 @@
 
         $(function () {
             $('#tags_Brands').tagsInput({
-                width: 'auto'
+                width: 'auto',
+                //itemText:'label'
             });
+            //$('#tags_Brands').tagsInput();
         });
     </script>
     

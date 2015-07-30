@@ -146,6 +146,14 @@ function AddProduct() {
     var tags = $('#tags_Collection').val();
     var ecommercelink = $('#txtECommerceLink').val();
 
+  var ProductImages = []; var ProductImageNames = [];
+  if (file5 != null && file5 != "")
+  {
+      ProductImageNames.push(file5Name); ProductImages.push(file5);
+  }
+  if (file6 != null && file6 != "") {
+      ProductImageNames.push(file6Name); ProductImages.push(file6);
+  }
     if (productname != "" && gender != "" && productFamilyID != "" && price != "" && productCategorySubCategoryID != "" && brandID != "") {
         // productname,  gender,  productFamily,  productdescription, price,  quantity,  size,  color,  visibility, prodyctype,  brand, collection,  images, clientID
         var productID = readCookie("productID");
@@ -169,20 +177,20 @@ function AddProduct() {
     }
 
 }
-function GetAllImages() {
+function GetAllImages(id) {
     //$('#file-5').fileinput('clear');
-    ProductImages = []; ProductImageNames = [];
+    //ProductImages = []; ProductImageNames = [];
     var j = 1;
-    for (var i = 0; i < $("#file-5")[0].files.length; i++) {
+    for (var i = 0; i < $("#"+id)[0].files.length; i++) {
         currFile = i;
-        var sFileName = $("#file-5")[0].files[i].name;
-        var sFileSize = $("#file-5")[0].files[i].size;
+        var sFileName = $("#" + id)[0].files[i].name;
+        var sFileSize = $("#" + id)[0].files[i].size;
         var sFileExtension = sFileName.split('.')[sFileName.split('.').length - 1].toLowerCase();
         if (sFileExtension == 'jpg' || sFileExtension == 'jpeg' || sFileExtension == 'png' || sFileExtension == 'gif') {
             //if (sFileSize < 10000000) {
             //$("#divProgress").attr("style", "width:10%");
             //$("#uploadfilePercentage").text("10%");
-            totalFileCount = $("#file-5")[0].files.length;
+            totalFileCount = $("#" + id)[0].files.length;
             //$('#dropRegion').attr("style", "display:none;");
             //S('#progressBar').attr("style", "display:block;");
             //$('#progressBarETL').attr('style', 'display:block;');
@@ -190,7 +198,7 @@ function GetAllImages() {
             //                var progControl = $("#dvProgess").append($("#fileInput")[0].files[j].name + "<div id='progress" + j + "'></div><div class='progress progress-striped' id='ProgressComp" + j + "' style='width: 400px; height: 15px; '> <div class='bar' id='progbarWidth" + j + "' style='width: 0%; height: 15px;'>&nbsp;</div></div>");
             //            }
             //uploadFile();
-            sendFile($("#file-5")[0].files[i], j, $("#file-5")[0].files.length);
+            sendFile($("#" + id)[0].files[i], j, $("#" + id)[0].files.length,id);
             //}
             //else {
             //     $("#fileInput").val("");
@@ -203,10 +211,11 @@ function GetAllImages() {
 
     }
 }
-var ProductImages = []; var ProductImageNames = [];
+//var ProductImages = []; var ProductImageNames = [];
 var currFile = 0;
 var totalFileCount = 0;
 var filecount = 0;
+var file5Name, file6Name, file5, file6;
 function FileSelected() {
     var j = 1;
     for (var i = 0; i < $("#file-5")[0].files.length; i++) {
@@ -242,7 +251,7 @@ function FileSelected() {
 }
 
 //File Upload and other function Script
-function sendFile(file, j, k) {
+function sendFile(file, j, k,id) {
     //var mainFileName = file.name.replace(/[&]/g, "([@-@-@])");
     //$("#divProgress").attr("style", "width:30%");
     //$("#uploadfilePercentage").text("30%");
@@ -269,11 +278,19 @@ function sendFile(file, j, k) {
                     now = now.getTime();
 
 
-                    if (file.name != "" && file.name != null && result != "" && result != null) {
-                        ProductImageNames.push(now + file.name); ProductImages.push(result);
+                    if (file.name != "" && file.name != null && result != "" && result != null && id=="file-5") {
+                        file5Name = now + file.name; file5 = result;
+                        //ProductImageNames.push(now + file.name); ProductImages.push(result);
                     }
+                    if (file.name != "" && file.name != null && result != "" && result != null && id == "file-6") {
+                        file6Name = now + file.name; file6 = result;
+                        //ProductImageNames.push(now + file.name); ProductImages.push(result);
+                    }
+
                     //if (k === j)
-                    //    BeginProcess(ProductImages, ProductImageNames.name, 0);
+                    //    AddProduct();
+                        
+                        //BeginProcess(ProductImages, ProductImageNames.name, 0);
                 },
                 data: file,
                 cache: false,
@@ -303,20 +320,20 @@ function sendFile(file, j, k) {
                 //$("#divProgress").width(s + "%");
                 //$("#uploadfilePercentage").text(s + "%");
                 if (s == 100) {
-                    triggerNextFileUpload();
+                    triggerNextFileUpload(id);
                 }
             }
         }
     });
 }
 
-function triggerNextFileUpload() {
+function triggerNextFileUpload(id) {
     if (currFile < totalFileCount - 1) {
         currFile = currFile + 1;
-        sendFile($("#file-5")[0].files[currFile]);
+        sendFile($("#"+id)[0].files[currFile]);
     }
     else {
-        $("#file-5").replaceWith($("#file-5").clone());
+        $("#"+id).replaceWith($("#"+id).clone());
     }
 }
 
@@ -433,7 +450,13 @@ function FormProductCategory(myobj) {
     $(".select2_group").select2({});
     
 }
+$('#file-5').change(function() {
+    GetAllImages("file-5");
+});
 
+$('#file-6').change(function () {
+    GetAllImages("file-6");
+});
 function CloseModal() {
     $('#modalProductAdded').modal('hide');
     location.href = "addproduct.html";
@@ -456,6 +479,8 @@ function isDecimal(evt) {
 }
 
 function ClearFileUpload() {
-    $('#file-5').fileinput('clear');
+    //$('#file-5').fileinput('clear');
     //$('#w20').modal('show');
+
+   var t1= $('.file-preview-image').title;
 }

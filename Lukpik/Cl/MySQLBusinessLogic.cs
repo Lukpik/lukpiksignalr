@@ -987,6 +987,84 @@ namespace Lukpik.Cl
             }
             return dt;
         }
+
+        public bool AddSpecification(string email, string colorSpecificationValues, string sizeSpecificaionValues,string collectionValues)
+        {
+            bool retVal = false;
+            try
+            {
+                //get product id
+                string cmdText = "SELECT  `ProductID` from `products` where `CreatedUser`=@email order by `CreatedDate` desc limit 1";
+                cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddWithValue("@email", email);
+                con.Open();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                con.Close();
+                if (dt.Rows.Count > 0)
+                {
+                    int productID = Convert.ToInt32(dt.Rows[0].ItemArray[0]);
+
+                    if (colorSpecificationValues != "")
+                    {
+                        //color specification
+                        string[] colors = colorSpecificationValues.Split(',');
+                        for (int i = 0; i < colors.Length; i++)
+                        {
+                            //1 - color
+                            AddSpecificationDetails(colors[i], productID, 1);
+                        }
+                    }
+                    if (sizeSpecificaionValues != "")
+                    {
+                        //size specification
+                        string[] sizes = sizeSpecificaionValues.Split(',');
+                        for (int i = 0; i < sizes.Length; i++)
+                        {
+                            //2 -size
+                            AddSpecificationDetails(sizes[i], productID, 2);
+                        }
+                    }
+                    if (collectionValues != "")
+                    {
+                        //size specification
+                        string[] tags = collectionValues.Split(',');
+                        for (int i = 0; i < tags.Length; i++)
+                        {
+                            //3 -Tag
+                            AddSpecificationDetails(tags[i], productID, 3);
+                        }
+                    }
+                    
+
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+            }
+            return retVal;
+        }
+
+        public void AddSpecificationDetails(string specVal, int productID, int specID)
+        {
+            try
+            {
+                string cmdText = "insert into `productspecifications` (`ProductID`,`SpecificationID`,`Value`) values(@productID,@specID,@specVal)";
+                cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddWithValue("@productID", productID);
+                cmd.Parameters.AddWithValue("@specID", specID);
+                cmd.Parameters.AddWithValue("@specVal", specVal);
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+            }
+        }
         #endregion
 
         public bool UpdateStoreImage(byte[] ImageData, string email, DateTime datemodified)

@@ -690,6 +690,7 @@ namespace Lukpik
             {
                 int productCategoryID = Convert.ToInt32(productCat_Sub_ID.Split('_')[1]);
                 int productSubCategoryID = Convert.ToInt32(productCat_Sub_ID.Split('_')[0]);
+
                 var fileNames = fileNames1.Split(',');
                 var fileimages = images.Split(',');
                 byte[] PrvImg = null;
@@ -753,6 +754,10 @@ namespace Lukpik
                 DataTable dt = bl.GetStoreID(email);
                 int storeID = Convert.ToInt32(dt.Rows[0].ItemArray[0]);
                 int retVal = bl.AddProduct(productname, gender, Convert.ToInt32(productFamilyId), productdescription, Convert.ToDouble(price), quantity, size, color, Convert.ToInt32(visibility), productCategoryID, productSubCategoryID, Convert.ToInt32(brandID), collection, images, storeID, DateTime.Now, email, lstByte, PrvImg, ecommecelink);
+                if (size != "" || color != "")
+                {
+                    bl.AddSpecification(email, color, size);
+                }
                 if (retVal == 1)
                     Clients.Client(clientID).addedProduct("1");
                 else

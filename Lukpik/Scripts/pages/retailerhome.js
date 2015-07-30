@@ -159,8 +159,9 @@ $(document).ready(function () {
                 InitializeMap(CheckNull(obj[0].Latitude) * 1, CheckNull(obj[0].Longitude) * 1)
             else
                 IdentifyLocation();
-            RemoveProgressBarLoader();
+            
         }
+        RemoveProgressBarLoader();
     };
 
     hubEngine.client.updatedStores = function (msg) {
@@ -270,7 +271,9 @@ function CheckNull(value, fromType) {
 function Test() {
     //document.getElementById("rbtnCCYes").checked = false;
     //document.getElementById("rbtnCCNo").checked = true;
-    $('#tags_Brands').value = "list,list2";
+    //$('#tags_Brands').value = "list,list2";
+    //itemText: 'label'
+   
 }
 
 
