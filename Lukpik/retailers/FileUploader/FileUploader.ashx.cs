@@ -20,7 +20,10 @@ namespace  Lukpik.retailers.FileUploader
                 //fileName = HttpContext.Current.Request.QueryString.ToString().Split(new string[] { "FileName=" }, StringSplitOptions.None)[1];
                 //fileName = HttpContext.Current.Request.QueryString["FileName"].ToString().Replace("([@-@-@])", "&");
                // fileName = DateTime.Now.Ticks.ToString() + "_" + HttpContext.Current.Request.QueryString["UserID"].ToString() + "_" + HttpContext.Current.Request.QueryString["SessionID"].ToString();
-                string path = System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").First().ToString();
+                string rootPath = Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase)));
+                rootPath = rootPath.Replace("file:\\", "");
+                rootPath = rootPath + "\\Lukpik\\StoreImages\\";
+                string path = rootPath;
                 //if (HttpContext.Current.Request.QueryString["UserID"].ToString().Trim() == "0")
                 //    path = System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").First().ToString() + "Users\\" + HttpContext.Current.Request.QueryString["SessionID"].ToString().Trim() + "\\";
                 fileName = fileName.Length > 64 ? (fileName.Substring(0, 50) + "." + fileName.Split('.').Last()) : fileName;

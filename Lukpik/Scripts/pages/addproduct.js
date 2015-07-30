@@ -177,42 +177,58 @@ function AddProduct() {
         RemoveProgressBarLoader();
         AddAlert("error", "Please fill mandatory fields.");
     }
-
+   
 }
+
 function GetAllImages(id) {
     //$('#file-5').fileinput('clear');
     //ProductImages = []; ProductImageNames = [];
     var j = 1;
-    for (var i = 0; i < $("#"+id)[0].files.length; i++) {
-        currFile = i;
-        var sFileName = $("#" + id)[0].files[i].name;
-        var sFileSize = $("#" + id)[0].files[i].size;
-        var sFileExtension = sFileName.split('.')[sFileName.split('.').length - 1].toLowerCase();
-        if (sFileExtension == 'jpg' || sFileExtension == 'jpeg' || sFileExtension == 'png' || sFileExtension == 'gif') {
-            //if (sFileSize < 10000000) {
-            //$("#divProgress").attr("style", "width:10%");
-            //$("#uploadfilePercentage").text("10%");
-            totalFileCount = $("#" + id)[0].files.length;
-            //$('#dropRegion').attr("style", "display:none;");
-            //S('#progressBar').attr("style", "display:block;");
-            //$('#progressBarETL').attr('style', 'display:block;');
-            //            for (j = 0; j < totalFileCount; j++) {
-            //                var progControl = $("#dvProgess").append($("#fileInput")[0].files[j].name + "<div id='progress" + j + "'></div><div class='progress progress-striped' id='ProgressComp" + j + "' style='width: 400px; height: 15px; '> <div class='bar' id='progbarWidth" + j + "' style='width: 0%; height: 15px;'>&nbsp;</div></div>");
-            //            }
-            //uploadFile();
-            sendFile($("#" + id)[0].files[i], j, $("#" + id)[0].files.length,id);
-            //}
-            //else {
-            //     $("#fileInput").val("");
-            //     $("#filesizeAlertModal").modal("show");
-            // }
-            j++;
-        }
-        else
-            j++;
-
+    var totalFiles = []; var totalFilesID = [];
+    if ($("#file-5")[0].files.length != 0) {
+        totalFiles.push($("#file-5")[0].files[0]);
+        totalFilesID.push("file-5");
     }
+    if ($("#file-6")[0].files.length != 0) {
+        totalFiles.push($("#file-6")[0].files[0]);
+        totalFilesID.push("file-6");
+    }
+    if (totalFiles.length != 0) {
+        for (var i = 0; i < totalFiles.length; i++) {
+            currFile = i;
+            var sFileName = totalFiles[i].name;
+            var sFileSize = totalFiles[i].size;
+            var sFileExtension = sFileName.split('.')[sFileName.split('.').length - 1].toLowerCase();
+            if (sFileExtension == 'jpg' || sFileExtension == 'jpeg' || sFileExtension == 'png' || sFileExtension == 'gif') {
+                //if (sFileSize < 10000000) {
+                //$("#divProgress").attr("style", "width:10%");
+                //$("#uploadfilePercentage").text("10%");
+                totalFileCount = totalFiles.length;
+                //$('#dropRegion').attr("style", "display:none;");
+                //S('#progressBar').attr("style", "display:block;");
+                //$('#progressBarETL').attr('style', 'display:block;');
+                //            for (j = 0; j < totalFileCount; j++) {
+                //                var progControl = $("#dvProgess").append($("#fileInput")[0].files[j].name + "<div id='progress" + j + "'></div><div class='progress progress-striped' id='ProgressComp" + j + "' style='width: 400px; height: 15px; '> <div class='bar' id='progbarWidth" + j + "' style='width: 0%; height: 15px;'>&nbsp;</div></div>");
+                //            }
+                //uploadFile();
+                sendFile(totalFiles[i], j, totalFiles.length, totalFilesID[i]);
+                //}
+                //else {
+                //     $("#fileInput").val("");
+                //     $("#filesizeAlertModal").modal("show");
+                // }
+                j++;
+            }
+            else
+                j++;
+        }
+    }
+    else {
+        AddProduct();
+    }
+
 }
+
 //var ProductImages = []; var ProductImageNames = [];
 var currFile = 0;
 var totalFileCount = 0;
@@ -289,8 +305,8 @@ function sendFile(file, j, k,id) {
                         //ProductImageNames.push(now + file.name); ProductImages.push(result);
                     }
 
-                    //if (k === j)
-                    //    AddProduct();
+                    if (k === j)
+                        AddProduct();
                         
                         //BeginProcess(ProductImages, ProductImageNames.name, 0);
                 },
@@ -452,13 +468,7 @@ function FormProductCategory(myobj) {
     $(".select2_group").select2({});
     
 }
-$('#file-5').change(function() {
-    GetAllImages("file-5");
-});
 
-$('#file-6').change(function () {
-    GetAllImages("file-6");
-});
 function CloseModal() {
     $('#modalProductAdded').modal('hide');
     location.href = "addproduct.html";

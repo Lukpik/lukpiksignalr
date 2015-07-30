@@ -222,7 +222,7 @@
                             <label id="lblmsg"></label>
                             <div class="pull-right">
                                 <button class="btn btn-primary">Cancel</button>
-                                <button id="btnSaveTop" class="btn btn-success" onclick="AddProduct();">Save</button>
+                                <button id="btnSaveTop" class="btn btn-success" onclick="GetAllImages();">Save</button>
                             </div>
 
                             <!--
@@ -390,10 +390,10 @@
                                         
                                         <div class="row">
                                             <div class="col-md-3 col-sm-12 col-xs-12">
-                                                <input id="file-5" class="file" type="file" name="kartiks_file" multiple data-preview-file-type="any" data-upload-url="#" data-preview-file-icon="" />
+                                                <input id="file-5" class="file" type="file" name="kartiks_file" accept="image/*" multiple data-preview-file-type="any" data-upload-url="#" data-preview-file-icon="" />
                                             </div>
                                             <div class="col-md-3 col-sm-12 col-xs-12">
-                                                <input id="file-6" class="file" type="file" name="kartiks_file" multiple data-preview-file-type="any" data-upload-url="#" data-preview-file-icon="" />
+                                                <input id="file-6" class="file" type="file" name="kartiks_file" accept="image/*" multiple data-preview-file-type="any" data-upload-url="#" data-preview-file-icon="" />
                                             </div>
                                             <!--<div class="col-md-3 col-sm-12 col-xs-12">
                                                 <input id="file-7" class="file" type="file" disabled name="kartiks_file" multiple data-preview-file-type="any" data-upload-url="#" data-preview-file-icon="" />
@@ -412,10 +412,14 @@
                                 <div class="col-md-6 cssmarginbotom col-sm-12 col-xs-12">
                                     <label class="control-label ">Available colors<small>&nbsp;(Seperated by comma)</small></label>
                                     <input type="text" class="form-control" id="txtColors" />
+                                    <!--<input id="txtColors" type="text" class="tags form-control" value="" />
+                                    <div id="suggestions-container" style="position: relative; float: left; width: 250px; margin: 10px;"></div>-->
                                 </div>
                                 <div class="col-md-6 cssmarginbotom col-sm-12 col-xs-12">
                                     <label class="control-label ">Available sizes<small>&nbsp;(Seperated by comma)</small></label>
                                     <input type="text" class="form-control" id="txtSizes" />
+                                    <!--<input id="txtSizes" type="text" class="tags form-control" value="" />
+                                    <div id="suggestions-container" style="position: relative; float: left; width: 250px; margin: 10px;"></div>-->
                                 </div>
                             </div>
                             <div class="row">
@@ -452,7 +456,7 @@
 
                                 <div class="col-ms-12 col-sm-12 col-xs-12" style="text-align: right;">
                                     <button class="btn btn-primary">Cancel</button>
-                                    <button id="btnSaveBottom" class="btn btn-success" onclick="AddProduct();">Save</button>
+                                    <button id="btnSaveBottom" class="btn btn-success" onclick="GetAllImages();">Save</button>
                                 </div>
                             </div>
 
@@ -615,10 +619,10 @@
         }
 
         $(function () {
-            $('#tags_Sizes').tagsInput({
+            $('#txtSizesTags').tagsInput({
                 width: 'auto'
             });
-            $('#tags_Colors').tagsInput({
+            $('#txtColorsTags').tagsInput({
                 width: 'auto'
             });
             $('#tags_Collection').tagsInput({

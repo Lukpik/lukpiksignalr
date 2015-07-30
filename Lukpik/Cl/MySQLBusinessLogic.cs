@@ -1052,14 +1052,18 @@ namespace Lukpik.Cl
         {
             try
             {
-                string cmdText = "insert into `productspecifications` (`ProductID`,`SpecificationID`,`Value`) values(@productID,@specID,@specVal)";
-                cmd = new MySqlCommand(cmdText, con);
-                cmd.Parameters.AddWithValue("@productID", productID);
-                cmd.Parameters.AddWithValue("@specID", specID);
-                cmd.Parameters.AddWithValue("@specVal", specVal);
-                con.Open();
-                cmd.ExecuteNonQuery();
-                con.Close();
+                specVal = specVal.Trim();
+                if (specVal != "")
+                {
+                    string cmdText = "insert into `productspecifications` (`ProductID`,`SpecificationID`,`Value`) values(@productID,@specID,@specVal)";
+                    cmd = new MySqlCommand(cmdText, con);
+                    cmd.Parameters.AddWithValue("@productID", productID);
+                    cmd.Parameters.AddWithValue("@specID", specID);
+                    cmd.Parameters.AddWithValue("@specVal", specVal);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                }
             }
             catch (Exception ex)
             {
