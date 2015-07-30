@@ -13,15 +13,4 @@ D:\Lukpik_Files\LukpikHTML\lopo\Lukpik\bin\Microsoft.Owin.Host.SystemWeb.xml
 D:\Lukpik_Files\LukpikHTML\lopo\Lukpik\bin\Microsoft.Owin.Security.xml
 D:\Lukpik_Files\LukpikHTML\lopo\Lukpik\bin\Newtonsoft.Json.xml
 D:\Lukpik_Files\LukpikHTML\lopo\Lukpik\obj\Debug\Lukpik.pdb
-D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\Lukpik.dll.config
-D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\Lukpik.dll
-D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\Lukpik.pdb
-D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\obj\Debug\Lukpik.dll
-D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\obj\Debug\Lukpik.pdb
 D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\Microsoft.AspNet.SignalR.Core.xml
-D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
-D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\Microsoft.Owin.xml
-D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\Microsoft.Owin.Host.SystemWeb.xml
-D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\Microsoft.Owin.Security.xml
-D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\Newtonsoft.Json.xml
-D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\obj\Debug\Lukpik.csprojResolveAssemblyReference.cache

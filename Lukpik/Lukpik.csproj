@@ -241,6 +241,7 @@
     <Content Include="Scripts\pages\retailerhome.js" />
     <Content Include="login.html" />
     <Content Include="Scripts\processBar.js" />
+    <Content Include="StoreImages\iconSmile.ico" />
     <Content Include="users_temp\fonts\fontawesome-webfont.eot" />
     <Content Include="users_temp\fonts\fontawesome-webfont.ttf" />
     <Content Include="users_temp\fonts\fontawesome-webfont.woff" />
@@ -1317,7 +1318,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="StoreImages\" />
     <Folder Include="users\" />
   </ItemGroup>
   <PropertyGroup>
