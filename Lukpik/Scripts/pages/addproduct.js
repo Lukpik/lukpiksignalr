@@ -144,6 +144,8 @@ function AddProduct() {
     var brandID = document.getElementById("ddBrands").value;
     //var brandID = $('#txtBrand').val();
     var tags = $('#tags_Collection').val();
+    var sizes = $('#txtSizes').val();
+    var colors = $('#txtColors').val();
     var ecommercelink = $('#txtECommerceLink').val();
 
   var ProductImages = []; var ProductImageNames = [];
@@ -162,7 +164,7 @@ function AddProduct() {
                 hubEngine.server.updateProduct(productID, productname, gender, productFamilyID, productDesc, price, "", "", "", visibility, productCategorySubCategoryID, brandID, tags, ProductImages.toString(), readCookie("lukpikretailer_usename"), $.connection.hub.id, ProductImageNames.toString(), ecommercelink);
             }
             else {
-                hubEngine.server.addProduct(productname, gender, productFamilyID, productDesc, price, "", "", "", visibility, productCategorySubCategoryID, brandID, tags, ProductImages.toString(), readCookie("lukpikretailer_usename"), $.connection.hub.id, ProductImageNames.toString(), ecommercelink);
+                hubEngine.server.addProduct(productname, gender, productFamilyID, productDesc, price, "", sizes, colors, visibility, productCategorySubCategoryID, brandID, tags, ProductImages.toString(), readCookie("lukpikretailer_usename"), $.connection.hub.id, ProductImageNames.toString(), ecommercelink);
                 //AddProduct();
             }
         }

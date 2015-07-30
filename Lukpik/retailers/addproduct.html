@@ -409,19 +409,30 @@
                             </div>
                             <hr />
                             <div class="row">
+                                <div class="col-md-6 cssmarginbotom col-sm-12 col-xs-12">
+                                    <label class="control-label ">Available colors<small>&nbsp;(Seperated by comma)</small></label>
+                                    <input type="text" class="form-control" id="txtColors" />
+                                </div>
+                                <div class="col-md-6 cssmarginbotom col-sm-12 col-xs-12">
+                                    <label class="control-label ">Available sizes<small>&nbsp;(Seperated by comma)</small></label>
+                                    <input type="text" class="form-control" id="txtSizes" />
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-12 cssmarginbotom col-sm-12 col-xs-12">
                                     <h3 class="control-label">E-Commerce links</h3>
 
                                 </div>
                             </div>
+                           
                             <div class="row">
                                 <div class="col-md-12 cssmarginbotom col-sm-12 col-xs-12">
                                     <label class="control-label ">Product URL<small>(if this product has online presence on any ecommerce website , please provide any one link)</small></label>
                                     <input type="text" class="form-control" id="txtECommerceLink" />
                                 </div>
                             </div>
-                            <hr />
-                            <div class="row">
+                            
+                            <div class="row" style="display:none;">
                                 <div class="col-md-12 cssmarginbotom col-sm-12 col-xs-12">
                                     <h3 class="control-label">Add your specification</h3>
                                     <button class="btn btn-primary btn-sm pull-right" onclick="AddSpecification();"><span class="fa fa-plus">&nbsp;</span>Add</button>
@@ -429,7 +440,7 @@
                                 </div>
                             </div>
 
-                            <div id="divSpecification">
+                            <div id="divSpecification" style="display:none;">
 
                             </div>
 
