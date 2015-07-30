@@ -421,7 +421,7 @@ function AddOtherCategories(all, selected) {
         if (CheckExistence(all[i].CategoryID, selected)) {
             checked = "checked";
         }
-        str = str + '<div class="col-md-3 col-xs-12 col-sm-12 cssmarginbotom"><input type="checkbox" name="othercategories" class="flat" data-role="none" value="' + all[i].CategoryID + '" ' + checked + ' /> ' + all[i].CategoryName + '&nbsp;&nbsp;&nbsp;&nbsp;</div>';
+        str = str + '<div class="col-md-3 col-xs-12 col-sm-12 cssmarginbotom"><label class="cssCheck"><input type="checkbox" name="othercategories" class="flat" data-role="none" value="' + all[i].CategoryID + '" ' + checked + ' /> ' + all[i].CategoryName + '&nbsp;&nbsp;&nbsp;&nbsp;</label></div>';
     }
     $('#divAddOtherCategories').append(str);
   

@@ -6,19 +6,22 @@ using MySql.Data.MySqlClient;
 using System.Configuration;
 using System.Data;
 using System.Net.Mail;
+using System.IO;
 
 namespace Lukpik.Cl
 {
     
     public class MySQLBusinessLogic
     {
+        
         private MySqlConnection con;
         private MySqlCommand cmd;
+        
         public MySQLBusinessLogic()
         {
             string connStr = ConfigurationManager.ConnectionStrings["ERETAILDB"].ToString();
             con = new MySqlConnection(connStr);
-
+            
 
         }
 

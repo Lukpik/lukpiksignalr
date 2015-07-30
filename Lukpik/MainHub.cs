@@ -41,12 +41,15 @@ namespace Lukpik
 
         public string imgLocationSave(string fileName, string encodedFileName, string clientID, string pageName, string imgNo)
         {
+            string rootPath = Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase)));
+            rootPath = rootPath.Replace("file:\\", "");
+            rootPath = rootPath + "\\Lukpik\\StoreImages\\";
             if (fileName != encodedFileName)
             {
                 fileName = Regex.Replace(fileName.Substring(0, fileName.LastIndexOf('.')), "[.;]", "_") + fileName.Substring(fileName.LastIndexOf('.'), (fileName.Length - fileName.LastIndexOf('.')));
-                if (File.Exists(System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").FirstOrDefault().ToString() + fileName))
-                    File.Delete(System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").FirstOrDefault().ToString() + fileName);
-                System.IO.File.Move(System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").FirstOrDefault().ToString() + encodedFileName, System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").FirstOrDefault().ToString() + fileName);
+                if (File.Exists(rootPath + fileName))
+                    File.Delete(rootPath + fileName);
+                System.IO.File.Move(rootPath + encodedFileName, rootPath + fileName);
                 if (pageName == "AddProduct")
                 {
                     //productImgSave(fileName, imgNo);
@@ -59,20 +62,23 @@ namespace Lukpik
 
         public void corpimg(string x, string y, string h, string w, string r, string filename, string clientID, string email)
         {
+            string rootPath = Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase)));
+            rootPath = rootPath.Replace("file:\\", "");
+            rootPath = rootPath + "\\Lukpik\\StoreImages\\";
             int w1 = Convert.ToInt32(w);
             int h1 = Convert.ToInt32(h);
             int x1 = Convert.ToInt32(x);
             int y1 = Convert.ToInt32(y);
 
-            byte[] CropImage = Crop(System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").FirstOrDefault().ToString() + filename, w1, h1, x1, y1);
+            byte[] CropImage = Crop(rootPath + filename, w1, h1, x1, y1);
             using (MemoryStream ms = new MemoryStream(CropImage, 0, CropImage.Length))
             {
                 ms.Write(CropImage, 0, CropImage.Length);
                 using (SD.Image CroppedImage = SD.Image.FromStream(ms, true))
                 {
-                    if (File.Exists(System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").FirstOrDefault().ToString() + filename))
-                        File.Delete(System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").FirstOrDefault().ToString() + filename);
-                    string SaveTo = System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").FirstOrDefault().ToString() + filename;
+                    if (File.Exists(rootPath + filename))
+                        File.Delete(rootPath + filename);
+                    string SaveTo = rootPath + filename;
                     CroppedImage.Save(SaveTo, CroppedImage.RawFormat);
                     //pnlCrop.Visible = false;
                     //pnlCropped.Visible = true;
@@ -81,7 +87,7 @@ namespace Lukpik
             }
 
             //test image save code
-            string FileName = System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").FirstOrDefault().ToString() + filename;
+            string FileName = rootPath + filename;
             byte[] ImageData;
             FileStream fs = new FileStream(FileName, FileMode.Open, FileAccess.Read);
             BinaryReader br = new BinaryReader(fs);
@@ -98,7 +104,7 @@ namespace Lukpik
             if (ImgUpdate == true)
             {
                 updateImage(email, clientID, "");
-                File.Delete(System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").FirstOrDefault().ToString() + filename);
+                File.Delete(rootPath + filename);
             }
             else
                 Clients.Client(clientID).storeImgPath("", "0");
@@ -688,6 +694,10 @@ namespace Lukpik
                 var fileimages = images.Split(',');
                 byte[] PrvImg = null;
                 List<byte[]> lstByte = new List<byte[]>();
+                string rootPath = Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase)));
+                rootPath = rootPath.Replace("file:\\", "");
+                rootPath = rootPath + "\\Lukpik\\StoreImages\\";
+                
                 for (int i = 0; i < fileNames.Length; i++)
                 {
 
@@ -696,26 +706,26 @@ namespace Lukpik
                     if (fileName != encodedFileName)
                     {
                         fileName = Regex.Replace(fileName.Substring(0, fileName.LastIndexOf('.')), "[.;]", "_") + fileName.Substring(fileName.LastIndexOf('.'), (fileName.Length - fileName.LastIndexOf('.')));
-                        if (File.Exists(System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").FirstOrDefault().ToString() + fileName))
-                            File.Delete(System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").FirstOrDefault().ToString() + fileName);
-                        System.IO.File.Move(System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").FirstOrDefault().ToString() + encodedFileName, System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").FirstOrDefault().ToString() + fileName);
+                        if (File.Exists(rootPath + fileName))
+                            File.Delete(rootPath + fileName);
+                        System.IO.File.Move(rootPath + encodedFileName, rootPath + fileName);
                         if (i == 0)
                         {
-                            Image image = Image.FromFile(System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").FirstOrDefault().ToString() + fileName);
+                            Image image = Image.FromFile(rootPath + fileName);
                             Image thumb = image.GetThumbnailImage(100, 100, () => false, IntPtr.Zero);
-                            thumb.Save(Path.ChangeExtension(System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").FirstOrDefault().ToString() + fileName.Split('.')[0], "thumb"));
-                            System.IO.File.Move(System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").FirstOrDefault().ToString() + fileName.Split('.')[0] + ".thumb", System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").FirstOrDefault().ToString() + "New" + fileName);
-                            FileStream fs1 = new FileStream(System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").FirstOrDefault().ToString() + "New" + fileName, FileMode.Open, FileAccess.Read);
+                            thumb.Save(Path.ChangeExtension(rootPath + fileName.Split('.')[0], "thumb"));
+                            System.IO.File.Move(rootPath + fileName.Split('.')[0] + ".thumb", rootPath + "New" + fileName);
+                            FileStream fs1 = new FileStream(rootPath + "New" + fileName, FileMode.Open, FileAccess.Read);
                             BinaryReader br1 = new BinaryReader(fs1);
                             PrvImg = br1.ReadBytes((int)fs1.Length);
                             br1.Close();
                             fs1.Close();
-                            File.Delete(System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").FirstOrDefault().ToString() + "New" + fileName);
+                            File.Delete(rootPath + "New" + fileName);
                         }
 
                     }
                     //test image save code
-                    string FileName = System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").FirstOrDefault().ToString() + fileName;
+                    string FileName = rootPath + fileName;
                     byte[] ImageData;
                     FileStream fs = new FileStream(FileName, FileMode.Open, FileAccess.Read);
                     BinaryReader br = new BinaryReader(fs);

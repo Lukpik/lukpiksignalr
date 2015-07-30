@@ -6375,3 +6375,8 @@ ul.notifications {
     background: url("../../img/ajax-loader.gif") no-repeat center center transparent;
     position:fixed;
 }
+
+
+.cssCheck{
+    font-weight:normal;
+}
