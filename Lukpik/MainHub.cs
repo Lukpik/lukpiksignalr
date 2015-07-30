@@ -41,9 +41,8 @@ namespace Lukpik
 
         public string imgLocationSave(string fileName, string encodedFileName, string clientID, string pageName, string imgNo)
         {
-            string rootPath = Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase)));
-            rootPath = rootPath.Replace("file:\\", "");
-            rootPath = rootPath + "\\Lukpik\\StoreImages\\";
+            string rootPath = System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").First().ToString();
+            
             if (fileName != encodedFileName)
             {
                 fileName = Regex.Replace(fileName.Substring(0, fileName.LastIndexOf('.')), "[.;]", "_") + fileName.Substring(fileName.LastIndexOf('.'), (fileName.Length - fileName.LastIndexOf('.')));
@@ -62,9 +61,8 @@ namespace Lukpik
 
         public void corpimg(string x, string y, string h, string w, string r, string filename, string clientID, string email)
         {
-            string rootPath = Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase)));
-            rootPath = rootPath.Replace("file:\\", "");
-            rootPath = rootPath + "\\Lukpik\\StoreImages\\";
+            string rootPath = System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").First().ToString();
+            
             int w1 = Convert.ToInt32(w);
             int h1 = Convert.ToInt32(h);
             int x1 = Convert.ToInt32(x);
@@ -301,7 +299,7 @@ namespace Lukpik
                 //var dir = new DirectoryInfo(@"..\\");
                 //File.Create(dir.FullName + "\\file.ext");
 
-                string st = Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase)));
+                string st = System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").First().ToString();
                 st=st.Replace("file:\\", "");
                 var dir = new DirectoryInfo(@st + "\\Lukpik\\StoreImages\\");
                 File.Create(dir.FullName + "\\file.ext");
@@ -695,9 +693,8 @@ namespace Lukpik
                 var fileimages = images.Split(',');
                 byte[] PrvImg = null;
                 List<byte[]> lstByte = new List<byte[]>();
-                string rootPath = Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase)));
-                rootPath = rootPath.Replace("file:\\", "");
-                rootPath = rootPath + "\\Lukpik\\StoreImages\\";
+                string rootPath = System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").First().ToString();
+                
                 
                 for (int i = 0; i < fileNames.Length; i++)
                 {
