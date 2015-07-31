@@ -4,7 +4,7 @@ var _cnt = 0;
 $(document).ready(function () {
     AddSpecification();
     Startup();
-    $('#modalProductAdded').modal('show');
+    //$('#modalProductAdded').modal('show');
     //Hub Connection and functions
     hubEngine = $.connection.allHubs;
     $.connection.hub.logging = true;
@@ -156,27 +156,32 @@ function AddProduct() {
   if (file6 != null && file6 != "") {
       ProductImageNames.push(file6Name); ProductImages.push(file6);
   }
-    if (productname != "" && gender != "" && productFamilyID != "" && price != "" && productCategorySubCategoryID != "" && brandID != "") {
-        // productname,  gender,  productFamily,  productdescription, price,  quantity,  size,  color,  visibility, prodyctype,  brand, collection,  images, clientID
-        var productID = readCookie("productID");
-        if (ProductImages.length > 0) {
-            if (productID != null && productID != "") {
-                hubEngine.server.updateProduct(productID, productname, gender, productFamilyID, productDesc, price, "", "", "", visibility, productCategorySubCategoryID, brandID, tags, ProductImages.toString(), readCookie("lukpikretailer_usename"), $.connection.hub.id, ProductImageNames.toString(), ecommercelink);
-            }
-            else {
-                hubEngine.server.addProduct(productname, gender, productFamilyID, productDesc, price, "", sizes, colors, visibility, productCategorySubCategoryID, brandID, tags, ProductImages.toString(), readCookie("lukpikretailer_usename"), $.connection.hub.id, ProductImageNames.toString(), ecommercelink);
-                //AddProduct();
-            }
-        }
-        else {
-            RemoveProgressBarLoader();
-            AddAlert("error", "Please add image(s) to proceed.");
-        }
-    }
-    else {
-        RemoveProgressBarLoader();
-        AddAlert("error", "Please fill mandatory fields.");
-    }
+  if (productname != "" && gender != "" && productFamilyID != "" && price != "" && productCategorySubCategoryID != "" && brandID != "") {
+      // productname,  gender,  productFamily,  productdescription, price,  quantity,  size,  color,  visibility, prodyctype,  brand, collection,  images, clientID
+      var productID = readCookie("productID");
+      //if (ProductImages.length > 0) {
+      if (productID != null && productID != "") {
+
+          hubEngine.server.updateProduct(productID, productname, gender, productFamilyID, productDesc, price, "", "", "", visibility, productCategorySubCategoryID, brandID, tags, ProductImages.toString(), readCookie("lukpikretailer_usename"), $.connection.hub.id, ProductImageNames.toString(), ecommercelink);
+
+      }
+      else {
+          if (ProductImages.length > 0) {
+              hubEngine.server.addProduct(productname, gender, productFamilyID, productDesc, price, "", sizes, colors, visibility, productCategorySubCategoryID, brandID, tags, ProductImages.toString(), readCookie("lukpikretailer_usename"), $.connection.hub.id, ProductImageNames.toString(), ecommercelink);
+          }
+          else {
+              RemoveProgressBarLoader();
+              AddAlert("error", "Please add image(s) to proceed.");
+          }
+          //AddProduct();
+      }
+      //}
+
+  }
+  else {
+      RemoveProgressBarLoader();
+      AddAlert("error", "Please fill mandatory fields.");
+  }
    
 }
 
