@@ -22,7 +22,7 @@ namespace Lukpik
     [HubName("allHubs")]
     public class MainHub : Hub
     {
-
+        int retailerProductLimit = 20;
         public void Hello()
         {
 
@@ -780,9 +780,9 @@ namespace Lukpik
                 int storeID = Convert.ToInt32(dt.Rows[0].ItemArray[0]);
                 int result = bl.UpdateProduct(pro_ID, productname, gender, Convert.ToInt32(productFamilyId), productdescription, Convert.ToDouble(price), quantity, size, color, Convert.ToInt32(visibility), productCategoryID, productSubCategoryID, Convert.ToInt32(brandID), collection, storeID, DateTime.Now, email, ecommecelink);
                 if (result == 1)
-                    Clients.Client(clientID).addedProduct("1");
+                    Clients.Client(clientID).productUpdated("1");
                 else
-                    Clients.Client(clientID).addedProduct("0");
+                    Clients.Client(clientID).productUpdated("0");
 
             }
             catch (Exception ex)
@@ -1088,7 +1088,21 @@ namespace Lukpik
             {
             }
         }
+
         #endregion
+
+        public void isLimitReached(string email, string clientID)
+        {
+            try
+            {
+
+                Clients.Client(clientID).limitReached("0", retailerProductLimit);
+            }
+            catch (Exception ex)
+            {
+                Clients.Client(clientID).limitReached("0");
+            }
+        }
 
     }
 }

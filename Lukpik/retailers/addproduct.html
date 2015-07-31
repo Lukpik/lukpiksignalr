@@ -210,6 +210,28 @@
                             </div>
                         </div>
                     </div>
+
+                    <div id="modalLimitReached" class="modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">
+                                        <span aria-hidden="true" onclick="CloseModal();">×</span>
+                                    </button>
+                                    <h3 class="modal-title" id="">Caution</h3>
+                                </div>
+                                <div class="modal-body">
+                                    <h4 id="lblLimitReached">Sorry, you have reached a limit of 20 products.</h4>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-success" onclick="" disabled>Upgrade</button>
+                                    <button class="btn btn-default" onclick="$('#modalLimitReached').modal('hide');">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="x_panel">
                         <div class="x_title">
                             <!--<div class="col-md-8">
@@ -222,7 +244,7 @@
                             <label id="lblmsg"></label>
                             <div class="pull-right">
                                 <button class="btn btn-primary">Cancel</button>
-                                <button id="btnSaveTop" class="btn btn-success" onclick="GetAllImages();">Save</button>
+                                <button id="btnSaveTop" class="btn btn-success" onclick="AddProduct();">Save</button>
                             </div>
 
                             <!--
@@ -310,7 +332,7 @@
                                             </select>
                                         </div>
                                         <div class="col-md-6 col-sm-12 col-xs-12">
-                                            <label for="">Price * :</label>
+                                            <label for="">Price  :</label>
                                             <input type="text" class="form-control" onkeypress="return isDecimal(event)" id="txtPrice" placeholder="1250.00" />
                                         </div>
                                     </div>
@@ -456,7 +478,7 @@
 
                                 <div class="col-ms-12 col-sm-12 col-xs-12" style="text-align: right;">
                                     <button class="btn btn-primary">Cancel</button>
-                                    <button id="btnSaveBottom" class="btn btn-success" onclick="GetAllImages();">Save</button>
+                                    <button id="btnSaveBottom" class="btn btn-success" onclick="AddProduct();">Save</button>
                                 </div>
                             </div>
 
