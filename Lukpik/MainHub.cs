@@ -22,7 +22,7 @@ namespace Lukpik
     [HubName("allHubs")]
     public class MainHub : Hub
     {
-        int retailerProductLimit = 20;
+        int retailerProductLimit = 18;
         public void Hello()
         {
 
@@ -42,7 +42,7 @@ namespace Lukpik
         public string imgLocationSave(string fileName, string encodedFileName, string clientID, string pageName, string imgNo)
         {
             string rootPath = System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").First().ToString();
-            
+
             if (fileName != encodedFileName)
             {
                 fileName = Regex.Replace(fileName.Substring(0, fileName.LastIndexOf('.')), "[.;]", "_") + fileName.Substring(fileName.LastIndexOf('.'), (fileName.Length - fileName.LastIndexOf('.')));
@@ -62,7 +62,7 @@ namespace Lukpik
         public void corpimg(string x, string y, string h, string w, string r, string filename, string clientID, string email)
         {
             string rootPath = System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").First().ToString();
-            
+
             int w1 = Convert.ToInt32(w);
             int h1 = Convert.ToInt32(h);
             int x1 = Convert.ToInt32(x);
@@ -300,7 +300,7 @@ namespace Lukpik
                 //File.Create(dir.FullName + "\\file.ext");
 
                 string st = System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").First().ToString();
-                st=st.Replace("file:\\", "");
+                st = st.Replace("file:\\", "");
                 var dir = new DirectoryInfo(@st + "\\Lukpik\\StoreImages\\");
                 File.Create(dir.FullName + "\\file.ext");
 
@@ -694,8 +694,8 @@ namespace Lukpik
                 byte[] PrvImg = null;
                 List<byte[]> lstByte = new List<byte[]>();
                 string rootPath = System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").First().ToString();
-                
-                
+
+
                 for (int i = 0; i < fileNames.Length; i++)
                 {
 
@@ -751,7 +751,7 @@ namespace Lukpik
                 DataTable dt = bl.GetStoreID(email);
                 int storeID = Convert.ToInt32(dt.Rows[0].ItemArray[0]);
                 int retVal = bl.AddProduct(productname, gender, Convert.ToInt32(productFamilyId), productdescription, Convert.ToDouble(price), quantity, size, color, Convert.ToInt32(visibility), productCategoryID, productSubCategoryID, Convert.ToInt32(brandID), collection, images, storeID, DateTime.Now, email, lstByte, PrvImg, ecommecelink);
-                if (size != "" || color != "" || collection!="")
+                if (size != "" || color != "" || collection != "")
                 {
                     bl.AddSpecification(email, color, size, collection);
                 }
@@ -1095,8 +1095,28 @@ namespace Lukpik
         {
             try
             {
+                MySQLBusinessLogic bl = new MySQLBusinessLogic();
 
-                Clients.Client(clientID).limitReached("0", retailerProductLimit);
+                DataTable dt = bl.GetStoreID(email);
+                int storeID = Convert.ToInt32(dt.Rows[0].ItemArray[0]);
+
+
+
+                int result = bl.ProductLimitReached(retailerProductLimit, email, storeID);
+
+                // 1- Limit reached
+                // 2- about to reach - nearby
+                // 3- not reached limit
+
+                if (result == 1)
+                    Clients.Client(clientID).limitReached("1", retailerProductLimit);
+                else if (result == 2)
+                    Clients.Client(clientID).limitReached("2", retailerProductLimit);
+                else if (result == 3)
+                    Clients.Client(clientID).limitReached("3", retailerProductLimit);
+                else
+                    Clients.Client(clientID).limitReached("0", retailerProductLimit);
+
             }
             catch (Exception ex)
             {

@@ -52,14 +52,29 @@ $(document).ready(function () {
 
     };
 
-    hubEngine.client.limitReached = function (msg,limit) {
-        if (msg != "1") {
-            _isLimitReached = true;
-            $('#lblLimitReached').html("Sorry, you have reached a limit of " + limit + " products.");
-            $('#modalLimitReached').modal('show');
-        }
-        else {
-            _isLimitReached = false;
+    hubEngine.client.limitReached = function (msg, limit) {
+        // 1- Limit reached
+        // 2- about to reach - nearby
+        // 3- not reached limit
+        if (msg != "0") {
+            if (msg == "1") {
+                _isLimitReached = true;
+                $('#lblLimitReached').html("Sorry, you have reached the product limit ( " + limit + " ) for free plan. Please contact support for any assistance.");
+                $('#modalLimitReached').modal('show');
+                //$('#divButtonPanel_Top').hide();
+                //$('#divButtonPanel_Bottom').hide();
+                $('#btnSaveTop').hide();
+                $('#btnSaveBottom').hide();
+
+            }
+            else if (msg == "2") {
+                _isLimitReached = false;
+                $('#lblLimitReached').html("Hey, you have almost reach the limit.");
+                $('#modalLimitReached').modal('show');
+            }
+            else {
+                _isLimitReached = false;
+            }
         }
 
     };

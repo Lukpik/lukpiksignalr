@@ -1069,6 +1069,47 @@ namespace Lukpik.Cl
             {
             }
         }
+
+        public int ProductLimitReached(int productLimit,string email,int storeID)
+        {
+            int retVal = 0;
+            try
+            {
+                //If user level
+
+
+                //If store level
+                string cmdText = "select count(`StoreID`) from `products` where `StoreID`=@storeID";
+                cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddWithValue("@storeID", storeID);
+                con.Open();
+                int count = Convert.ToInt32(cmd.ExecuteScalar());
+                con.Close();
+                // 1- Limit reached
+                // 2- about to reach - nearby
+                // 3- not reached limit
+
+                if (count == (productLimit - 1))
+                {
+                    //If limit is nearby
+                    retVal = 2;
+                }
+                else if (count == productLimit)
+                {
+                    // if count reached the level
+                    retVal = 1;
+                }
+                else if(count<productLimit)
+                {
+                    //not reached 
+                    retVal = 3;
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            return retVal;
+        }
         #endregion
 
         public bool UpdateStoreImage(byte[] ImageData, string email, DateTime datemodified)
