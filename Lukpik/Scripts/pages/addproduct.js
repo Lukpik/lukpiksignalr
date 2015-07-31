@@ -4,7 +4,7 @@ var _cnt = 0;
 $(document).ready(function () {
     AddSpecification();
     Startup();
-    
+    $('#modalProductAdded').modal('show');
     //Hub Connection and functions
     hubEngine = $.connection.allHubs;
     $.connection.hub.logging = true;

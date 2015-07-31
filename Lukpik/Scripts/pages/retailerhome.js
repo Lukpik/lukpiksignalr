@@ -194,11 +194,13 @@ $(document).ready(function () {
             document.getElementById("imgStore").src = path;
             document.getElementById("imgStoreTop").src = path;
             localStorage.setItem("profilepic", path);
-            if (isfrm != "refresh")
+            if (isfrm != "refresh") {
                 AddAlert("", "Uploaded successfully.");
+                RemoveProgressBarLoader();
+            }
         }
     };
-    RemoveProgressBarLoader();
+    
 });
 
 function UpdateStoredetails() {

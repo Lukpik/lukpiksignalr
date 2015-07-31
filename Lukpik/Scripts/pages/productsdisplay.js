@@ -1,5 +1,6 @@
 ﻿var hubEngine;
 $(document).ready(function () {
+    AddProgressBarLoader();
     //Hub Connection and functions
     hubEngine = $.connection.allHubs;
     $.connection.hub.logging = true;
