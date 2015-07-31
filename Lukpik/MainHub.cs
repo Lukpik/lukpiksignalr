@@ -968,5 +968,127 @@ namespace Lukpik
 
         #endregion
 
+        #region CAPTCHA GENERATION
+        public void fillCapctha(string clientID)
+        {
+            try
+            {
+                string str22 = GetCaptchaImage(GenerateRandomCode());
+                Clients.Client(clientID).showCaptcha(str22.Split('-').FirstOrDefault(), str22.Split('-').Last());
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        private string GenerateRandomCode()
+        {
+            string s = "";
+            try
+            {
+                Random _crandom = new Random();
+                for (int i = 0; i < 6; i++)
+                    s = String.Concat(s, _crandom.Next(10).ToString());
+            }
+            catch (Exception ex)
+            {
+            }
+            return s;
+        }
+
+        private string GetCaptchaImage(string imageText)
+        {
+            return GenerateCaptchaImage(imageText);
+        }
+
+        private byte[] ReadBytes(string fileName)
+        {
+            byte[] b = new byte[0];
+            try
+            {
+                if (File.Exists(fileName))
+                {
+                    try
+                    {
+                        FileStream s = File.OpenRead(fileName);
+                        byte[] bytes = new byte[s.Length];
+                        s.Read(bytes, (int)0, (int)s.Length);
+                        b = bytes;
+                    }
+                    catch (IOException e)
+                    {
+                        throw new IOException(e.Message);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+
+            return b;
+        }
+
+        private String GenerateCaptchaImage(string imageText)
+        {
+            try
+            {
+                Font imgFont;
+                int iIterate;
+                Bitmap raster;
+                DeleteCaptchaImages();
+                Graphics graphicsObject;
+                System.Drawing.Image imageObject = System.Drawing.Image.FromFile(System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").FirstOrDefault().ToString() + @"images\imageback.png");
+
+                // Create the Raster Image Object
+                raster = new Bitmap(imageObject);
+
+                //Create the Graphics Object
+                graphicsObject = Graphics.FromImage(raster);
+
+                //Instantiate object of brush with black color
+                SolidBrush imgBrush = new SolidBrush(Color.White);
+
+                //Add the characters to the image
+                for (iIterate = 0; iIterate <= imageText.Length - 1; iIterate++)
+                {
+                    imgFont = new Font("Arial", 30, FontStyle.Bold);
+                    String str = imageText.Substring(iIterate, 1);
+                    graphicsObject.DrawString(str, imgFont, imgBrush, iIterate * 40, 15);
+                    graphicsObject.Flush();
+                }
+
+                // Generate a uniqiue file name to save image as
+                String fileName = new Random().Next().ToString() + ".gif";
+                if (!(Directory.Exists(System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").FirstOrDefault().ToString() + @"captcha")))
+                    Directory.CreateDirectory(System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").FirstOrDefault().ToString() + @"captcha");
+                else
+                    raster.Save((System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").FirstOrDefault().ToString() + @"captcha\" + fileName), System.Drawing.Imaging.ImageFormat.Gif);
+
+                raster.Dispose();
+                graphicsObject = null;
+
+                return fileName + "-" + imageText;
+            }
+            catch (Exception)
+            {
+                return "";
+            }
+        }
+
+        void DeleteCaptchaImages()
+        {
+            try
+            {
+                string directoryPath = System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").FirstOrDefault().ToString() + @"captcha\";
+                Directory.GetFiles(directoryPath).ToList().ForEach(File.Delete);
+                // Directory.GetDirectories(directoryPath).ToList().ForEach(Directory.Delete);
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+        #endregion
+
     }
 }

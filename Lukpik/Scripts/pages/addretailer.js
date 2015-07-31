@@ -1,11 +1,13 @@
 ﻿var hubEngine;
 var validEmail;
+var capt = "";
 $(document).ready(function () {
     //Hub Connection and functions
     hubEngine = $.connection.allHubs;
     $.connection.hub.logging = true;
     $.connection.hub.start().done(function () {
         //alert('success');
+        hubEngine.server.fillCapctha($.connection.hub.id);
     });
     $.connection.hub.disconnected(function () {
         setTimeout(function () {
@@ -16,21 +18,27 @@ $(document).ready(function () {
         hubEngine.server.activecall();
     }, 15000);
 
-    //Website Home Page
+    hubEngine.client.showCaptcha = function (msg, cap) {
+        $("#imgcaptcha").attr('src', "StoreImages/captcha/" + msg);
+        capt = cap;
+    }
+
     hubEngine.client.testJS = function (msg) {
         $('#lblmsg').show();
         if (msg == "1") {
-            
+            RemoveProgressBarLoader();
             $('#lblmsg').hide();
             $('#divmsg').append("You have successfully registered with us, please check your e-mail.");
             $('#btnRegister').hide();
             //<a style='color:rgba(61, 201, 179, 1);' href='retailers/login.html'>Click here to login</a>
         }
         else if (msg == "2") {
+            RemoveProgressBarLoader();
             $('#lblmsg').text("Email already exists. Please try with different email.");
             $('#btnRegister').prop("disabled", false);
         }
         else if (msg == "0") {
+            RemoveProgressBarLoader();
             $('#lblmsg').text("Something went wrong, please try again later.");
             $('#btnRegister').prop("disabled", false);
         }
@@ -48,6 +56,8 @@ $(document).ready(function () {
 
 //Website Home Page
 function AddStore() {
+   
+    AddProgressBarLoader();
     $('#lblmsg').hide();
     $('#btnRegister').prop("disabled",true);
     //var textemail = $('#txtSubscribeEmail').val();
@@ -57,16 +67,38 @@ function AddStore() {
     var storesname = $('#txtStorename').val();
     var phonenum = $('#txtPhonenum').val();
     var city = $('#txtCity').val();
+    var captchaCode = $("#txtCode").val().trim();
     
     if (firstname != "" && lastname != "" && email != "" && storesname != "" && phonenum != "" && city != "")
         if (!validEmail) {
+            RemoveProgressBarLoader();
             $('#btnRegister').prop("disabled", false);
             $('#lblmsg').show();
             $('#lblmsg').text("Incorrect Email Format!");
         }
-        else
-            hubEngine.server.addStore(firstname, lastname, email, storesname, phonenum, city, $.connection.hub.id);
+        else {
+            if (phonenum.length == 10) {
+
+                if (capt == captchaCode) {
+                    hubEngine.server.addStore(firstname, lastname, email, storesname, phonenum, city, $.connection.hub.id);
+                }
+                else {
+                    RemoveProgressBarLoader();
+                    $('#btnRegister').prop("disabled", false);
+                    $('#lblmsg').show();
+                    $('#lblmsg').text("Incorrect captcha code.");
+                }
+            }
+            else {
+                RemoveProgressBarLoader();
+                $('#btnRegister').prop("disabled", false);
+                $('#lblmsg').show();
+                $('#lblmsg').text("Please enter a valid mobile number.");
+            }
+            
+        }
     else {
+        RemoveProgressBarLoader();
         $('#btnRegister').prop("disabled", false);
         $('#lblmsg').show();
         $('#lblmsg').text("Please fill all the fields.");
@@ -77,6 +109,7 @@ function ValidateEmail() {
     var email = $("#txtEmail").val();
     if (!validateEmail(email)) {
         validEmail = false;
+        RemoveProgressBarLoader();
         $('#btnRegister').prop("disabled", false);
         $('#lblmsg').show();
         $('#lblmsg').text("Incorrect Email Format!");

@@ -15,6 +15,7 @@
     <link href="css/animate.css" rel="stylesheet">
     <!--Latest JQuery-->
     <script src="Scripts/jquery-2.1.1.min.js"></script>
+    <script src="Scripts/processBar.js"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -316,6 +317,8 @@
                     <input type="text" style="width:100%;margin-bottom:10px;" name="" value="" placeholder="Store name" id="txtStorename" required>
                     <input type="text" style="width:100%;margin-bottom:10px;" name="" value="" placeholder="Your 10 digit phone number" id="txtPhonenum" onkeypress="return isNumberKey(this,event,10)" required>
                     <input type="text" style="width:60%;margin-bottom:10px;" name="" value="" placeholder="City" id="txtCity" required>
+                    <img id="imgcaptcha" alt="Enter the text" class="img-responsive" style="height:30px;width:150px;" src="StoreImages/images/imageback.jpg" />
+                    <input type="text" style="width:60%;margin-bottom:10px;margin-top:10px;" name="" value="" placeholder="Enter above code" id="txtCode" required>
                     <br />
                     <!--<textarea style="width:100%;margin-bottom:10px;" name="" placeholder="Add your comments" required></textarea>-->
                     <input type="submit" id="btnRegister" value="Register" onclick="AddStore();" />
