@@ -21,6 +21,7 @@ $(document).ready(function () {
         $('#lblmsg').show();
         if (msg == "1") {
             createCookie("lukpikretailer_usename", username, 1);
+            //createCookie("lukpikretailer_mobile", username, 1);
             $('#lblmsg').text("Login success, please wait while we redirect you to your store.");
             location.href = "../retailers/home.html";
         }
@@ -42,12 +43,12 @@ function Login() {
     var uname = $('#txtUname').val();
     var pwd = $('#txtPassword').val();
     if (uname != "" && pwd != "") {
-        if (validEmail)
+        if (uname.length==10)
             hubEngine.server.login(uname, pwd, $.connection.hub.id);
         else {
             RemoveProgressBarLoader();
             $('#lblmsg').show();
-            $('#lblmsg').text("Incorrect Email Format.");
+            $('#lblmsg').text("Incorrect Phone Format.");
         }
     }
     else {

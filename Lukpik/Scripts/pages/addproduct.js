@@ -466,9 +466,12 @@ function FillValues(myobj1, myobj2) {
     $('#txtPrice').val(myobj1[0].Price);
     $('#txtProductDescription').val(myobj1[0].ProductLongDescription);
     $('#txtECommerceLink').val(myobj1[0].ECommerceLink);
-
+    
     $("input[name=gender][value=" + (myobj1[0].Gender)  + "]").prop("checked", true);
 
+    $('[name=productfamily] option').filter(function () {
+        return ($(this).text() == myobj1[0].ProductFamilyName);
+    }).prop('selected', true);
     $("input[name=isvisibe][value=" + (myobj1[0].IsVisible) * 1 + "]").prop("checked", true);
 
     $('[name=producttype] option').filter(function () {
@@ -476,16 +479,15 @@ function FillValues(myobj1, myobj2) {
     }).prop('selected', true);
 
     $('[name=brands] option').filter(function () {
-        return ($(this).val() == myobj1[0].BrandName);
+        return ($(this).text() == myobj1[0].BrandName);
     }).prop('selected', true);
-
-    $('[name=productfamily] option').filter(function () {
-        return ($(this).val() == myobj1[0].ProductFamilyName);
-    }).prop('selected', true);
+    _selectedProductCategory = myobj1[0].ProductSubCategoryID;
+    onChangeProductFamily();
     addImage(myobj2);
 }
 
 var cnt = 1;
+var _selectedProductCategory = "";
 function addImage(imageObj) {
     if (imageObj.ImageUrl.length > 0) {
 
@@ -534,10 +536,24 @@ function FormProductCategory(myobj) {
         str = str + '<optgroup label="' + parentText + '">';
         for (var child = 0; child < myobj[parent].c.length; child++) {
             var selected = "";
-            if (parent == 0 && child == 0) {
-                selected = 'selected';
-            }
             var childText = myobj[parent].c[child].split("_")[1];
+            var subCategoryID = myobj[parent].c[child].split("_")[0];
+            var isNotNull = _selectedProductCategory != "" ? true : false;
+            var productID = readCookie("productID");
+            var productID = readCookie("productID");
+            if (productID == null || productID == "") {
+                if (parent == 0 && child == 0) {
+                    selected = 'selected';
+                }
+            }
+            else {
+                if (_selectedProductCategory * 1 == subCategoryID * 1 && isNotNull) {
+                    selected = 'selected';
+                }
+            }
+
+            
+            
             var value = myobj[parent].c[child].split("_")[0] + "_" + myobj[parent].c[child].split("_")[2];
             str = str + '<option value="' + value + '" ' + selected + '>' + childText + '</option>';
         }
@@ -553,6 +569,10 @@ function FormProductCategory(myobj) {
 function CloseModal() {
     $('#modalProductAdded').modal('hide');
     location.href = "addproduct.html";
+}
+
+function NavigatetoProducts() {
+    location.href = "products.html";
 }
 
 function isDecimal(evt) {

@@ -311,12 +311,13 @@
                             <input type="text" style="width:100%" name="" value="" placeholder="Last name" required>
                         </div>
                     </div>-->
-                    <input type="text" style="width:100%;margin-bottom:10px;" name="" value="" placeholder="First name" id="txtFirstname" required>
-                    <input type="text" style="width:100%;margin-bottom:10px;" name="" value="" placeholder="Last name" id="txtLastname" required>
-                    <input type="text" style="width:100%;margin-bottom:10px;" name="" value="" placeholder="Email" id="txtEmail" onblur="ValidateEmail();" required>
-                    <input type="text" style="width:100%;margin-bottom:10px;" name="" value="" placeholder="Store name" id="txtStorename" required>
-                    <input type="text" style="width:100%;margin-bottom:10px;" name="" value="" placeholder="Your 10 digit phone number" id="txtPhonenum" onkeypress="return isNumberKey(this,event,10)" required>
-                    <input type="text" style="width:60%;margin-bottom:10px;" name="" value="" placeholder="City" id="txtCity" required>
+                    <input type="text" style="width:100%;margin-bottom:10px;" name="" value="" placeholder="First name (mandatory)" id="txtFirstname" required>
+                    <input type="text" style="width:100%;margin-bottom:10px;" name="" value="" placeholder="Last name (mandatory)" id="txtLastname" required>
+                    <input type="text" style="width:100%;margin-bottom:10px;" name="" value="" placeholder="Email (optional)" id="txtEmail" onblur="ValidateEmail();" required>
+                    <input type="text" style="width:100%;margin-bottom:10px;" name="" value="" placeholder="Store name (mandatory)" id="txtStorename" required>
+                    <input type="text" style="width:100%;margin-bottom:10px;" name="" value="" placeholder="Your 10 digit phone number (mandatory)" id="txtPhonenum" onkeypress="return isNumberKey(this,event,10)" required>
+                    <input type="text" style="width:100%;margin-bottom:10px;" name="" value="" placeholder="Your 10 digit alternate phone number (optional)" id="txtPhonenum2" onkeypress="return isNumberKey(this,event,10)" required>
+                    <input type="text" style="width:60%;margin-bottom:10px;" name="" value="" placeholder="City (mandatory)" id="txtCity" required>
                     <img id="imgcaptcha" alt="Enter the text" class="img-responsive" style="height:30px;width:150px;" src="StoreImages/images/imageback.jpg" />
                     <input type="text" style="width:60%;margin-bottom:10px;margin-top:10px;" name="" value="" placeholder="Enter above code" id="txtCode" required>
                     <br />

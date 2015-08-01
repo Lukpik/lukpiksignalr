@@ -110,7 +110,7 @@ namespace Lukpik.Cl
             return retVal;
         }
 
-        public bool CheckStoreExistence(string storename, string email)
+        public bool CheckStoreExistence(string storename, string storephone)
         {
             // 0 - Transaction failed
             // 1 - Transaction succeeded
@@ -119,7 +119,7 @@ namespace Lukpik.Cl
             DataTable dt = new DataTable();
             try
             {
-                string cmdText = "select 1 from `store` where `Email`='" + email + "'";
+                string cmdText = "select 1 from `store` where `StoreAlternativeNumber`='" + storephone + "'";
                 cmd = new MySqlCommand(cmdText, con);
                 con.Open();
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
@@ -136,7 +136,7 @@ namespace Lukpik.Cl
             }
             return retVal;
         }
-        public int AddStore(string storename, string storecity, string storephone, DateTime firstOpeneddate, DateTime remodeldate, string email, string fname, string lname, int isVerified, int activationFlag, string passsword, int cardsAccepted, int homedeliveryflag, int trailflag)
+        public int AddStore(string storename, string storecity, string storephone, string storephone2, DateTime firstOpeneddate, DateTime remodeldate, string email, string fname, string lname, int isVerified, int activationFlag, string passsword, int cardsAccepted, int homedeliveryflag, int trailflag)
         {
             // 0 - Transaction failed
             // 1 - Transaction succeeded
@@ -144,10 +144,10 @@ namespace Lukpik.Cl
             int retVal = 0;
             try
             {
-                if (!CheckStoreExistence(storename, email))
+                if (!CheckStoreExistence(storename, storephone))
                 {
                     //string cmdText = "insert into test_table(test_column1,test_column2) values(@col1,@col2)";
-                    string cmdText = "insert into `store` (`store_name`,`store_city`,`store_phone`,`first_opened_date`,`last_remodel_date`,`Email`,`StoreOwnerFirstName`,`StoreOwnerLastName`,`IsVerified`,`ActivationFlag`,`password`,`Cardsaccepted`,`homedeliveryflag`,`trialroomflag`) values(@storename,@storecity,@storephone,@firstOpeneddate,@remodeldate,@email,@fname, @lname, @isVerified,@activationFlag,@passsword,@cardsAccepted,@homedeliveryflag,@trailflag);";
+                    string cmdText = "insert into `store` (`store_name`,`store_city`,`store_phone`,`first_opened_date`,`last_remodel_date`,`Email`,`StoreOwnerFirstName`,`StoreOwnerLastName`,`IsVerified`,`ActivationFlag`,`password`,`Cardsaccepted`,`homedeliveryflag`,`trialroomflag`,`StoreAlternativeNumber`) values(@storename,@storecity,@storephone,@firstOpeneddate,@remodeldate,@email,@fname, @lname, @isVerified,@activationFlag,@passsword,@cardsAccepted,@homedeliveryflag,@trailflag,@storephone2);";
                     cmd = new MySqlCommand(cmdText, con);
                     cmd.Parameters.AddWithValue("@storename", storename);
                     cmd.Parameters.AddWithValue("@storecity", storecity);
@@ -163,6 +163,7 @@ namespace Lukpik.Cl
                     cmd.Parameters.AddWithValue("@cardsAccepted", cardsAccepted);
                     cmd.Parameters.AddWithValue("@homedeliveryflag", homedeliveryflag);
                     cmd.Parameters.AddWithValue("@trailflag", trailflag);
+                    cmd.Parameters.AddWithValue("@storephone2", storephone2);
 
                     con.Open();
                     cmd.ExecuteNonQuery();
@@ -442,17 +443,17 @@ namespace Lukpik.Cl
 
         #region CHANGE PASSWORD
 
-        public int ChangePassword(string email, string oldpwd, string newpwd)
+        public int ChangePassword(string phone, string oldpwd, string newpwd)
         {
             int retVal = 0;
             try
             {
-                if (CheckAuthenticatedUser(email, oldpwd))
+                if (CheckAuthenticatedUser(phone, oldpwd))
                 {
-                    string cmdText = "SET SQL_SAFE_UPDATES = 0; update `store` set `password`=@newpwd where `Email`=@email";
+                    string cmdText = "SET SQL_SAFE_UPDATES = 0; update `store` set `password`=@newpwd where `store_phone`=@phone";
                     cmd = new MySqlCommand(cmdText, con);
                     cmd.Parameters.AddWithValue("@newpwd", newpwd);
-                    cmd.Parameters.AddWithValue("@email", email);
+                    cmd.Parameters.AddWithValue("@phone", phone);
                     con.Open();
                     cmd.ExecuteNonQuery();
                     con.Close();
@@ -473,14 +474,16 @@ namespace Lukpik.Cl
             return retVal;
         }
 
-        public bool CheckAuthenticatedUser(string email, string pwd)
+        public bool CheckAuthenticatedUser(string phone, string pwd)
         {
             bool retVal = false;
             try
             {
                 DataTable dt = new DataTable();
-                string cmdText = "select 1 from `store` where `Email`='" + email + "' and `password`='" + pwd + "'";
+                string cmdText = "select 1 from `store` where `store_phone`=@phone and `password`=@pwd";
                 cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddWithValue("@phone", phone);
+                cmd.Parameters.AddWithValue("@pwd", pwd);
                 con.Open();
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(dt);
@@ -503,7 +506,7 @@ namespace Lukpik.Cl
             DataTable dt = new DataTable();
             try
             {
-                string cmdText = "select `StoreOwnerFirstName`,`StoreOwnerLastName` from `store` where `Email`='" + email + "'";
+                string cmdText = "select `StoreOwnerFirstName`,`StoreOwnerLastName` from `store` where `store_phone`='" + email + "'";
                 cmd = new MySqlCommand(cmdText, con);
                 con.Open();
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
@@ -523,13 +526,13 @@ namespace Lukpik.Cl
         }
 
         # region USER LOGIN
-        public int LoginUser(string username, string pwd)
+        public int LoginUser(string phone, string pwd)
         {
             int retVal = 0;
             try
             {
                 DataTable dt = new DataTable();
-                string cmdText = "select 1 from `store` where `Email`='" + username + "' and `password`='" + pwd + "'";
+                string cmdText = "select count(1) from `store` where `store_phone`=@phone and `password`=pwd";
                 cmd = new MySqlCommand(cmdText, con);
                 con.Open();
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
@@ -566,18 +569,17 @@ namespace Lukpik.Cl
             }
             return retVal;
         }
-        public bool AddtoRetailerLoginHistory(string email,DateTime date)
+        public bool AddtoRetailerLoginHistory(string phone,DateTime date)
         {
             bool retVal = false;
             try
             {
-                DataTable dt = GetStoreID(email);
+                DataTable dt = GetStoreID(phone);
                 int storeID = Convert.ToInt32(dt.Rows[0].ItemArray[0]);
-                string cmdText = "insert into `retailersessions` (`StoreID`,`logintime`,`email`) values(@storeID,@date,@email);";
+                string cmdText = "insert into `retailersessions` (`StoreID`,`logintime`) values(@storeID,@date);";
                 cmd = new MySqlCommand(cmdText, con);
                 cmd.Parameters.AddWithValue("@storeID", storeID);
                 cmd.Parameters.AddWithValue("@date", date);
-                cmd.Parameters.AddWithValue("@email", email);
                 con.Open();
                 cmd.ExecuteNonQuery();
                 con.Close();
@@ -717,12 +719,12 @@ namespace Lukpik.Cl
             return lst;
         }
 
-        public DataTable GetStoreID(string email)
+        public DataTable GetStoreID(string phone)
         {
             DataTable dt = new DataTable();
             try
             {
-                string cmdText = "select `store_id` from `store` where `Email`='" + email + "'";
+                string cmdText = "select `store_id` from `store` where `store_phone`='" + phone + "'";
                 cmd = new MySqlCommand(cmdText, con);
                 con.Open();
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);

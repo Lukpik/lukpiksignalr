@@ -58,6 +58,7 @@ function isNumberKey(control, evt, len) {
 
 function logout() {
     eraseCookie('lukpikretailer_usename');
+    eraseCookie('lukpikretailer_mobile');
     location.href = '../login.html';
 }
 

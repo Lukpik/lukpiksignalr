@@ -34,7 +34,8 @@ $(document).ready(function () {
         }
         else if (msg == "2") {
             RemoveProgressBarLoader();
-            $('#lblmsg').text("Email already exists. Please try with different email.");
+            //$('#lblmsg').text("Email already exists. Please try with different email.");
+            $('#lblmsg').text("Phone number already exists. Please try with different number.");
             $('#btnRegister').prop("disabled", false);
         }
         else if (msg == "0") {
@@ -66,11 +67,12 @@ function AddStore() {
     var email = $('#txtEmail').val();
     var storesname = $('#txtStorename').val();
     var phonenum = $('#txtPhonenum').val();
+    var phonenum2 = $('#txtPhonenum2').val();
     var city = $('#txtCity').val();
     var captchaCode = $("#txtCode").val().trim();
-    
-    if (firstname != "" && lastname != "" && email != "" && storesname != "" && phonenum != "" && city != "")
-        if (!validEmail) {
+    var checkEmailnotNull = email == "" ? true : false;
+    if (firstname != "" && lastname != "" && storesname != "" && phonenum != "" && city != "")
+        if (!checkEmailnotNull && !validEmail) {
             RemoveProgressBarLoader();
             $('#btnRegister').prop("disabled", false);
             $('#lblmsg').show();
@@ -80,7 +82,7 @@ function AddStore() {
             if (phonenum.length == 10) {
 
                 if (capt == captchaCode) {
-                    hubEngine.server.addStore(firstname, lastname, email, storesname, phonenum, city, $.connection.hub.id);
+                    hubEngine.server.addStore(firstname, lastname, email, storesname, phonenum, phonenum2,city, $.connection.hub.id);
                 }
                 else {
                     RemoveProgressBarLoader();
