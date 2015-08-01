@@ -59,7 +59,7 @@ namespace Lukpik
         }
 
 
-        public void corpimg(string x, string y, string h, string w, string r, string filename, string clientID, string email)
+        public void corpimg(string x, string y, string h, string w, string r, string filename, string clientID, string phone)
         {
             string rootPath = System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").First().ToString();
 
@@ -95,13 +95,16 @@ namespace Lukpik
             MySQLBusinessLogic bl = new MySQLBusinessLogic();
             bool ImgUpdate = false;
             if (ImageData.Length < 16777216)
-                ImgUpdate = bl.UpdateStoreImage(ImageData, email, DateTime.Now);
+            {
+                int storeID = GetStoreIDbyPhone(phone);
+                ImgUpdate = bl.UpdateStoreImage(ImageData, storeID, DateTime.Now);
+            }
             else
                 Clients.Client(clientID).storeImgPath("", "0");
             //end
             if (ImgUpdate == true)
             {
-                updateImage(email, clientID, "");
+                updateImage(phone, clientID, "");
                 File.Delete(rootPath + filename);
             }
             else
@@ -112,13 +115,14 @@ namespace Lukpik
             //Clients.Client(clientID).storeImgPath(pt);
         }
 
-        public void updateImage(string email, string clientID, string isfrom)
+        public void updateImage(string phone, string clientID, string isfrom)
         {
             try
             {
 
                 MySQLBusinessLogic bl = new MySQLBusinessLogic();
-                DataTable dt = bl.GetStoreImage(email);
+                int storeID = GetStoreIDbyPhone(phone);
+                DataTable dt = bl.GetStoreImage(storeID);
                 byte[] bytes = (Byte[])dt.Rows[0].ItemArray[0];
                 if (bytes.Length < 16777216)
                 {
@@ -189,8 +193,8 @@ namespace Lukpik
             bool isEmailNull = false;
             if (email == "")
             {
-                string store = storename.Trim().Replace(" ", "");
-                email = store + "." + phonenum + "@lukpik.com";
+                //string store = storename.Trim().Replace(" ", "");
+                //email = store + "." + phonenum + "@lukpik.com";
                 isEmailNull = true;
             }
             int result = bl.AddStore(storename, city, phonenum,phonenum2, DateTime.Now, DateTime.Now, email, fname, lname, 0, 0, password, 1, 0, 1);
@@ -279,13 +283,39 @@ namespace Lukpik
             try
             {
                 MySQLBusinessLogic bl = new MySQLBusinessLogic();
-                bool result = bl.UpdateStoreDetails(storename, storetype, shortdesc, storedesc, brands, othercategories, Convert.ToInt32(iscreditcard), Convert.ToInt32(istrail), Convert.ToInt32(ishomedelivery), ownerfirstname, ownerlastname, phone, email, addline1, addline2, city, state, country, pincode, Convert.ToDouble(latitude), Convert.ToDouble(longitude), websiteurl, fburl, twitterurl, googleurl, DateTime.Now);
+                //Check for Email availability
+                bool emailAvailability = false;
+                //if (email != "")
+                //    emailAvailability = bl.CheckEmailExistance(email);
+
+                //bool moblenumberAvailability = bl.CheckPhoneExistance(storename, phone);
+
+                //if (!emailAvailability)
+                //{
+
+                //    //Check for Mobile availability
+                //    if (!moblenumberAvailability)
+                //    {
+                       
+                //    }
+                //    else
+                //    {
+                //        //mobile
+                //        Clients.Client(clientID).updatedStores("4");
+                //    }
+                //}
+                //else
+                //{
+                //    //email id 
+                //    Clients.Client(clientID).updatedStores("3");
+                //}
+                int storeID = GetStoreIDbyPhone(phone);
+                bool result = bl.UpdateStoreDetails(storename, storetype, shortdesc, storedesc, brands, othercategories, Convert.ToInt32(iscreditcard), Convert.ToInt32(istrail), Convert.ToInt32(ishomedelivery), ownerfirstname, ownerlastname, phone, email, addline1, addline2, city, state, country, pincode, Convert.ToDouble(latitude), Convert.ToDouble(longitude), websiteurl, fburl, twitterurl, googleurl, DateTime.Now, storeID);
 
                 //Update Brands
 
                 //Update Other categories
-                DataTable dt = bl.GetStoreID(email);
-                int storeID = Convert.ToInt32(dt.Rows[0].ItemArray[0]);
+
                 bool catResult = bl.UpdateOtherCategories(storeID, othercategories);
                 bool brabdResult = bl.UpdateBrands(storeID, brands);
 
@@ -386,13 +416,14 @@ namespace Lukpik
         }
         #endregion
 
-        public void getRetailerDetails(string username, string clientID)
+        public void getRetailerDetails(string phone, string clientID)
         {
             try
             {
+                int storeID = GetStoreIDbyPhone(phone);
                 MySQLBusinessLogic bl = new MySQLBusinessLogic();
                 DataTable storeDetails = new DataTable();
-                storeDetails = bl.GetStoreRetailerDetails(username);
+                storeDetails = bl.GetStoreRetailerDetails(storeID);
                 string jsonStr = ConvertDataTabletoString(storeDetails);
                 Clients.Client(clientID).gotDetails(jsonStr, "1");
             }
@@ -579,12 +610,14 @@ namespace Lukpik
         }
         #endregion
 
-        public void getAllSelectedCategories(string email, string clientID)
+        public void getAllSelectedCategories(string phone, string clientID)
         {
             try
             {
                 string json1 = "";//list of all categories
                 string json2 = "";//list of categories selected by user
+                int storeID = GetStoreIDbyPhone(phone);
+
                 DataTable dtAllCategories = new DataTable();
                 MySQLBusinessLogic bl = new MySQLBusinessLogic();
                 dtAllCategories = bl.GetOtherCategories();
@@ -592,8 +625,7 @@ namespace Lukpik
                     json1 = ConvertDataTabletoString(dtAllCategories);
 
                 List<string> lstSelected = new List<string>();
-                DataTable dt = bl.GetStoreID(email);
-                int storeID = Convert.ToInt32(dt.Rows[0].ItemArray[0]);
+                
                 lstSelected = bl.GetOtherCategoriesbyStoreID(storeID);
 
                 var jsonSerialiser = new JavaScriptSerializer();
@@ -606,15 +638,14 @@ namespace Lukpik
             }
         }
 
-        public void getAllSelectedBrands(string email, string clientID)
+        public void getAllSelectedBrands(string phone, string clientID)
         {
             try
             {
                 string json1 = "";
                 MySQLBusinessLogic bl = new MySQLBusinessLogic();
                 List<string> lstSelected = new List<string>();
-                DataTable dt = bl.GetStoreID(email);
-                int storeID = Convert.ToInt32(dt.Rows[0].ItemArray[0]);
+                int storeID = GetStoreIDbyPhone(phone);
                 lstSelected = bl.GetBrandsbyStoreID(storeID);
                 //var jsonSerialiser = new JavaScriptSerializer();
                 //json1 = jsonSerialiser.Serialize(lstSelected);

@@ -65,52 +65,8 @@ namespace Lukpik.Cl
         # endregion
 
         # region USER REGISTRATION
-        public bool CheckUsername(string username)
-        {
-            bool retVal = false;
-            DataTable dt = new DataTable();
-            try
-            {
-                string cmdText = "select * from `user_registration` where `usr_uname`='" + username + "'";
-                cmd = new MySqlCommand(cmdText, con);
-                con.Open();
-                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-                da.Fill(dt);
-                con.Close();
-                if (dt.Rows.Count > 0)
-                    retVal = false;
-                else
-                    retVal = true;
-            }
-            catch (Exception ex)
-            {
-            }
-            return retVal;
-        }
-        public bool CheckEmail(string email)
-        {
-            bool retVal = false;
-            DataTable dt = new DataTable();
-            try
-            {
-                string cmdText = "select * from `user_registration` where `usr_email`='" + email + "'";
-                cmd = new MySqlCommand(cmdText, con);
-                con.Open();
-                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-                da.Fill(dt);
-                con.Close();
-                if (dt.Rows.Count > 0)
-                    retVal = false;
-                else
-                    retVal = true;
-            }
-            catch (Exception ex)
-            {
-            }
-            return retVal;
-        }
-
-        public bool CheckStoreExistence(string storename, string storephone)
+      
+        public bool CheckPhoneExistance(string storename, string storephone)
         {
             // 0 - Transaction failed
             // 1 - Transaction succeeded
@@ -119,8 +75,9 @@ namespace Lukpik.Cl
             DataTable dt = new DataTable();
             try
             {
-                string cmdText = "select 1 from `store` where `StoreAlternativeNumber`='" + storephone + "'";
+                string cmdText = "select 1 from `store` where `store_phone`=@storephone";
                 cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddWithValue("@storephone", storephone);
                 con.Open();
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(dt);
@@ -136,6 +93,30 @@ namespace Lukpik.Cl
             }
             return retVal;
         }
+
+        public bool CheckEmailExistance(string email)
+        {
+            bool retVal = false;
+            try
+            {
+                DataTable dt = new DataTable();
+                string cmdText = "select 1 from `store` where `Email`=@email";
+                cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddWithValue("@email", email);
+                con.Open();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
+                con.Close();
+                if (dt.Rows.Count > 0)
+                    retVal = true;
+                else
+                    retVal = false;
+            }
+            catch (Exception ex)
+            {
+            }
+            return retVal;
+        }
         public int AddStore(string storename, string storecity, string storephone, string storephone2, DateTime firstOpeneddate, DateTime remodeldate, string email, string fname, string lname, int isVerified, int activationFlag, string passsword, int cardsAccepted, int homedeliveryflag, int trailflag)
         {
             // 0 - Transaction failed
@@ -144,7 +125,8 @@ namespace Lukpik.Cl
             int retVal = 0;
             try
             {
-                if (!CheckStoreExistence(storename, storephone))
+                // && (email == "" || !CheckEmailExistance(email))
+                if (!CheckPhoneExistance(storename, storephone))
                 {
                     //string cmdText = "insert into test_table(test_column1,test_column2) values(@col1,@col2)";
                     string cmdText = "insert into `store` (`store_name`,`store_city`,`store_phone`,`first_opened_date`,`last_remodel_date`,`Email`,`StoreOwnerFirstName`,`StoreOwnerLastName`,`IsVerified`,`ActivationFlag`,`password`,`Cardsaccepted`,`homedeliveryflag`,`trialroomflag`,`StoreAlternativeNumber`) values(@storename,@storecity,@storephone,@firstOpeneddate,@remodeldate,@email,@fname, @lname, @isVerified,@activationFlag,@passsword,@cardsAccepted,@homedeliveryflag,@trailflag,@storephone2);";
@@ -182,13 +164,13 @@ namespace Lukpik.Cl
             return retVal;
         }
 
-        public bool UpdateStoreDetails(string storename, string storetype, string shortdesc, string storedesc, string brands, string othercategories, int iscreditcard, int istrail, int ishomedelivery, string ownerfirstname, string ownerlastname, string phone, string email, string addline1, string addline2, string city, string state, string country, string pincode, double latitude, double longitude, string websiteurl, string fburl, string twitterurl, string googleurl, DateTime datemodified)
+        public bool UpdateStoreDetails(string storename, string storetype, string shortdesc, string storedesc, string brands, string othercategories, int iscreditcard, int istrail, int ishomedelivery, string ownerfirstname, string ownerlastname, string phone, string email, string addline1, string addline2, string city, string state, string country, string pincode, double latitude, double longitude, string websiteurl, string fburl, string twitterurl, string googleurl, DateTime datemodified,int storeID)
         {
             bool retVal = false;
             try
             {
                 //StoreTagLine - fpor short description
-                string cmdText = "SET SQL_SAFE_UPDATES = 0; update `store` set `store_name`=@storename,`store_type`=@storetype,`StoreTagLine`=@shortdesc,`StoreDescription`=@storedesc,`Cardsaccepted`=@iscreditcard,`trialroomflag`=@istrail,`homedeliveryflag`=@ishomedelivery, `StoreOwnerFirstName`=@ownerfirstname, `StoreOwnerLastName`=@ownerlastname, `store_phone`=@phone, `store_street_addressline1`=@addline1, `store_street_addressline2`=@addline2, `store_city`=@city,`store_state`=@state, `store_country`=@country, `store_postal_code`=@pincode, `Latitude`=@latitude, `Longitude`=@longitude, `StoreWebsite`=@websiteurl, `StoreFacebookPage`=@fburl, `StoreTwitterPage`=@twitterurl, `StoreGooglePage`=@googleurl,`last_remodel_date`=@datemodified where `Email`='" + email + "' ";
+                string cmdText = "SET SQL_SAFE_UPDATES = 0; update `store` set `Email`=@email, `store_name`=@storename,`store_type`=@storetype,`StoreTagLine`=@shortdesc,`StoreDescription`=@storedesc,`Cardsaccepted`=@iscreditcard,`trialroomflag`=@istrail,`homedeliveryflag`=@ishomedelivery, `StoreOwnerFirstName`=@ownerfirstname, `StoreOwnerLastName`=@ownerlastname, `store_phone`=@phone, `store_street_addressline1`=@addline1, `store_street_addressline2`=@addline2, `store_city`=@city,`store_state`=@state, `store_country`=@country, `store_postal_code`=@pincode, `Latitude`=@latitude, `Longitude`=@longitude, `StoreWebsite`=@websiteurl, `StoreFacebookPage`=@fburl, `StoreTwitterPage`=@twitterurl, `StoreGooglePage`=@googleurl,`last_remodel_date`=@datemodified where `store_id`=@storeID";
                 cmd = new MySqlCommand(cmdText, con);
                 cmd.Parameters.AddWithValue("@storename", storename);
                 cmd.Parameters.AddWithValue("@storetype", storetype);
@@ -213,6 +195,8 @@ namespace Lukpik.Cl
                 cmd.Parameters.AddWithValue("@twitterurl", twitterurl);
                 cmd.Parameters.AddWithValue("@googleurl", googleurl);
                 cmd.Parameters.AddWithValue("@datemodified", datemodified);
+                cmd.Parameters.AddWithValue("@email", email);
+                cmd.Parameters.AddWithValue("@storeID", storeID);
                 
                 con.Open();
                 cmd.ExecuteNonQuery();
@@ -534,8 +518,10 @@ namespace Lukpik.Cl
             {
                 //Authentication of user by phone number
                 DataTable dt = new DataTable();
-                string cmdText = "select count(1) from `store` where `store_phone`=@phone and `password`=pwd";
+                string cmdText = "select count(1) from `store` where `store_phone`=@phone and `password`=@pwd";
                 cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddWithValue("@phone", phone);
+                cmd.Parameters.AddWithValue("@pwd", pwd);
                 con.Open();
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(dt);
@@ -560,7 +546,7 @@ namespace Lukpik.Cl
             try
             {
 
-                string cmdText = "select count(1) from `retailersessions` where `store_id`=@storeID";
+                string cmdText = "select count(1) from `retailersessions` where `StoreID`=@storeID";
                 cmd = new MySqlCommand(cmdText, con);
                 cmd.Parameters.AddWithValue("@storeID", storeID);
                 con.Open();
@@ -612,13 +598,14 @@ namespace Lukpik.Cl
         //    return retVal;
         //}
 
-        public DataTable GetStoreRetailerDetails(string username)
+        public DataTable GetStoreRetailerDetails(int storeID)
         {
             DataTable dt = new DataTable();
             try
             {
-                string cmdText = "select `store_id`,`store_type`,`store_name`,`store_number`,`store_street_addressline1`,`store_city`,`store_state`,`store_postal_code`,`store_country`,`store_manager`,`store_phone`,`store_fax`,`first_opened_date`,`last_remodel_date`,`Email`,`StoreOwnerFirstName`,`StoreOwnerLastName`,`IsVerified`,`CurrencyFormat`,`StoreDescription`,`StoreWebsite`,`StoreTwitterPage`,`StoreFacebookPage`,`StoreGooglePage`,`StoreAlternativePhoneNumber`,`IsStoreActive`,`StoreImage`,`StoreTagLine`,`Latitude`,`Longitude`,`StoreLukpikUrl`,`ActivationFlag`,`Cardsaccepted`,`homedeliveryflag`,`trialroomflag`,`store_street_addressline2` from `store` where `Email`='" + username + "'";
+                string cmdText = "select `store_id`,`store_type`,`store_name`,`store_number`,`store_street_addressline1`,`store_city`,`store_state`,`store_postal_code`,`store_country`,`store_manager`,`store_phone`,`store_fax`,`first_opened_date`,`last_remodel_date`,`Email`,`StoreOwnerFirstName`,`StoreOwnerLastName`,`IsVerified`,`CurrencyFormat`,`StoreDescription`,`StoreWebsite`,`StoreTwitterPage`,`StoreFacebookPage`,`StoreGooglePage`,`StoreAlternativePhoneNumber`,`IsStoreActive`,`StoreImage`,`StoreTagLine`,`Latitude`,`Longitude`,`StoreLukpikUrl`,`ActivationFlag`,`Cardsaccepted`,`homedeliveryflag`,`trialroomflag`,`store_street_addressline2` from `store` where `store_id`=@storeID";
                 cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddWithValue("@storeID", storeID);
                 con.Open();
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(dt);
@@ -1115,16 +1102,16 @@ namespace Lukpik.Cl
         }
         #endregion
 
-        public bool UpdateStoreImage(byte[] ImageData, string email, DateTime datemodified)
+        public bool UpdateStoreImage(byte[] ImageData, int storeID, DateTime datemodified)
         {
             bool retVal = false;
             try
             {
-                string cmdText = "SET SQL_SAFE_UPDATES = 0; update `store` set `StoreImage`=@ImageData,`last_remodel_date`=@datemodified where `Email`='" + email + "' ";
+                string cmdText = "SET SQL_SAFE_UPDATES = 0; update `store` set `StoreImage`=@ImageData,`last_remodel_date`=@datemodified where `store_id`=@storeID";
                 cmd = new MySqlCommand(cmdText, con);
                 cmd.Parameters.AddWithValue("@ImageData", ImageData);
                 cmd.Parameters.AddWithValue("@datemodified", datemodified);
-
+                cmd.Parameters.AddWithValue("@storeID", storeID);
                 con.Open();
                 cmd.ExecuteNonQuery();
                 con.Close();
@@ -1158,7 +1145,7 @@ namespace Lukpik.Cl
         }
 
 
-        public DataTable GetStoreImage(string email)
+        public DataTable GetStoreImage(int storeID)
         {
             bool retVal = false;
             byte[] bytes;
@@ -1166,8 +1153,9 @@ namespace Lukpik.Cl
             DataTable dt = new DataTable();
             try
             {
-                string cmdText = "select `StoreImage` from `store` where `Email`='" + email + "'";
+                string cmdText = "select `StoreImage` from `store` where `store_id`=@storeID";
                 cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddWithValue("@storeID", storeID);
                 con.Open();
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(dt);

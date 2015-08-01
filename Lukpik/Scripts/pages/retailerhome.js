@@ -72,7 +72,7 @@ $(document).ready(function () {
                 if (obj[0].StoreImage != "" && obj[0].StoreImage != null) {
                     //document.getElementById("imgStore").src = obj[0].StoreImage;		
                     //document.getElementById("imgStoreTop").src = obj[0].StoreImage;		
-                    hubEngine.server.updateImage(CheckNull(obj[0].Email), $.connection.hub.id, "refresh");
+                    hubEngine.server.updateImage(CheckNull(obj[0].store_phone), $.connection.hub.id, "refresh");
                 }
                 else {
                     document.getElementById("imgStore").src = "./images/default.png";
@@ -169,6 +169,12 @@ $(document).ready(function () {
         if (msg == "1") {
             AddAlert("", "Updated successfully.");
             localStorage.setItem("fname", $('#txtOwnerFirstname').val());
+        }
+        else if (msg == "3") {
+            AddAlert("error", "Email id already exists, please pick a different email.");
+        }
+        else if (msg == "4") {
+            AddAlert("error", "Phone number already exists, please pick a different number.");
         }
         else if (msg == "0")
             AddAlert("error", "Something went wrong, please try again later.");
