@@ -75,14 +75,15 @@ namespace Lukpik.Cl
             DataTable dt = new DataTable();
             try
             {
-                string cmdText = "select 1 from `store` where `store_phone`=@storephone";
+                string cmdText = "select count(1) from `store` where `store_phone`=@storephone";
                 cmd = new MySqlCommand(cmdText, con);
                 cmd.Parameters.AddWithValue("@storephone", storephone);
                 con.Open();
-                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-                da.Fill(dt);
+                int value = Convert.ToInt32(cmd.ExecuteScalar().ToString());
+                //MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                //da.Fill(dt);
                 con.Close();
-                if (dt.Rows.Count > 0)
+                if (value > 0)
                     retVal = true;
                 else
                     retVal = false;
@@ -100,14 +101,15 @@ namespace Lukpik.Cl
             try
             {
                 DataTable dt = new DataTable();
-                string cmdText = "select 1 from `store` where `Email`=@email";
+                string cmdText = "select count(1) from `store` where `Email`=@email";
                 cmd = new MySqlCommand(cmdText, con);
                 cmd.Parameters.AddWithValue("@email", email);
                 con.Open();
-                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-                da.Fill(dt);
+                int value = Convert.ToInt32(cmd.ExecuteScalar().ToString());
+                //MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                //da.Fill(dt);
                 con.Close();
-                if (dt.Rows.Count > 0)
+                if (value > 0)
                     retVal = true;
                 else
                     retVal = false;
@@ -126,7 +128,7 @@ namespace Lukpik.Cl
             try
             {
                 // && (email == "" || !CheckEmailExistance(email))
-                if (!CheckPhoneExistance(storename, storephone))
+                if (!CheckPhoneExistance(storename, storephone) && (email == "" || !CheckEmailExistance(email)))
                 {
                     //string cmdText = "insert into test_table(test_column1,test_column2) values(@col1,@col2)";
                     string cmdText = "insert into `store` (`store_name`,`store_city`,`store_phone`,`first_opened_date`,`last_remodel_date`,`Email`,`StoreOwnerFirstName`,`StoreOwnerLastName`,`IsVerified`,`ActivationFlag`,`password`,`Cardsaccepted`,`homedeliveryflag`,`trialroomflag`,`StoreAlternativeNumber`) values(@storename,@storecity,@storephone,@firstOpeneddate,@remodeldate,@email,@fname, @lname, @isVerified,@activationFlag,@passsword,@cardsAccepted,@homedeliveryflag,@trailflag,@storephone2);";

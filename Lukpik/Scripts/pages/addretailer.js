@@ -28,7 +28,7 @@ $(document).ready(function () {
         if (msg == "1") {
             RemoveProgressBarLoader();
             $('#lblmsg').hide();
-            $('#divmsg').append("You have successfully registered with us, please check your e-mail.");
+            $('#divmsg').append("You have successfully registered with us, we send password to your phone.");
             $('#btnRegister').hide();
             //<a style='color:rgba(61, 201, 179, 1);' href='retailers/login.html'>Click here to login</a>
         }
