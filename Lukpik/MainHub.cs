@@ -323,7 +323,7 @@ namespace Lukpik
         {
             try
             {
-                //CreateIfMissing();
+                int storeID = GetStoreIDbyPhone(username);
                 MySQLBusinessLogic bl = new MySQLBusinessLogic();
                 int result = bl.LoginUser(username, Encrypt(pwd));
                 //string email = res.Split('_')[0];
@@ -333,7 +333,7 @@ namespace Lukpik
                     //If success
 
                     Clients.Client(clientID).loginResult(username, "1");
-                    bl.AddtoRetailerLoginHistory(username, DateTime.Now);
+                    bl.AddtoRetailerLoginHistory(storeID, DateTime.Now);
                 }
                 else if (result == 2)
                 {
@@ -352,12 +352,29 @@ namespace Lukpik
             }
         }
 
-        public void checkFirstTimeLogin(string email, string clinetID)
+        public int GetStoreIDbyPhone(string phone)
+        {
+            int retVal = 0;
+            try
+            {
+                MySQLBusinessLogic bl = new MySQLBusinessLogic();
+                DataTable dt = new DataTable();
+                dt = bl.GetStoreID(phone);
+                retVal = Convert.ToInt32(dt.Rows[0].ItemArray[0]);
+            }
+            catch (Exception ex)
+            {
+                retVal = 0;
+            }
+            return retVal;
+        }
+        public void checkFirstTimeLogin(string phone, string clinetID)
         {
             try
             {
                 MySQLBusinessLogic bl = new MySQLBusinessLogic();
-                if (bl.RetailerLoginCount(email) == 1)
+                int storeID = GetStoreIDbyPhone(phone);
+                if (bl.RetailerLoginCount(storeID) == 1)
                     Clients.Client(clinetID).isfirstTime("1");
 
 
@@ -413,13 +430,14 @@ namespace Lukpik
             {
                 // 1 - success
                 // 0 - fail
+                int storeID = GetStoreIDbyPhone(phone);
                 MySQLBusinessLogic bl = new MySQLBusinessLogic();
-                int result = bl.ChangePassword(phone, Encrypt(oldpwd), Encrypt(newpwd));
+                int result = bl.ChangePassword(storeID, phone, Encrypt(oldpwd), Encrypt(newpwd));
                 if (result == 1)
                 {
                     Clients.Client(clientID).changedPassword("1");
                     DataTable dt = new DataTable();
-                    dt = bl.GetStoreOwnerName(email);
+                    dt = bl.GetStoreOwnerName(storeID);
                     if (dt.Rows.Count == 1)
                     {
                         string loginRedirect = System.Configuration.ConfigurationManager.AppSettings.GetValues("LoginRedirect").FirstOrDefault().ToString();
@@ -427,7 +445,8 @@ namespace Lukpik
                         string midText = "Dear " + name + ",<br> It is to intimate you, that you have recently changed your account password.<br>";
                         string body = AttachTexttoMailTemplate(midText, loginRedirect, "Intimation of changing password !", false);
                         string subject = "You have changed you password.";
-                        SendEMail("support@lukpik.com", email, subject, body);
+                        //SendEMail("support@lukpik.com", email, subject, body);
+                        //Notification 
                         
                     }
                 }
