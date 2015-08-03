@@ -69,8 +69,10 @@ $(document).ready(function () {
             }
             else if (msg == "2") {
                 _isLimitReached = false;
-                $('#lblLimitReached').html("Hey, you have almost reach the limit.");
+                $('#lblLimitReached').html("Hey, you have almost reached the limit.");
                 $('#modalLimitReached').modal('show');
+                $('#btnViewProducts').text("Add Product");
+                $('#btnViewProducts').text("Add Product");
             }
             else {
                 _isLimitReached = false;
@@ -572,7 +574,10 @@ function CloseModal() {
 }
 
 function NavigatetoProducts() {
-    location.href = "products.html";
+    if (_isLimitReached)
+        location.href = "products.html";
+    else
+        $('#modalLimitReached').modal('hide');
 }
 
 function isDecimal(evt) {

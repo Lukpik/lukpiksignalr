@@ -263,12 +263,15 @@ namespace Lukpik.Cl
                         //Insertion
                         //int brandID = Convert.ToInt32(cat[i]);
                         string brandName = cat[i];
-                        int brandID = InsertBrandandGetID(brandName);
-                        string cmdText = "insert into `storebrands`(`StoreID`,`BrandID`) values (" + storeID + "," + brandID + ")";
-                        cmd = new MySqlCommand(cmdText, con);
-                        con.Open();
-                        cmd.ExecuteNonQuery();
-                        con.Close();
+                        if (brandName != "")
+                        {
+                            int brandID = InsertBrandandGetID(brandName);
+                            string cmdText = "insert into `storebrands`(`StoreID`,`BrandID`) values (" + storeID + "," + brandID + ")";
+                            cmd = new MySqlCommand(cmdText, con);
+                            con.Open();
+                            cmd.ExecuteNonQuery();
+                            con.Close();
+                        }
                     }
                 }
 
