@@ -21,11 +21,11 @@ $(document).ready(function () {
     hubEngine.client.gotPassword = function (msg) {
         if (msg == "1") {
             $('#lblmsg').show();
-            $('#lblmsg').text("Success ! Please check your e-mail.");
+            $('#lblmsg').text("Success ! Please check your mobile.");
         }
         else if (msg == "2") {
             $('#lblmsg').show();
-            $('#lblmsg').text("E-mail does not exists.");
+            $('#lblmsg').text("mobile number does not exists.");
         }
         else {
             $('#lblmsg').show();
@@ -39,17 +39,17 @@ function GetPassword() {
     $('#lblmsg').hide();
     var uname = $('#txtUname').val();
     if (uname != "") {
-        if (validEmail == true)
+        if (uname.length==10)
             hubEngine.server.getRetailerPassword(uname, $.connection.hub.id);
         else {
             $('#lblmsg').show();
-            $('#lblmsg').text("Incorrect Email format!");
+            $('#lblmsg').text("Incorrect Moile number!");
         }
 
     }
     else {
         $('#lblmsg').show();
-        $('#lblmsg').text("Please enter your e-mail id!");
+        $('#lblmsg').text("Please enter your mobile number!");
     }
 
   

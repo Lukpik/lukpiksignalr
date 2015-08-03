@@ -17,6 +17,7 @@ using System.Text.RegularExpressions;
 using System.Web.Script.Serialization;
 using System.Drawing;
 using System.Configuration;
+using System.Net;
 namespace Lukpik
 {
     [HubName("allHubs")]
@@ -206,13 +207,17 @@ namespace Lukpik
 
                 string body1 = "<html><head> <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/> <meta name='viewport' content='width=device-width, initial-scale=1.0'/> <title>Lukpik</title> <style type='text/css'> table{border-collapse: collapse;}td{font-family: Calibri; color: #333333;}@media only screen and (max-width: 480px){body, table, td, p, a, li, blockquote{-webkit-text-size-adjust: none !important;}table{width: 100% !important;}.responsive-image img{height: auto !important; max-width: 100% !important; width: 100% !important;}}</style></head><body style='margin: 10px 0; padding: 0 10px; background: #F5F7FA; font-size: 13px;'> <table border='0' cellpadding='0' cellspacing='0' width='100%'> <tr> <td> <table border='0' cellpadding='0' cellspacing='0' align='center' width='640' bgcolor='#FFFFFF'> <tr> <td style='font-size: 0; line-height: 0; padding: 0;' align='center' class='responsive-image'> <img src='http://www.lukpik.com/img/emailicons/retailermailbanner.png' width='100%' alt=''/> </td></tr><tr><td style='font-size: 0; line-height: 0;' height='10'>&nbsp;</td></tr><tr> <td style='padding: 10px 20px 20px 20px;'> <div style='font-size: 25px;color:rgb(42, 177, 237);text-align:center;font-weight:bold;'>Happy to have you on board !</div><br/> <div style='font-size: 20px;color:rgb(91, 90, 90);text-align:center;'> Get ready to wipe the boot stains of your store floor more often. </div><br/> <div style='font-family:Calibri; font-size: 23px;color:rgb(91, 90, 90);text-align:center;font-weight:bold;'> Customers are coming ! </div><br/> <div style='font-family:Calibri; font-size: 16px;color:rgb(91, 90, 90);text-align:justify;'> Please login to lukpik and fill in details about your store. In next few minutes you can start uploading products you want to sell. </div><br/> <div style='font-family:Calibri; font-size: 16px;color:rgb(91, 90, 90);text-align:justify;'>";
 
-                string adminbody = " User login credentials:<br/><br/> <b>Username / Email : </b>" + phonenum + "<br/> <b>Password: </b>" + generatedPassword + "<br/><br/>";
+                string adminbody = " User login credentials:<br/><br/> <b>Username : </b>" + phonenum + "<br/> <b>Password : </b>" + generatedPassword + "<br/><br/>";
 
-                string userbody = "Your credentials been sent to your respective mobile number.";
+                string userbody = "Your credentials been sent to your mobile number ending with XXXXXXX"+phonenum.Substring(7)+".<br>";
 
                 string body2= " </div><br/> <div style='font-family:Calibri; font-size: 16px;color:rgb(91, 90, 90);text-align:center;'> <a type='button' style='-webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0px; color: #ffffff; font-size: 20px; background: #22c9ad; padding: 10px 20px 10px 20px; text-decoration: none;' target='_blank' href='" + loginRedirect + "'>Click here to login</a> </div><br/> <br/> <div style='font-family:Calibri; font-size: 16px;color:rgb(91, 90, 90);text-align:justify;'> For any further assistance. Just drop us a mail at <a href='mailto:support@lukpik.com' target='_top'>support@lukpik.com</a>. We will get back to you as soon as we can. <br/><br/> We'll be in touch periodically with additional resources and important updates. <br/><br/>Sincerely,<br/><b>Lukpik Team</b><br/> </div></td></tr><tr> <td></td></tr><tr><td style='font-size: 0; line-height: 0;' height='20'>&nbsp;</td></tr><tr> <td bgcolor='#485465'> <table border='0' cellpadding='0' cellspacing='0' width='100%'> <tr><td style='font-size: 0; line-height: 0;' height='15'>&nbsp;</td></tr><tr> <td style='padding: 0 10px; color: #FFFFFF;'> <table border='0' width='100%'> <tr> <td style='color:white;' width='20%'> <a href='http://www.lukpik.com' target='_blank' style='font-size:15px;color:white;'>Lukpik</a> </td><td style='color:white;' width='80%' align='right'> <div style='text-align:right;'> <a href='mailto:support@lukpik.com' style='text-decoration:none;'> <img src='http://www.lukpik.com/img/emailicons/email.png' width='35' style='margin-right:5px;'/> </a> <a href='http://www.facebook.com/Itslukpik' target='_blank' style='text-decoration:none;'> <img src='http://www.lukpik.com/img/emailicons/facbk.png' width='35' style='margin-right:5px;'/> </a> <a href='https://twitter.com/Its_lukpik' target='_blank' style='text-decoration:none;'> <img src='http://www.lukpik.com/img/emailicons/twitter.png' width='35' style='margin-right:5px;'/> </a> <a href='http://www.lukpik.com' target='_blank' style='text-decoration:none;'> <img src='http://www.lukpik.com/img/emailicons/website.png' width='35' style='margin-right:5px;'/> </a> </div></td></tr></table> </td></tr><tr><td style='font-size: 0; line-height: 0;' height='15'>&nbsp;</td></tr></table> </td></tr></table> </td></tr></table></body></html>";
 
                 string subject = storename + "- Thanks for Registering with us.";
+
+                string userSMSText = "Welcome to Lukpik. Your credentials as follows:\nUsername : " + phonenum + "\nPassword : " + generatedPassword;
+                if (phonenum != "")
+                    SendSMS(userSMSText, phonenum);
 
                 SendEMail("support@lukpik.com", "lukpik.store@gmail.com", subject, (body1 + adminbody + body2));
                 if (email != "" && !isEmailNull)
@@ -383,6 +388,7 @@ namespace Lukpik
                     Clients.Client(clientID).loginResult(username, "0");
                 }
             }
+
             catch (Exception ex)
             {
                 Clients.Client(clientID).loginResult(username, "0");
@@ -480,10 +486,13 @@ namespace Lukpik
                     {
                         string loginRedirect = System.Configuration.ConfigurationManager.AppSettings.GetValues("LoginRedirect").FirstOrDefault().ToString();
                         string name = dt.Rows[0].ItemArray[0].ToString();// + " " + dt.Rows[0].ItemArray[0].ToString();
+                        string email = dt.Rows[0].ItemArray[2].ToString();
                         string midText = "Dear " + name + ",<br> It is to intimate you, that you have recently changed your account password.<br>";
                         string body = AttachTexttoMailTemplate(midText, loginRedirect, "Intimation of changing password !", false);
                         string subject = "You have changed you password.";
-                        //SendEMail("support@lukpik.com", email, subject, body);
+                        SendSMS("Hai " + name + ", your password has been changed successfully.", phone);
+                        SendEMail("support@lukpik.com", email, subject, body);
+                        SendEMail("support@lukpik.com", "lukpik.store@gmail.com", subject, body);
                         //Notification 
                         
                     }
@@ -548,52 +557,37 @@ namespace Lukpik
             }
         }
 
-        private void SendMail(string toEmailID, string subject, string htmlBody)
+        public void SendSMS(string messageContent, string mobilenumber)
         {
-
             try
             {
-                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-                var mail = new MailMessage();
-                mail.From = new MailAddress("praveenkumar.vakalapudi@gmail.com");
-                mail.To.Add(toEmailID.Trim());
-                mail.Subject = subject;
-                mail.IsBodyHtml = true;
-                mail.Body = htmlBody;
-                SmtpServer.Port = 587;
-                SmtpServer.UseDefaultCredentials = false;
-                SmtpServer.Credentials = new System.Net.NetworkCredential("praveenkumar.vakalapudi@gmail.com", "9014802155");
-                SmtpServer.EnableSsl = true;
-                //SmtpServer.Send(mail);
-                //isSend = true;
-                try
-                {
-                    SmtpServer.Send(mail);
-                }
-                catch (SmtpFailedRecipientsException ex)
-                {
-                    for (int i = 0; i < ex.InnerExceptions.Length; i++)
-                    {
-                        SmtpStatusCode status = ex.InnerExceptions[i].StatusCode;
-                        if (status == SmtpStatusCode.MailboxBusy || status == SmtpStatusCode.MailboxUnavailable)
-                        {
-                            //"Delivery failed - retrying in 5 seconds."
-                            System.Threading.Thread.Sleep(5000);
-                            SmtpServer.Send(mail);
-                        }
-                        else
-                        {
-                            //"Failed to deliver message"                                
-                        }
-                    }
-                }
+                string username = "demo7788";
+                string password = "demo7788";
 
+                string sUrl = "http://sms99.co.in/pushsms.php?username=" + username + "&password=" + password + "&sender=CAMERA&message=" + messageContent + "&numbers=" + mobilenumber + "";
+                string response = GetResponse(sUrl);
             }
             catch (Exception ex)
             {
-
             }
+        }
 
+        public static string GetResponse(string sURL)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(sURL); request.MaximumAutomaticRedirections = 4;
+            request.Credentials = CredentialCache.DefaultCredentials;
+            try
+            {
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse(); Stream receiveStream = response.GetResponseStream();
+                StreamReader readStream = new StreamReader(receiveStream, Encoding.UTF8); string sResponse = readStream.ReadToEnd();
+                response.Close();
+                readStream.Close();
+                return sResponse;
+            }
+            catch (Exception ex)
+            {
+                return "";
+            }
         }
 
         private string AttachTexttoMailTemplate(string middleText, string loginRedirect, string heading, bool disableButton)
@@ -665,26 +659,42 @@ namespace Lukpik
         }
 
         #region FORGOT PASSWORD
-        public void getRetailerPassword(string email, string clientID)
+        public void getRetailerPassword(string phone, string clientID)
         {
             try
             {
                 MySQLBusinessLogic bl = new MySQLBusinessLogic();
                 DataTable dt = new DataTable();
-                dt = bl.GetPassword(email);
+                dt = bl.GetPassword(phone);
                 if (dt.Rows.Count == 1)
                 {
                     //Send Email
                     string pwd = Decrypt(dt.Rows[0].ItemArray[0].ToString());
 
                     string fname = dt.Rows[0].ItemArray[1].ToString();
+                    string email = dt.Rows[0].ItemArray[2].ToString();
                     string loginRedirect = System.Configuration.ConfigurationManager.AppSettings.GetValues("LoginRedirect").FirstOrDefault().ToString();
-                    string midText = "Dear " + fname + ",<br> You have requested for your password. Please find the password below<br>Username: " + email + "<br>Password: " + pwd + "<br>";
+                    //Mail section
+                    
+                    string userText = "Dear " + fname + ",<br> You have requested for your password. We sent your password to your registered mobile number ending with XXXXXXX"+phone.Substring(7)+".<br>";
+
+                    string adminText = "Username of:  " + fname + ",<br>  have requested for password. Please find the password below<br>Username: " + phone + "<br>Password: " + pwd + "<br>";
+
                     string subject = "Forgot Password.";
                     Clients.Client(clientID).gotPassword("1");
-                    string body = AttachTexttoMailTemplate(midText, loginRedirect, "Here is your password !", false);
-                    SendEMail("support@lukpik.com", email, subject, body);
+                    //user body
+                    string body = AttachTexttoMailTemplate(userText, loginRedirect, "Here is your password !", false);
 
+                    //admin body
+                    string adminBody = AttachTexttoMailTemplate(userText, loginRedirect, "Here is your password !", false);
+
+                    if (email != "" || email != null)
+                        SendEMail("support@lukpik.com", email, subject, body);
+                    SendEMail("support@lukpik.com", "lukpik.store@gmail.com", "User :" + phone + ": Requested for password", adminBody);
+
+                    //SMS section
+                    string userSMSText="Hai "+fname+", here is your password : "+pwd;
+                    SendSMS(userSMSText, phone);
                 }
                 else
                 {
@@ -725,6 +735,7 @@ namespace Lukpik
         {
             try
             {
+                
                 MySQLBusinessLogic bl = new MySQLBusinessLogic();
                 int result = bl.SubscriptionEmail(email, DateTime.Now, 1);
                 if (result == 1)

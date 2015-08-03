@@ -492,7 +492,7 @@ namespace Lukpik.Cl
             DataTable dt = new DataTable();
             try
             {
-                string cmdText = "select `StoreOwnerFirstName`,`StoreOwnerLastName` from `store` where `store_id`=@storeID";
+                string cmdText = "select `StoreOwnerFirstName`,`StoreOwnerLastName`,`Email` from `store` where `store_id`=@storeID";
                 cmd = new MySqlCommand(cmdText, con);
                 cmd.Parameters.AddWithValue("@storeID", storeID);
                 con.Open();
@@ -520,7 +520,7 @@ namespace Lukpik.Cl
             {
                 //Authentication of user by phone number
                 DataTable dt = new DataTable();
-                string cmdText = "select count(1) from `store` where `store_phone`=@phone and `password`=@pwd";
+                string cmdText = "select 1 from `store` where `store_phone`=@phone and `password`=@pwd";
                 cmd = new MySqlCommand(cmdText, con);
                 cmd.Parameters.AddWithValue("@phone", phone);
                 cmd.Parameters.AddWithValue("@pwd", pwd);
@@ -730,12 +730,12 @@ namespace Lukpik.Cl
         #endregion
 
         #region FORGOT PASSWORD
-        public DataTable GetPassword(string email)
+        public DataTable GetPassword(string phonenum)
         {
             DataTable dt = new DataTable();
             try
             {
-                string cmdText = "select `password`,`StoreOwnerFirstName` from `store` where `Email`='" + email + "'";
+                string cmdText = "select `password`,`StoreOwnerFirstName`,`Email` from `store` where `store_phone`='" + phonenum + "'";
                 cmd = new MySqlCommand(cmdText, con);
                 con.Open();
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
