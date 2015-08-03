@@ -261,6 +261,7 @@
     <Content Include="img\Thumbs.db" />
     <None Include="Properties\PublishProfiles\LukpikCustom1.pubxml" />
     <Content Include="retailers\FileUploader\FileUploader.ashx" />
+    <Content Include="StoreImages\logfile.csv" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

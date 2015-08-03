@@ -205,7 +205,7 @@ namespace Lukpik
                 string loginRedirect = System.Configuration.ConfigurationManager.AppSettings.GetValues("LoginRedirect").FirstOrDefault().ToString();
                 //string body = "Dear " + fname + ",<br> Thanks for Registering with us. Your credentials to proceed with us is as follows.<br>Username: " + email + "<br>Password: " + generatedPassword + "<br><a href='" + loginRedirect + "' target='_blank'>Click here to login</a>";
 
-                string body1 = "<html><head> <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/> <meta name='viewport' content='width=device-width, initial-scale=1.0'/> <title>Lukpik</title> <style type='text/css'> table{border-collapse: collapse;}td{font-family: Calibri; color: #333333;}@media only screen and (max-width: 480px){body, table, td, p, a, li, blockquote{-webkit-text-size-adjust: none !important;}table{width: 100% !important;}.responsive-image img{height: auto !important; max-width: 100% !important; width: 100% !important;}}</style></head><body style='margin: 10px 0; padding: 0 10px; background: #F5F7FA; font-size: 13px;'> <table border='0' cellpadding='0' cellspacing='0' width='100%'> <tr> <td> <table border='0' cellpadding='0' cellspacing='0' align='center' width='640' bgcolor='#FFFFFF'> <tr> <td style='font-size: 0; line-height: 0; padding: 0;' align='center' class='responsive-image'> <img src='http://www.lukpik.com/img/emailicons/retailermailbanner.png' width='100%' alt=''/> </td></tr><tr><td style='font-size: 0; line-height: 0;' height='10'>&nbsp;</td></tr><tr> <td style='padding: 10px 20px 20px 20px;'> <div style='font-size: 25px;color:rgb(42, 177, 237);text-align:center;font-weight:bold;'>Happy to have you on board !</div><br/> <div style='font-size: 20px;color:rgb(91, 90, 90);text-align:center;'> Get ready to wipe the boot stains of your store floor more often. </div><br/> <div style='font-family:Calibri; font-size: 23px;color:rgb(91, 90, 90);text-align:center;font-weight:bold;'> Customers are coming ! </div><br/> <div style='font-family:Calibri; font-size: 16px;color:rgb(91, 90, 90);text-align:justify;'> Please login to lukpik and fill in details about your store. In next few minutes you can start uploading products you want to sell. </div><br/> <div style='font-family:Calibri; font-size: 16px;color:rgb(91, 90, 90);text-align:justify;'>";
+                string body1 = "<html><head> <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/> <meta name='viewport' content='width=device-width, initial-scale=1.0'/> <title>Lukpik</title> <style type='text/css'> table{border-collapse: collapse;}td{font-family: Calibri; color: #333333;}@media only screen and (max-width: 480px){body, table, td, p, a, li, blockquote{-webkit-text-size-adjust: none !important;}table{width: 100% !important;}.responsive-image img{height: auto !important; max-width: 100% !important; width: 100% !important;}}</style></head><body style='margin: 10px 0; padding: 0 10px; background: #F5F7FA; font-size: 13px;'> <table border='0' cellpadding='0' cellspacing='0' width='100%'> <tr> <td> <table border='0' cellpadding='0' cellspacing='0' align='center' width='640' bgcolor='#FFFFFF'> <tr> <td style='font-size: 0; line-height: 0; padding: 0;' align='center' class='responsive-image'> <img src='http://www.lukpik.com/img/emailicons/retailermailbanner.png' width='100%' alt=''/> </td></tr><tr><td style='font-size: 0; line-height: 0;' height='10'>&nbsp;</td></tr><tr> <td style='padding: 10px 20px 20px 20px;'> <div style='font-size: 25px;color:rgb(42, 177, 237);text-align:center;font-weight:bold;'>Happy to have you on board !</div><br/> <div style='font-size: 20px;color:rgb(91, 90, 90);text-align:center;'> Get ready to wipe the boot stains of your store floor more often. </div><br/> <br/> <div style='font-family:Calibri; font-size: 16px;color:rgb(91, 90, 90);text-align:justify;'> Please login to lukpik and fill in details about your store. In next few minutes you can start uploading products you want to sell. </div><br/> <div style='font-family:Calibri; font-size: 16px;color:rgb(91, 90, 90);text-align:justify;'>";
 
                 string adminbody = " User login credentials:<br/><br/> <b>Username : </b>" + phonenum + "<br/> <b>Password : </b>" + generatedPassword + "<br/><br/>";
 
@@ -213,9 +213,9 @@ namespace Lukpik
 
                 string body2= " </div><br/> <div style='font-family:Calibri; font-size: 16px;color:rgb(91, 90, 90);text-align:center;'> <a type='button' style='-webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0px; color: #ffffff; font-size: 20px; background: #22c9ad; padding: 10px 20px 10px 20px; text-decoration: none;' target='_blank' href='" + loginRedirect + "'>Click here to login</a> </div><br/> <br/> <div style='font-family:Calibri; font-size: 16px;color:rgb(91, 90, 90);text-align:justify;'> For any further assistance. Just drop us a mail at <a href='mailto:support@lukpik.com' target='_top'>support@lukpik.com</a>. We will get back to you as soon as we can. <br/><br/> We'll be in touch periodically with additional resources and important updates. <br/><br/>Sincerely,<br/><b>Lukpik Team</b><br/> </div></td></tr><tr> <td></td></tr><tr><td style='font-size: 0; line-height: 0;' height='20'>&nbsp;</td></tr><tr> <td bgcolor='#485465'> <table border='0' cellpadding='0' cellspacing='0' width='100%'> <tr><td style='font-size: 0; line-height: 0;' height='15'>&nbsp;</td></tr><tr> <td style='padding: 0 10px; color: #FFFFFF;'> <table border='0' width='100%'> <tr> <td style='color:white;' width='20%'> <a href='http://www.lukpik.com' target='_blank' style='font-size:15px;color:white;'>Lukpik</a> </td><td style='color:white;' width='80%' align='right'> <div style='text-align:right;'> <a href='mailto:support@lukpik.com' style='text-decoration:none;'> <img src='http://www.lukpik.com/img/emailicons/email.png' width='35' style='margin-right:5px;'/> </a> <a href='http://www.facebook.com/Itslukpik' target='_blank' style='text-decoration:none;'> <img src='http://www.lukpik.com/img/emailicons/facbk.png' width='35' style='margin-right:5px;'/> </a> <a href='https://twitter.com/Its_lukpik' target='_blank' style='text-decoration:none;'> <img src='http://www.lukpik.com/img/emailicons/twitter.png' width='35' style='margin-right:5px;'/> </a> <a href='http://www.lukpik.com' target='_blank' style='text-decoration:none;'> <img src='http://www.lukpik.com/img/emailicons/website.png' width='35' style='margin-right:5px;'/> </a> </div></td></tr></table> </td></tr><tr><td style='font-size: 0; line-height: 0;' height='15'>&nbsp;</td></tr></table> </td></tr></table> </td></tr></table></body></html>";
 
-                string subject = storename + "- Thanks for Registering with us.";
+                string subject = storename + "- Welcome to Lukpik.";
 
-                string userSMSText = "Welcome to Lukpik. Your credentials as follows:\nUsername : " + phonenum + "\nPassword : " + generatedPassword;
+                string userSMSText = "Welcome to Lukpik. Your credentials are as follows:\nUsername : " + phonenum + "\nPassword : " + generatedPassword;
                 if (phonenum != "")
                     SendSMS(userSMSText, phonenum);
 
@@ -232,7 +232,7 @@ namespace Lukpik
         }
         public string CreatePassword(int length)
         {
-            const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890#%@+_*";
+            const string valid = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
             StringBuilder res = new StringBuilder();
             Random rnd = new Random();
             while (0 < length--)
@@ -487,10 +487,10 @@ namespace Lukpik
                         string loginRedirect = System.Configuration.ConfigurationManager.AppSettings.GetValues("LoginRedirect").FirstOrDefault().ToString();
                         string name = dt.Rows[0].ItemArray[0].ToString();// + " " + dt.Rows[0].ItemArray[0].ToString();
                         string email = dt.Rows[0].ItemArray[2].ToString();
-                        string midText = "Dear " + name + ",<br> It is to intimate you, that you have recently changed your account password.<br>";
-                        string body = AttachTexttoMailTemplate(midText, loginRedirect, "Intimation of changing password !", false);
-                        string subject = "You have changed you password.";
-                        SendSMS("Hai " + name + ", your password has been changed successfully. \nNew password : " + newpwd, phone);
+                        string midText = "Dear " + name + ",<br> Your password was changed recently . The new password was sent to your phone number ending with XXXXXXX" + phone.Substring(7) + "<br>";
+                        string body = AttachTexttoMailTemplate(midText, loginRedirect, "You Have Changed Your Password !", false);
+                        string subject = "Lukpik - Password Changed ";
+                        SendSMS("Hi " + name + ", Your password has been changed successfully. \nNew password : " + newpwd, phone);
                         SendEMail("support@lukpik.com", email, subject, body);
                         SendEMail("support@lukpik.com", "lukpik.store@gmail.com", subject, body);
                         //Notification 
@@ -679,11 +679,11 @@ namespace Lukpik
                     string loginRedirect = System.Configuration.ConfigurationManager.AppSettings.GetValues("LoginRedirect").FirstOrDefault().ToString();
                     //Mail section
                     
-                    string userText = "Dear " + fname + ",<br> You have requested for your password. We sent your password to your registered mobile number ending with XXXXXXX"+phone.Substring(7)+".<br>";
+                    string userText = "Dear " + fname + ",<br> Your password has been sent to your registered mobile number ending with XXXXXXX"+phone.Substring(7)+".<br>";
 
                     string adminText = "Username of:  " + fname + ",<br>  have requested for password. Please find the password below<br>Username: " + phone + "<br>Password: " + pwd + "<br>";
 
-                    string subject = "Forgot Password.";
+                    string subject = "Lukpik - Forgot Password.";
                     Clients.Client(clientID).gotPassword("1");
                     //user body
                     string body = AttachTexttoMailTemplate(userText, loginRedirect, "Here is your password !", false);
@@ -696,7 +696,7 @@ namespace Lukpik
                     SendEMail("support@lukpik.com", "lukpik.store@gmail.com", "User :" + phone + ": Requested for password", adminBody);
 
                     //SMS section
-                    string userSMSText="Hai "+fname+", here is your password : "+pwd;
+                    string userSMSText="Hi "+fname+", Your password is  : "+pwd;
                     SendSMS(userSMSText, phone);
                 }
                 else
@@ -719,8 +719,8 @@ namespace Lukpik
             {
                 Clients.Client(clientID).mailSent("1");
                 string fname = name;
-                string midText = "Dear " + fname + ",<br> Thank you for contacting us. We will get back to you shortly.";
-                string subject = "Thanks for contacting us.";
+                string midText = "Dear " + fname + ",<br> Thank you for geting in touch. We will get back to you shortly.";
+                string subject = "Lukpik - Thank You For Contacting Us ";
                 string body = AttachTexttoMailTemplate(midText, "", "Thank you for contacting us.", true);
                 SendEMail("support@lukpik.com", email, subject, body);
 
@@ -1204,7 +1204,32 @@ namespace Lukpik
             catch (Exception ex)
             {
                 Clients.Client(clientID).limitReached("0");
+                //LogFile(ex.Message, ex.ToString(), email);
             }
+        }
+
+        public void LogFile(string sExceptionName, string sEventName, int nErrorLineNo, string username, string uploadedfile, string file)
+        {
+            StreamWriter log;
+            try
+            {
+                string path = System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").FirstOrDefault().ToString();
+                if (!File.Exists(path + "\\logfile.csv"))
+                {
+                    log = new StreamWriter(path + "\\logfile.csv");
+                }
+                else
+                {
+                    log = File.AppendText(path + "\\logfile.csv");
+                }
+
+                // Write to the file:
+                log.WriteLine("\"DataTime:" + DateTime.Now + "\",\"UserID:" + username + "\",\"UploadedFile:" + uploadedfile.Split('\\').Last() + "\",\"ExceptionName:" + sExceptionName + "\",\"FileName:" + file + "\",\"Error Line No.:" + nErrorLineNo + "\"");//"|Event Name:" + sEventName +
+                
+                log.Close();
+            }
+            catch (Exception ex)
+            { }
         }
 
     }
