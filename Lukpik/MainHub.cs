@@ -490,7 +490,7 @@ namespace Lukpik
                         string midText = "Dear " + name + ",<br> It is to intimate you, that you have recently changed your account password.<br>";
                         string body = AttachTexttoMailTemplate(midText, loginRedirect, "Intimation of changing password !", false);
                         string subject = "You have changed you password.";
-                        SendSMS("Hai " + name + ", your password has been changed successfully.", phone);
+                        SendSMS("Hai " + name + ", your password has been changed successfully. \nNew password : " + newpwd, phone);
                         SendEMail("support@lukpik.com", email, subject, body);
                         SendEMail("support@lukpik.com", "lukpik.store@gmail.com", subject, body);
                         //Notification 
@@ -561,10 +561,13 @@ namespace Lukpik
         {
             try
             {
-                string username = "demo7788";
-                string password = "demo7788";
+                string username = System.Configuration.ConfigurationManager.AppSettings.GetValues("SMSTYPE_USERNAME").First().ToString();
+                string password = System.Configuration.ConfigurationManager.AppSettings.GetValues("SMSTYPE_PASSWORD").First().ToString();
+                string senderID = System.Configuration.ConfigurationManager.AppSettings.GetValues("SMSTYPE_SENDERID").First().ToString();
+                //string username = "demo7788";
+                //string password = "demo7788";
 
-                string sUrl = "http://sms99.co.in/pushsms.php?username=" + username + "&password=" + password + "&sender=CAMERA&message=" + messageContent + "&numbers=" + mobilenumber + "";
+                string sUrl = "http://sms99.co.in/pushsms.php?username=" + username + "&password=" + password + "&sender=" + senderID + "&message=" + messageContent + "&numbers=" + mobilenumber + "";
                 string response = GetResponse(sUrl);
             }
             catch (Exception ex)

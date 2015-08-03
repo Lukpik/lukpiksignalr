@@ -241,7 +241,7 @@
     <Content Include="Scripts\pages\retailerhome.js" />
     <Content Include="login.html" />
     <Content Include="Scripts\processBar.js" />
-    <Content Include="StoreImages\captcha\dontDelete.ico" />
+    <Content Include="StoreImages\captcha\sontDelete.png" />
     <Content Include="StoreImages\images\imageback.png" />
     <Content Include="users_temp\fonts\fontawesome-webfont.eot" />
     <Content Include="users_temp\fonts\fontawesome-webfont.ttf" />
