@@ -1196,7 +1196,7 @@ TableTools.prototype = {
 			{
 				if ( typeof TableTools.BUTTONS[ buttonSet[i] ] == 'undefined' )
 				{
-					alert( "TableTools: Warning - unknown button type: "+buttonSet[i] );
+					//alert( "TableTools: Warning - unknown button type: "+buttonSet[i] );
 					continue;
 				}
 				buttonDef = $.extend( {}, TableTools.BUTTONS[ buttonSet[i] ], true );
@@ -1205,7 +1205,7 @@ TableTools.prototype = {
 			{
 				if ( typeof TableTools.BUTTONS[ buttonSet[i].sExtends ] == 'undefined' )
 				{
-					alert( "TableTools: Warning - unknown button type: "+buttonSet[i].sExtends );
+					//alert( "TableTools: Warning - unknown button type: "+buttonSet[i].sExtends );
 					continue;
 				}
 				var o = $.extend( {}, TableTools.BUTTONS[ buttonSet[i].sExtends ], true );
@@ -2941,7 +2941,7 @@ TableTools.DEFAULTS = {
 	"fnPreRowSelect":  null,
 	"fnRowSelected":   null,
 	"fnRowDeselected": null,
-	"aButtons":        [ "copy", "csv", "xls", "pdf", "print" ],
+	"aButtons": [""],// "copy", "csv", "xls", "pdf", "print"
 	"oTags": {
 		"container": "div",
 		"button": "a", // We really want to use buttons here, but Firefox and IE ignore the
