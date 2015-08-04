@@ -1049,6 +1049,16 @@ namespace Lukpik
             }
         }
 
+        public void getCollectionColorSizes(string productID, string phone, string clientID)
+        {
+            try
+            {
+                Clients.Client(clientID).CollectionColorSizes("");
+            }
+            catch (Exception ex)
+            {
+            }
+        }
         #endregion
 
         #region CAPTCHA GENERATION

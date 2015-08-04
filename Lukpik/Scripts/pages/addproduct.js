@@ -465,7 +465,8 @@ function FillValues(myobj1, myobj2) {
     $('fileUpdloadDiv').hide();
 
     $('#txtFullName').val(myobj1[0].ProductName);
-    $('#txtPrice').val(myobj1[0].Price);
+    if (myobj1[0].Price != "-1")
+        $('#txtPrice').val(myobj1[0].Price);
     $('#txtProductDescription').val(myobj1[0].ProductLongDescription);
     $('#txtECommerceLink').val(myobj1[0].ECommerceLink);
     
@@ -486,6 +487,8 @@ function FillValues(myobj1, myobj2) {
     _selectedProductCategory = myobj1[0].ProductSubCategoryID;
     onChangeProductFamily();
     addImage(myobj2);
+    var productID = readCookie("productID");
+    hubEngine.server.getCollectionColorSizes(productID, readCookie("lukpikretailer_usename"), $.connection.hub.id);
 }
 
 var cnt = 1;
@@ -541,7 +544,7 @@ function FormProductCategory(myobj) {
             var childText = myobj[parent].c[child].split("_")[1];
             var subCategoryID = myobj[parent].c[child].split("_")[0];
             var isNotNull = _selectedProductCategory != "" ? true : false;
-            var productID = readCookie("productID");
+            
             var productID = readCookie("productID");
             if (productID == null || productID == "") {
                 if (parent == 0 && child == 0) {
