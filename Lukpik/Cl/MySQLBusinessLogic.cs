@@ -693,7 +693,7 @@ namespace Lukpik.Cl
                 string cmdText = "";
                 if (storetype == "" || storetype=="all")
                 {
-                    cmdText = "select b.CategoryID as CategoryID , b.CategoryName  , count(a.StoreID) as StoreCount from storecategories a right join storetypecategories b on a.CategoryID = b.CategoryID group by b.CategoryID";
+                    cmdText = "select b.CategoryID as CategoryID , b.CategoryName  , count(a.StoreID) as StoreCount from storecategories a right join storetypecategories b on a.CategoryID = b.CategoryID group by b.CategoryID having StoreCount > 0 order by StoreCount desc;";
                    
                 }
                 else
