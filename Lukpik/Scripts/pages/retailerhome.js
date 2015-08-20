@@ -37,6 +37,16 @@ $(document).ready(function () {
         AddOtherCategories(allCategories, selectedList);
     };
 
+    hubEngine.client.setMasterAck = function (msg) {
+        if (msg == "0") {
+            AddAlert("error", "Something went wrong, please try again later.");
+        }
+        else {
+            //Image uploaded successfully
+            AddAlert("", "Updated successfully.");
+        }
+    };
+
     hubEngine.client.dpUploaded = function (img, msg) {
         if (msg == "0") {
             AddAlert("error","Failed to upload your profile picture, please try again later.");
@@ -120,6 +130,11 @@ $(document).ready(function () {
                 $('#txtFbURL').val(CheckNull(obj[0].SocialFacebookPage));
                 $('#txtTwitterURL').val(CheckNull(obj[0].SocialTwitterPage));
                 $('#txtGooglePlusURL').val(CheckNull(obj[0].SocialGooglePage));
+                
+
+                //advanced options
+                $('#txtMasterPassword').val(CheckNull(obj[0].StoreMasterPassword));
+                
 
                 //checkboxes
 
@@ -155,8 +170,12 @@ $(document).ready(function () {
 
 
             }
-            if (obj[0].Latitude != "" && obj[0].Latitude != null && obj[0].Longitude != "" && obj[0].Longitude != null)
-                InitializeMap(CheckNull(obj[0].Latitude) * 1, CheckNull(obj[0].Longitude) * 1)
+            if (obj[0].Latitude != "" && obj[0].Latitude != null && obj[0].Longitude != "" && obj[0].Longitude != null) {
+
+                InitializeMap(CheckNull(obj[0].Latitude) * 1, CheckNull(obj[0].Longitude) * 1);
+                _latitude = obj[0].Latitude;
+                _longitude = obj[0].Longitude;
+            }
             else
                 IdentifyLocation();
             
@@ -197,8 +216,12 @@ $(document).ready(function () {
             var path = img;
             tempSrc = path;
             $('#avatar-modal').modal('hide');
+            $("#imgStore").attr('style', '');
+            $("#imgStore").attr('class', '');
+            document.getElementById("imgStore").alt = "Avatar";
             document.getElementById("imgStore").src = path;
             document.getElementById("imgStoreTop").src = path;
+           
             localStorage.setItem("profilepic", path);
             if (isfrm != "refresh") {
                 AddAlert("", "Uploaded successfully.");
@@ -407,8 +430,15 @@ function BeginProcess(fileName, orgFileName, isFrom) {
     }
 }
 
+
 function SaveCropImg() {
     //onchange = "FileSelected();"
+    //$('#imgMainPre')[0].children[0].currentSrc avatar-preview preview-lg
+    $("#imgStore").attr('src', $('#imgMainPre')[0].children[0].currentSrc);
+    $("#imgStore").attr('class', 'avatar-preview preview-lg');
+    $("#imgStore").attr('style', 'height:200px;width:200px;');
+    $('#avatar-modal').modal('hide');
+    AddProgressBarLoader();
     FileSelected();
 
 }
@@ -463,4 +493,14 @@ function setCheckedValue(checkboxName, toBeChecked) {
     //$('input[name=' + checkboxName + ']').prop("checked", true);
     document.getElementById(toBeChecked).checked = true;
     document.getElementById("rbtnCCYes").checked = false;
+}
+
+function SetMasterPassword() {
+    var mobile = $('#txtPhone').val();
+    var masterPwd = $('#txtMasterPassword').val();
+    if (masterPwd != null && masterPwd != "")
+        hubEngine.server.setStoreMasterPassword(mobile, masterPwd, $.connection.hub.id);
+    else {
+        AddAlert("error", "Please fill with your master password.");
+    }
 }

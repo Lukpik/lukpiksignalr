@@ -1437,5 +1437,27 @@ Waypoints
 
 .blue-loader .ajax_loader {
     background: url("/img/ajax-loader.gif") no-repeat center 250px transparent;
-    position:fixed;
+    position: fixed;
+}
+
+.imgHeight{
+    /*height:120px;*/
+    width:150px;
+    
+}
+
+.imgHeight:hover{
+    /*transform: scale(1.06);*/
+}
+.imgPrevHover {
+    /*border-left: solid 1px #000000;
+    border-top: solid 1px #000000;
+    border-bottom: solid 1px #000000;*/
+    padding:10px;
+}
+
+imgPrevHover:last-child {
+    border-right: solid 1px #000000;
+    border-top: solid 1px #000000;
+    border-bottom: solid 1px #000000;
 }

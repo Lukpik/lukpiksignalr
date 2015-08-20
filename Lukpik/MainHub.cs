@@ -88,11 +88,33 @@ namespace Lukpik
             //test image save code
             string FileName = rootPath + filename;
             byte[] ImageData;
-            FileStream fs = new FileStream(FileName, FileMode.Open, FileAccess.Read);
-            BinaryReader br = new BinaryReader(fs);
-            ImageData = br.ReadBytes((int)fs.Length);
-            br.Close();
+
+            FileStream fs = new FileStream(rootPath + filename, FileMode.Open, FileAccess.Read);
+            using (var image1 = Image.FromStream(fs))
+            {
+                var newWidth = (int)(image1.Width * 0.5);
+                var newHeight = (int)(image1.Height * 0.5);
+                var thumbnailImg = new Bitmap(newWidth, newHeight);
+                var thumbGraph = Graphics.FromImage(thumbnailImg);
+                thumbGraph.CompositingQuality = CompositingQuality.HighQuality;
+                thumbGraph.SmoothingMode = SmoothingMode.HighQuality;
+                thumbGraph.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                var imageRectangle = new Rectangle(0, 0, newWidth, newHeight);
+                thumbGraph.DrawImage(image1, imageRectangle);
+                thumbnailImg.Save(rootPath + "New" + filename, image1.RawFormat);
+                FileStream fs2 = new FileStream(rootPath + "New" + filename, FileMode.Open, FileAccess.Read);
+                BinaryReader br = new BinaryReader(fs2);
+                ImageData = br.ReadBytes((int)fs2.Length);
+                br.Close();
+                fs2.Close();
+            }
             fs.Close();
+            File.Delete(rootPath + "New" + filename);
+            //FileStream fs = new FileStream(FileName, FileMode.Open, FileAccess.Read);
+            //BinaryReader br = new BinaryReader(fs);
+            //ImageData = br.ReadBytes((int)fs.Length);
+            //br.Close();
+            //fs.Close();
             MySQLBusinessLogic bl = new MySQLBusinessLogic();
             bool ImgUpdate = false;
             if (ImageData.Length < 16777216)
@@ -187,8 +209,13 @@ namespace Lukpik
         {
             //string passsword
             Random rnd = new Random();
-            int length = rnd.Next(6, 12); // creates a number between 1 and 12
+            int length = 6;//rnd.Next(6, 12); // creates a number between 1 and 12
             string generatedPassword = CreatePassword(length);
+
+            //Master password
+            string masterPassword = CreatePassword(length);// Actual master password
+            //string masterPwdEncrypted = Encrypt(masterPassword);// Encrypted master password
+
             string password = Encrypt(generatedPassword);
             MySQLBusinessLogic bl = new MySQLBusinessLogic();
             bool isEmailNull = false;
@@ -198,7 +225,7 @@ namespace Lukpik
                 //email = store + "." + phonenum + "@lukpik.com";
                 isEmailNull = true;
             }
-            int result = bl.AddStore(storename, city, phonenum,phonenum2, DateTime.Now, DateTime.Now, email, fname, lname, 0, 0, password, 1, 0, 1);
+            int result = bl.AddStore(storename, city, phonenum, phonenum2, DateTime.Now, DateTime.Now, email, fname, lname, 0, 0, password, 1, 0, 1, masterPassword);
             if (result == 1)
             {
                 Clients.Client(clientID).testJS("1");
@@ -211,7 +238,7 @@ namespace Lukpik
 
                 string userbody = "Your credentials has been sent to your mobile number ending with XXXXXXX" + phonenum.Substring(7) + ".<br/><br/>";
 
-                string body2= " </div><br/> <div style='font-family:Calibri; font-size: 16px;color:rgb(91, 90, 90);text-align:center;'> <a type='button' style='-webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0px; color: #ffffff; font-size: 20px; background: #22c9ad; padding: 10px 20px 10px 20px; text-decoration: none;' target='_blank' href='" + loginRedirect + "'>Click here to login</a> </div><br/> <br/> <div style='font-family:Calibri; font-size: 16px;color:rgb(91, 90, 90);text-align:justify;'> For any further assistance. Just drop us a mail at <a href='mailto:support@lukpik.com' target='_top'>support@lukpik.com</a>. We will get back to you as soon as we can. <br/><br/> We'll be in touch periodically with additional resources and important updates. <br/><br/>Sincerely,<br/><b>Lukpik Team</b><br/> </div></td></tr><tr> <td></td></tr><tr><td style='font-size: 0; line-height: 0;' height='20'>&nbsp;</td></tr><tr> <td bgcolor='#485465'> <table border='0' cellpadding='0' cellspacing='0' width='100%'> <tr><td style='font-size: 0; line-height: 0;' height='15'>&nbsp;</td></tr><tr> <td style='padding: 0 10px; color: #FFFFFF;'> <table border='0' width='100%'> <tr> <td style='color:white;' width='20%'> <a href='http://www.lukpik.com' target='_blank' style='font-size:15px;color:white;'>Lukpik</a> </td><td style='color:white;' width='80%' align='right'> <div style='text-align:right;'> <a href='mailto:support@lukpik.com' style='text-decoration:none;'> <img src='http://www.lukpik.com/img/emailicons/email.png' width='35' style='margin-right:5px;'/> </a> <a href='http://www.facebook.com/Itslukpik' target='_blank' style='text-decoration:none;'> <img src='http://www.lukpik.com/img/emailicons/facbk.png' width='35' style='margin-right:5px;'/> </a> <a href='https://twitter.com/Its_lukpik' target='_blank' style='text-decoration:none;'> <img src='http://www.lukpik.com/img/emailicons/twitter.png' width='35' style='margin-right:5px;'/> </a> <a href='http://www.lukpik.com' target='_blank' style='text-decoration:none;'> <img src='http://www.lukpik.com/img/emailicons/website.png' width='35' style='margin-right:5px;'/> </a> </div></td></tr></table> </td></tr><tr><td style='font-size: 0; line-height: 0;' height='15'>&nbsp;</td></tr></table> </td></tr></table> </td></tr></table></body></html>";
+                string body2 = " </div><br/> <div style='font-family:Calibri; font-size: 16px;color:rgb(91, 90, 90);text-align:center;'> <a type='button' style='-webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0px; color: #ffffff; font-size: 20px; background: #22c9ad; padding: 10px 20px 10px 20px; text-decoration: none;' target='_blank' href='" + loginRedirect + "'>Click here to login</a> </div><br/> <br/> <div style='font-family:Calibri; font-size: 16px;color:rgb(91, 90, 90);text-align:justify;'> For any further assistance. Just drop us a mail at <a href='mailto:support@lukpik.com' target='_top'>support@lukpik.com</a>. We will get back to you as soon as we can. <br/><br/> We'll be in touch periodically with additional resources and important updates. <br/><br/>Sincerely,<br/><b>Lukpik Team</b><br/> </div></td></tr><tr> <td></td></tr><tr><td style='font-size: 0; line-height: 0;' height='20'>&nbsp;</td></tr><tr> <td bgcolor='#485465'> <table border='0' cellpadding='0' cellspacing='0' width='100%'> <tr><td style='font-size: 0; line-height: 0;' height='15'>&nbsp;</td></tr><tr> <td style='padding: 0 10px; color: #FFFFFF;'> <table border='0' width='100%'> <tr> <td style='color:white;' width='20%'> <a href='http://www.lukpik.com' target='_blank' style='font-size:15px;color:white;'>Lukpik</a> </td><td style='color:white;' width='80%' align='right'> <div style='text-align:right;'> <a href='mailto:support@lukpik.com' style='text-decoration:none;'> <img src='http://www.lukpik.com/img/emailicons/email.png' width='35' style='margin-right:5px;'/> </a> <a href='http://www.facebook.com/Itslukpik' target='_blank' style='text-decoration:none;'> <img src='http://www.lukpik.com/img/emailicons/facbk.png' width='35' style='margin-right:5px;'/> </a> <a href='https://twitter.com/Its_lukpik' target='_blank' style='text-decoration:none;'> <img src='http://www.lukpik.com/img/emailicons/twitter.png' width='35' style='margin-right:5px;'/> </a> <a href='http://www.lukpik.com' target='_blank' style='text-decoration:none;'> <img src='http://www.lukpik.com/img/emailicons/website.png' width='35' style='margin-right:5px;'/> </a> </div></td></tr></table> </td></tr><tr><td style='font-size: 0; line-height: 0;' height='15'>&nbsp;</td></tr></table> </td></tr></table> </td></tr></table></body></html>";
 
                 string subject = storename + "- Welcome to Lukpik.";
 
@@ -308,7 +335,7 @@ namespace Lukpik
                 //    //Check for Mobile availability
                 //    if (!moblenumberAvailability)
                 //    {
-                       
+
                 //    }
                 //    else
                 //    {
@@ -339,6 +366,47 @@ namespace Lukpik
             catch (Exception ex)
             {
                 Clients.Client(clientID).updatedStores("0");
+            }
+        }
+
+        public void setStoreMasterPassword(string phone, string masterPwd, string clientID)
+        {
+            try
+            {
+                int storeID = GetStoreIDbyPhone(phone);
+                MySQLBusinessLogic bl = new MySQLBusinessLogic();
+                //masterPwd = Encrypt(masterPwd);//Encryption
+                if (bl.SetStoreMasterPassword(phone, storeID, masterPwd))
+                {
+                    Clients.Client(clientID).setMasterAck("1");
+                }
+                else
+                    Clients.Client(clientID).setMasterAck("0");
+            }
+            catch (Exception ex)
+            {
+                Clients.Client(clientID).setMasterAck("0");
+            }
+        }
+
+        public void getStoreMasterPassword(string phone, string clientID)
+        {
+            try
+            {
+                MySQLBusinessLogic bl = new MySQLBusinessLogic();
+                int storeID = GetStoreIDbyPhone(phone);
+                string storeMasterPwd = bl.GetStoremasterPassword(storeID);
+                if (storeMasterPwd != "" && storeMasterPwd != null)
+                {
+                    //storeMasterPwd = Decrypt(storeMasterPwd);//Decryption
+                    Clients.Client(clientID).setMasterAck("1", storeMasterPwd);
+                }
+                else
+                    Clients.Client(clientID).setMasterAck("0");
+            }
+            catch (Exception ex)
+            {
+                Clients.Client(clientID).setMasterAck("0");
             }
         }
         #endregion
@@ -437,6 +505,8 @@ namespace Lukpik
                 MySQLBusinessLogic bl = new MySQLBusinessLogic();
                 DataTable storeDetails = new DataTable();
                 storeDetails = bl.GetStoreRetailerDetails(storeID);
+                //string st = Decrypt(storeDetails.Rows[0].ItemArray[storeDetails.Columns.Count - 1].ToString());
+                //storeDetails.Rows[0]["StoreMasterPassword"] = st;
                 string jsonStr = ConvertDataTabletoString(storeDetails);
                 Clients.Client(clientID).gotDetails(jsonStr, "1");
             }
@@ -494,7 +564,7 @@ namespace Lukpik
                         SendEMail("support@lukpik.com", email, subject, body);
                         SendEMail("support@lukpik.com", "lukpik.store@gmail.com", subject, body);
                         //Notification 
-                        
+
                     }
                 }
                 else if (result == 2)
@@ -629,7 +699,7 @@ namespace Lukpik
                     json1 = ConvertDataTabletoString(dtAllCategories);
 
                 List<string> lstSelected = new List<string>();
-                
+
                 lstSelected = bl.GetOtherCategoriesbyStoreID(storeID);
 
                 var jsonSerialiser = new JavaScriptSerializer();
@@ -678,8 +748,8 @@ namespace Lukpik
                     string email = dt.Rows[0].ItemArray[2].ToString();
                     string loginRedirect = System.Configuration.ConfigurationManager.AppSettings.GetValues("LoginRedirect").FirstOrDefault().ToString();
                     //Mail section
-                    
-                    string userText = "Dear " + fname + ",<br> Your password has been sent to your registered mobile number ending with XXXXXXX"+phone.Substring(7)+".<br>";
+
+                    string userText = "Dear " + fname + ",<br> Your password has been sent to your registered mobile number ending with XXXXXXX" + phone.Substring(7) + ".<br>";
 
                     string adminText = "Username of:  " + fname + ",<br>  have requested for password. Please find the password below<br>Username: " + phone + "<br>Password: " + pwd + "<br>";
 
@@ -696,7 +766,7 @@ namespace Lukpik
                     SendEMail("support@lukpik.com", "lukpik.store@gmail.com", "User :" + phone + ": Requested for password", adminBody);
 
                     //SMS section
-                    string userSMSText="Hi "+fname+", Your password is  : "+pwd;
+                    string userSMSText = "Hi " + fname + ", Your password is  : " + pwd;
                     SendSMS(userSMSText, phone);
                 }
                 else
@@ -738,7 +808,7 @@ namespace Lukpik
         {
             try
             {
-                
+
                 MySQLBusinessLogic bl = new MySQLBusinessLogic();
                 int result = bl.SubscriptionEmail(email, DateTime.Now, 1);
                 if (result == 1)
@@ -765,7 +835,7 @@ namespace Lukpik
 
         #region PRODUCTS
 
-        public void addProduct(string productname, string gender, string productFamilyId, string productdescription, string price, string quantity, string size, string color, string visibility, string productCat_Sub_ID, string brandID, string collection, string images, string email, string clientID, string fileNames1, string ecommecelink)
+        public void addProduct(string productname, string gender, string productFamilyId, string productdescription, string price, string quantity, string size, string color, string visibility, string productCat_Sub_ID, string brandID, string collection, string images, string email, string clientID, string fileNames1, string ecommecelink, string productSKU, string masterPwd)
         {
             try
             {
@@ -808,20 +878,41 @@ namespace Lukpik
                     //test image save code
                     string FileName = rootPath + fileName;
                     byte[] ImageData;
-                    FileStream fs = new FileStream(FileName, FileMode.Open, FileAccess.Read);
-                    BinaryReader br = new BinaryReader(fs);
-                    ImageData = br.ReadBytes((int)fs.Length);
-                    br.Close();
+                    FileStream fs = new FileStream(rootPath + fileName, FileMode.Open, FileAccess.Read);
+                    using (var image1 = Image.FromStream(fs))
+                    {
+                        var newWidth = (int)(image1.Width * 0.9);
+                        var newHeight = (int)(image1.Height * 0.9);
+                        var thumbnailImg = new Bitmap(newWidth, newHeight);
+                        var thumbGraph = Graphics.FromImage(thumbnailImg);
+                        thumbGraph.CompositingQuality = CompositingQuality.HighQuality;
+                        thumbGraph.SmoothingMode = SmoothingMode.HighQuality;
+                        thumbGraph.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                        var imageRectangle = new Rectangle(0, 0, newWidth, newHeight);
+                        thumbGraph.DrawImage(image1, imageRectangle);
+                        thumbnailImg.Save(rootPath + "New" + fileName, image1.RawFormat);
+                        FileStream fs2 = new FileStream(rootPath + "New" + fileName, FileMode.Open, FileAccess.Read);
+                        BinaryReader br = new BinaryReader(fs2);
+                        ImageData = br.ReadBytes((int)fs2.Length);
+                        br.Close();
+                        fs2.Close();
+                    }
                     fs.Close();
-
+                    //Image image1 = Image.FromFile(rootPath + fileName);
+                    //Image thumb1 = image1.GetThumbnailImage(image1.Width, image1.Height, () => false, IntPtr.Zero);
+                    //thumb1.Save(Path.ChangeExtension(rootPath + fileName.Split('.')[0], "thumb"));
+                    //System.IO.File.Move(rootPath + fileName.Split('.')[0] + ".thumb", rootPath + "New" + fileName);
+                    //FileStream fs = new FileStream(rootPath + "New" + fileName, FileMode.Open, FileAccess.Read);
+                    //BinaryReader br = new BinaryReader(fs);
+                    //ImageData = br.ReadBytes((int)fs.Length);
+                    //br.Close();
+                    //fs.Close();
+                    File.Delete(rootPath + "New" + fileName);
+                    //File.Delete(rootPath + fileName);
                     if (ImageData.Length < 16777216)
                         lstByte.Add(ImageData);
 
                 }
-
-
-
-
 
                 MySQLBusinessLogic bl = new MySQLBusinessLogic();
                 //int brandID = 0;
@@ -833,7 +924,7 @@ namespace Lukpik
 
                 DataTable dt = bl.GetStoreID(email);
                 int storeID = Convert.ToInt32(dt.Rows[0].ItemArray[0]);
-                int retVal = bl.AddProduct(productname, gender, Convert.ToInt32(productFamilyId), productdescription, Convert.ToDouble(price), quantity, size, color, Convert.ToInt32(visibility), productCategoryID, productSubCategoryID, Convert.ToInt32(brandID), collection, images, storeID, DateTime.Now, email, lstByte, PrvImg, ecommecelink);
+                int retVal = bl.AddProduct(productname, gender, Convert.ToInt32(productFamilyId), productdescription, Convert.ToDouble(price), quantity, size, color, Convert.ToInt32(visibility), productCategoryID, productSubCategoryID, Convert.ToInt32(brandID), collection, images, storeID, DateTime.Now, email, lstByte, PrvImg, ecommecelink, productSKU, masterPwd);
                 if (size != "" || color != "" || collection != "")
                 {
                     bl.AddSpecification(email, color, size, collection);
@@ -848,8 +939,64 @@ namespace Lukpik
                 Clients.Client(clientID).addedProduct("0");
             }
         }
+        public List<byte[]> ImageUpload(string images, string fileNames1)
+        {
+            List<byte[]> lstByte = new List<byte[]>();
+            try
+            {
+                var fileNames = fileNames1.Split(',');
+                var fileimages = images.Split(',');
+                byte[] PrvImg = null;
 
-        public void updateProduct(string productID, string productname, string gender, string productFamilyId, string productdescription, string price, string quantity, string size, string color, string visibility, string productCat_Sub_ID, string brandID, string collection, string images, string email, string clientID, string fileNames1, string ecommecelink)
+                string rootPath = System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").First().ToString();
+
+
+                for (int i = 0; i < fileNames.Length; i++)
+                {
+
+                    string fileName = fileNames[i];
+                    string encodedFileName = fileimages[i];
+                    if (fileName != encodedFileName)
+                    {
+                        fileName = Regex.Replace(fileName.Substring(0, fileName.LastIndexOf('.')), "[.;]", "_") + fileName.Substring(fileName.LastIndexOf('.'), (fileName.Length - fileName.LastIndexOf('.')));
+                        if (File.Exists(rootPath + fileName))
+                            File.Delete(rootPath + fileName);
+                        System.IO.File.Move(rootPath + encodedFileName, rootPath + fileName);
+                        if (i == 0)
+                        {
+                            Image image = Image.FromFile(rootPath + fileName);
+                            Image thumb = image.GetThumbnailImage(100, 100, () => false, IntPtr.Zero);
+                            thumb.Save(Path.ChangeExtension(rootPath + fileName.Split('.')[0], "thumb"));
+                            System.IO.File.Move(rootPath + fileName.Split('.')[0] + ".thumb", rootPath + "New" + fileName);
+                            FileStream fs1 = new FileStream(rootPath + "New" + fileName, FileMode.Open, FileAccess.Read);
+                            BinaryReader br1 = new BinaryReader(fs1);
+                            PrvImg = br1.ReadBytes((int)fs1.Length);
+                            br1.Close();
+                            fs1.Close();
+                            File.Delete(rootPath + "New" + fileName);
+                        }
+
+                    }
+                    //test image save code
+                    string FileName = rootPath + fileName;
+                    byte[] ImageData;
+                    FileStream fs = new FileStream(FileName, FileMode.Open, FileAccess.Read);
+                    BinaryReader br = new BinaryReader(fs);
+                    ImageData = br.ReadBytes((int)fs.Length);
+                    br.Close();
+                    fs.Close();
+
+                    if (ImageData.Length < 16777216)
+                        lstByte.Add(ImageData);
+
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            return lstByte;
+        }
+        public void updateProduct(string productID, string productname, string gender, string productFamilyId, string productdescription, string price, string quantity, string size, string color, string visibility, string productCat_Sub_ID, string brandID, string collection, string images, string email, string clientID, string fileNames1, string ecommecelink, string imgIDs, string productSKU, string masterPwd)
         {
             try
             {
@@ -861,7 +1008,100 @@ namespace Lukpik
                 MySQLBusinessLogic bl = new MySQLBusinessLogic();
                 DataTable dt = bl.GetStoreID(email);
                 int storeID = Convert.ToInt32(dt.Rows[0].ItemArray[0]);
-                int result = bl.UpdateProduct(pro_ID, productname, gender, Convert.ToInt32(productFamilyId), productdescription, Convert.ToDouble(price), quantity, size, color, Convert.ToInt32(visibility), productCategoryID, productSubCategoryID, Convert.ToInt32(brandID), collection, storeID, DateTime.Now, email, ecommecelink);
+                int result = bl.UpdateProduct(pro_ID, productname, gender, Convert.ToInt32(productFamilyId), productdescription, Convert.ToDouble(price), quantity, size, color, Convert.ToInt32(visibility), productCategoryID, productSubCategoryID, Convert.ToInt32(brandID), collection, storeID, DateTime.Now, email, ecommecelink, productSKU, masterPwd);
+                if (fileNames1 != "")
+                {
+                    //List<byte[]> lstb = new List<byte[]>();
+                    //lstb = ImageUpload(images, fileNames1);
+
+                    var fileNames = fileNames1.Split(',');
+                    var fileimages = images.Split(',');
+                    byte[] PrvImg = null;
+                    List<byte[]> lstByte = new List<byte[]>();
+                    string rootPath = System.Configuration.ConfigurationManager.AppSettings.GetValues("RootPath").First().ToString();
+
+                    var imageIDs = imgIDs.Split(',');
+                    for (int i = 0; i < fileNames.Length; i++)
+                    {
+
+                        string fileName = fileNames[i];
+                        string encodedFileName = fileimages[i];
+                        if (fileName != encodedFileName)
+                        {
+                            fileName = Regex.Replace(fileName.Substring(0, fileName.LastIndexOf('.')), "[.;]", "_") + fileName.Substring(fileName.LastIndexOf('.'), (fileName.Length - fileName.LastIndexOf('.')));
+                            if (File.Exists(rootPath + fileName))
+                                File.Delete(rootPath + fileName);
+                            System.IO.File.Move(rootPath + encodedFileName, rootPath + fileName);
+
+                            if (imageIDs.Contains("image1"))
+                            {
+
+                                Image image = Image.FromFile(rootPath + fileName);
+                                Image thumb = image.GetThumbnailImage(100, 100, () => false, IntPtr.Zero);
+                                thumb.Save(Path.ChangeExtension(rootPath + fileName.Split('.')[0], "thumb"));
+                                System.IO.File.Move(rootPath + fileName.Split('.')[0] + ".thumb", rootPath + "New" + fileName);
+                                FileStream fs1 = new FileStream(rootPath + "New" + fileName, FileMode.Open, FileAccess.Read);
+                                BinaryReader br1 = new BinaryReader(fs1);
+                                PrvImg = br1.ReadBytes((int)fs1.Length);
+                                br1.Close();
+                                fs1.Close();
+                                File.Delete(rootPath + "New" + fileName);
+                            }
+
+                        }
+                        //test image save code
+                        string FileName = rootPath + fileName;
+                        byte[] ImageData;
+                        FileStream fs = new FileStream(rootPath + fileName, FileMode.Open, FileAccess.Read);
+                        using (var image1 = Image.FromStream(fs))
+                        {
+                            var newWidth = (int)(image1.Width * 0.9);
+                            var newHeight = (int)(image1.Height * 0.9);
+                            var thumbnailImg = new Bitmap(newWidth, newHeight);
+                            var thumbGraph = Graphics.FromImage(thumbnailImg);
+                            thumbGraph.CompositingQuality = CompositingQuality.HighQuality;
+                            thumbGraph.SmoothingMode = SmoothingMode.HighQuality;
+                            thumbGraph.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                            var imageRectangle = new Rectangle(0, 0, newWidth, newHeight);
+                            thumbGraph.DrawImage(image1, imageRectangle);
+                            thumbnailImg.Save(rootPath + "New" + fileName, image1.RawFormat);
+                            FileStream fs2 = new FileStream(rootPath + "New" + fileName, FileMode.Open, FileAccess.Read);
+                            BinaryReader br = new BinaryReader(fs2);
+                            ImageData = br.ReadBytes((int)fs2.Length);
+                            br.Close();
+                            fs2.Close();
+                        }
+                        fs.Close();
+                        //Image image1 = Image.FromFile(rootPath + fileName);
+                        //Image thumb1 = image1.GetThumbnailImage(image1.Width, image1.Height, () => false, IntPtr.Zero);
+                        //thumb1.Save(Path.ChangeExtension(rootPath + fileName.Split('.')[0], "thumb"));
+                        //System.IO.File.Move(rootPath + fileName.Split('.')[0] + ".thumb", rootPath + "New" + fileName);
+                        //FileStream fs = new FileStream(rootPath + "New" + fileName, FileMode.Open, FileAccess.Read);
+                        //BinaryReader br = new BinaryReader(fs);
+                        //ImageData = br.ReadBytes((int)fs.Length);
+                        //br.Close();
+                        //fs.Close();
+                        File.Delete(rootPath + "New" + fileName);
+                        //File.Delete(rootPath + fileName);
+                        if (ImageData.Length < 16777216)
+                            lstByte.Add(ImageData);
+                    }
+
+                    if (lstByte.Count > 0)
+                    {
+                        for (int i = 0; i < lstByte.Count; i++)
+                        {
+                            bl.UpdateProducts_Image(lstByte[i], pro_ID, imageIDs[i], PrvImg);
+                        }
+                    }
+                }
+                if (size != "" || color != "" || collection != "")
+                {
+                    if (bl.DeleteProductSpectication(pro_ID))
+                    {
+                        bl.AddSpecification(email, color, size, collection);
+                    }
+                }
                 if (result == 1)
                     Clients.Client(clientID).productUpdated("1");
                 else
@@ -896,7 +1136,7 @@ namespace Lukpik
                 Clients.Client(clientID).removedProduct("0", trID);
             }
         }
-        public void getProductDetails(string email, string productID, string clientID)
+        public void getProductDetails(string email, string productID, string isDuplicate, string clientID)
         {
             try
             {
@@ -911,34 +1151,77 @@ namespace Lukpik
                 dt = bl.GetProductDetails(storeID, prod_ID);
 
                 DataTable dtImage = new DataTable();
-                dtImage = bl.GetProductImageDetails(storeID, prod_ID);
+                //if (prod_ID != 0)
                 string json2 = "";
+                string ImageData = "";
+                if (isDuplicate == "false")
+                {
+                    dtImage = bl.GetProductImageDetails(storeID, prod_ID);
+                }
+
                 if (dt.Rows.Count > 0)
                 {
                     string json = ConvertDataTabletoString(dt);
+
+
                     if (dtImage.Rows.Count > 0)
                     {
-                        for (int i = 0; i < dtImage.Rows.Count; i++)
+                        if (prod_ID != 0)
                         {
-                            if (dtImage.Rows[i].ItemArray[0].GetType().Name != "DBNull")
+                            for (int i = 0; i < dtImage.Columns.Count; i++)
                             {
-                                byte[] bytes = (Byte[])dtImage.Rows[i].ItemArray[0];
-                                if (bytes.Length < 16777216)
+                                if (dtImage.Rows[0].ItemArray[i].GetType().Name != "DBNull")
                                 {
-                                    string base64String = Convert.ToBase64String(bytes, 0, bytes.Length);
-                                    string ImageUrl = "data:image/png;base64," + base64String;
-                                    json2 += ", \"" + ImageUrl + "\"";
+                                    byte[] bytes = (Byte[])dtImage.Rows[0].ItemArray[i];
+                                    if (bytes.Length < 16777216)
+                                    {
+                                        string base64String = Convert.ToBase64String(bytes, 0, bytes.Length);
+                                        string ImageUrl = "data:image/png;base64," + base64String;
+                                        json2 += ", \"" + ImageUrl + "\"";
+
+                                    }
+                                    else
+                                        json2 += ",\"NoImage\"";
                                 }
                                 else
+                                {
                                     json2 += ",\"NoImage\"";
+                                }
                             }
-                            else
+                        }
+                        else
+                        {
+                            for (int i = 0; i < dtImage.Rows.Count; i++)
                             {
-                                json2 += ",\"NoImage\"";
+                                if (dtImage.Rows[i].ItemArray[0].GetType().Name != "DBNull")
+                                {
+                                    byte[] bytes = (Byte[])dtImage.Rows[i].ItemArray[0];
+                                    if (bytes.Length < 16777216)
+                                    {
+                                        string base64String = Convert.ToBase64String(bytes, 0, bytes.Length);
+                                        string ImageUrl = "data:image/png;base64," + base64String;
+                                        json2 += ", \"" + ImageUrl + "\"";
+                                    }
+                                    else
+                                        json2 += ",\"NoImage\"";
+                                }
+                                else
+                                {
+                                    json2 += ",\"NoImage\"";
+                                }
                             }
                         }
                     }
-                    string ImageData = "{\"ImageUrl\":[" + json2.Remove(0, 1) + "]}";
+                    if (isDuplicate == "false")
+                    {
+                        ImageData = "{\"ImageUrl\":[" + json2.Remove(0, 1) + "]}";
+                    }
+                    else
+                    {
+                        ImageData = "";
+                    }
+
+
 
                     Clients.Client(clientID).productDetails(json, ImageData);
                 }
@@ -1053,7 +1336,27 @@ namespace Lukpik
         {
             try
             {
-                Clients.Client(clientID).CollectionColorSizes("");
+                // 1 - color
+                // 2 - size
+                // 3 - tag
+                // 4 - brand
+                if (productID != "")
+                {
+                    MySQLBusinessLogic bl = new MySQLBusinessLogic();
+                    List<string> lstColor = bl.GetProductrelatedSpecifications(Convert.ToInt32(productID), 1);
+                    List<string> lstSize = bl.GetProductrelatedSpecifications(Convert.ToInt32(productID), 2);
+                    List<string> lstTag = bl.GetProductrelatedSpecifications(Convert.ToInt32(productID), 3);
+                    string colors = string.Join(",", lstColor);
+                    string tags = string.Join(",", lstTag);
+                    string sizes = string.Join(",", lstSize);
+                    var jsonSerialiser = new JavaScriptSerializer();
+
+
+
+                    //var jsonSerialiser = new JavaScriptSerializer();
+                    //json2 = jsonSerialiser.Serialize(lstSelected);
+                    Clients.Client(clientID).fillCollectionColorSizes("1", colors, tags, sizes);
+                }
             }
             catch (Exception ex)
             {
@@ -1184,18 +1487,18 @@ namespace Lukpik
 
         #endregion
 
-        public void isLimitReached(string email, string clientID)
+        public void isLimitReached(string phone, string clientID)
         {
             try
             {
                 MySQLBusinessLogic bl = new MySQLBusinessLogic();
 
-                DataTable dt = bl.GetStoreID(email);
+                DataTable dt = bl.GetStoreID(phone);
                 int storeID = Convert.ToInt32(dt.Rows[0].ItemArray[0]);
 
 
 
-                int result = bl.ProductLimitReached(retailerProductLimit, email, storeID);
+                int result = bl.ProductLimitReached(retailerProductLimit, phone, storeID);
 
                 // 1- Limit reached
                 // 2- about to reach - nearby
@@ -1235,12 +1538,227 @@ namespace Lukpik
 
                 // Write to the file:
                 log.WriteLine("\"DataTime:" + DateTime.Now + "\",\"UserID:" + username + "\",\"UploadedFile:" + uploadedfile.Split('\\').Last() + "\",\"ExceptionName:" + sExceptionName + "\",\"FileName:" + file + "\",\"Error Line No.:" + nErrorLineNo + "\"");//"|Event Name:" + sEventName +
-                
+
                 log.Close();
             }
             catch (Exception ex)
             { }
         }
+
+        public void getBrandImagesfromFolder(string clientID)
+        {
+            try
+            {
+                string brandImagespath = System.Configuration.ConfigurationManager.AppSettings.GetValues("BrandImages").First().ToString();
+                String searchFolder = @brandImagespath;
+                var filters = new String[] { "jpg", "jpeg", "png", "gif", "tiff", "bmp" };
+                var files = GetFilesFrom(searchFolder, filters, false);
+                string html = "";
+                for (int i = 0; i < files.Length; i++)
+                {
+                    string imgSrc = files[i].ToString();
+                    imgSrc = imgSrc.Replace("\\", "/");
+
+                    string path = "../img/" + imgSrc.Split(new string[] { "img/" }, StringSplitOptions.None)[1];
+                    html = "<div class='col-md-2 imgPrevHover'><img src='" + path + "' class='imgHeight' /></div>";
+                    Clients.Client(clientID).gotBrands("1", html);
+                }
+                html += "";
+                
+            }
+            catch (Exception ex)
+            {
+                Clients.Client(clientID).gotBrands("0", "");
+            }
+        }
+
+        public static String[] GetFilesFrom(String searchFolder, String[] filters, bool isRecursive)
+        {
+            List<String> filesFound = new List<String>();
+            var searchOption = isRecursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+            foreach (var filter in filters)
+            {
+                filesFound.AddRange(Directory.GetFiles(searchFolder, String.Format("*.{0}", filter), searchOption));
+            }
+            return filesFound.ToArray();
+        }
+
+        #region USER SECTION
+
+        public void getAllStoreDetails(string clientID, string categoryIDs,string storeType)
+        {
+            try
+            {
+                MySQLBusinessLogic bl = new MySQLBusinessLogic();
+                DataTable dt = new DataTable();
+                if (categoryIDs == "" && storeType=="")
+                    dt = bl.GetAllStores();
+                else
+                {
+                    //get list of Store ID's from category id
+                    List<string> lst = new List<string>();
+                    string storeIDS = "";
+                    if (categoryIDs != "")
+                    {
+                        lst = bl.GetStoresbyCategoryID(categoryIDs);
+                        storeIDS = String.Join(",", lst);
+                    }
+                    //return all stores 
+                    //if (lst.Count > 0)
+                        dt = bl.GetStoresByStoreID(storeIDS, storeType);
+                    //else
+                    //    Clients.Client(clientID).gotStores("0");
+
+                }
+                if (dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        DataTable temp = new DataTable();
+                        for (int c = 0; c < dt.Columns.Count; c++)
+                        {
+                            DataColumn dc = new DataColumn();
+                            dc.ColumnName = dt.Columns[c].ToString();
+                            if (dc.ColumnName == "StoreImage")
+                            {
+                                dc.DataType = typeof(string);
+                            }
+                            else
+                                dc.DataType = dt.Columns[c].DataType;
+                            temp.Columns.Add(dc);
+                        }
+                        //temp.Rows[i].ItemArray = dt.Rows[i].ItemArray;
+                        temp.ImportRow(dt.Rows[i]);
+                        string ImageUrl = "NoImage";
+                        if (dt.Rows[i]["StoreImage"].GetType().Name != "DBNull")
+                        {
+                            byte[] bytes = (Byte[])dt.Rows[i]["StoreImage"];
+                            string base64String = Convert.ToBase64String(bytes, 0, bytes.Length);
+                            ImageUrl = "data:image/png;base64," + base64String;
+                        }
+                        temp.Rows[0]["StoreImage"] = ImageUrl;
+                        string json = ConvertDataTabletoString(temp);
+                        Clients.Client(clientID).gotStores("1", json);
+                    }
+                }
+                else
+                {
+                    Clients.Client(clientID).gotStores("0");
+                }
+
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        
+        public void getProductsbyStore(string storeID,string clientID,string frm)
+        {
+            try
+            {
+                //0 - exception
+                //1 - success
+                //2 - if no storeID detected - PageNotFound
+                //3- no stores detected
+                MySQLBusinessLogic bl = new MySQLBusinessLogic();
+                DataTable dt = new DataTable();
+                int sID;
+                if (storeID == null || storeID == "")
+                    Clients.Client(clientID).storeProducts("2");
+                else
+                {
+
+
+                    if (frm == "1")
+                    {
+                        sID = Convert.ToInt32(storeID);
+                        dt = bl.GetProductsbyStores(sID);
+                    }
+                    else if (frm == "2")
+                    {
+                        dt = bl.GetAllProducts();
+                    }
+                    if (dt.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            DataTable temp = new DataTable();
+                            for (int c = 0; c < dt.Columns.Count; c++)
+                            {
+                                DataColumn dc = new DataColumn();
+                                dc.ColumnName = dt.Columns[c].ToString();
+                                if (dc.ColumnName == "ProductImage")
+                                {
+                                    dc.DataType = typeof(string);
+                                }
+                                else
+                                    dc.DataType = dt.Columns[c].DataType;
+                                temp.Columns.Add(dc);
+                            }
+                            //temp.Rows[i].ItemArray = dt.Rows[i].ItemArray;
+                            temp.ImportRow(dt.Rows[i]);
+                            string ImageUrl = "NoImage";
+                            if (dt.Rows[i]["ProductImage"].GetType().Name != "DBNull")
+                            {
+                                byte[] bytes = (Byte[])dt.Rows[i]["ProductImage"];
+                                string base64String = Convert.ToBase64String(bytes, 0, bytes.Length);
+                                ImageUrl = "data:image/png;base64," + base64String;
+                            }
+                            temp.Rows[0]["ProductImage"] = ImageUrl;
+                            string json = ConvertDataTabletoString(temp);
+                            Clients.Client(clientID).storeProducts("1", json);
+                        }
+                    }
+                    else
+                    {
+                        Clients.Client(clientID).storeProducts("3");
+                    }
+
+
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Clients.Client(clientID).storeProducts("0");
+            }
+        }
+
+        public void getAllCategories(string clientID,string storetype)
+        {
+            try
+            {
+                string json1 = "";//list of all categories
+                
+                DataTable dtAllCategories = new DataTable();
+                MySQLBusinessLogic bl = new MySQLBusinessLogic();
+                dtAllCategories = bl.GetOtherCategorieswithCount(storetype);
+                if (dtAllCategories.Rows.Count > 0)
+                    json1 = ConvertDataTabletoString(dtAllCategories);
+
+                Clients.Client(clientID).gotAllCategories(json1);
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        #region FILTER SECTION
+        public void filterbyCategories(string clientID,string categoryID,string storeType,string distance)
+        {
+            try
+            {
+                
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+        #endregion
+
+        #endregion
 
     }
 }

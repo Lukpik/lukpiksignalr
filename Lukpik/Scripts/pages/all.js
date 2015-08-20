@@ -1,4 +1,11 @@
-﻿
+﻿var versionNum = "V 1.0";
+$(document).ready(function () {
+    //Hub Connection and functions
+    AddVersion();
+});
+function AddVersion(){
+    $('.glob_Ver').find("a").html("Lukpik " + versionNum);
+}
 function Startup() {
     var uname = readCookie("lukpikretailer_usename");
     if (typeof (uname) == typeof(undefined) || uname == "") {

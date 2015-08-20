@@ -1,6 +1,93 @@
+D:\Praveen\04-08-2015\lukpiksignalr-master (1)\lukpiksignalr-master\Lukpik\bin\bin\Lukpik.dll
+D:\Praveen\04-08-2015\lukpiksignalr-master (1)\lukpiksignalr-master\Lukpik\bin\bin\Lukpik.pdb
+D:\Praveen\04-08-2015\lukpiksignalr-master (1)\lukpiksignalr-master\Lukpik\bin\bin\Microsoft.AspNet.SignalR.Core.dll
+D:\Praveen\04-08-2015\lukpiksignalr-master (1)\lukpiksignalr-master\Lukpik\bin\bin\Microsoft.AspNet.SignalR.Core.xml
+D:\Praveen\04-08-2015\lukpiksignalr-master (1)\lukpiksignalr-master\Lukpik\bin\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+D:\Praveen\04-08-2015\lukpiksignalr-master (1)\lukpiksignalr-master\Lukpik\bin\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+D:\Praveen\04-08-2015\lukpiksignalr-master (1)\lukpiksignalr-master\Lukpik\bin\bin\Microsoft.Owin.dll
+D:\Praveen\04-08-2015\lukpiksignalr-master (1)\lukpiksignalr-master\Lukpik\bin\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\Praveen\04-08-2015\lukpiksignalr-master (1)\lukpiksignalr-master\Lukpik\bin\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\Praveen\04-08-2015\lukpiksignalr-master (1)\lukpiksignalr-master\Lukpik\bin\bin\Microsoft.Owin.Security.dll
+D:\Praveen\04-08-2015\lukpiksignalr-master (1)\lukpiksignalr-master\Lukpik\bin\bin\Microsoft.Owin.Security.xml
+D:\Praveen\04-08-2015\lukpiksignalr-master (1)\lukpiksignalr-master\Lukpik\bin\bin\Microsoft.Owin.xml
+D:\Praveen\04-08-2015\lukpiksignalr-master (1)\lukpiksignalr-master\Lukpik\bin\bin\Microsoft.Web.Infrastructure.dll
+D:\Praveen\04-08-2015\lukpiksignalr-master (1)\lukpiksignalr-master\Lukpik\bin\bin\MySql.Data.dll
+D:\Praveen\04-08-2015\lukpiksignalr-master (1)\lukpiksignalr-master\Lukpik\bin\bin\Newtonsoft.Json.dll
+D:\Praveen\04-08-2015\lukpiksignalr-master (1)\lukpiksignalr-master\Lukpik\bin\bin\Newtonsoft.Json.xml
+D:\Praveen\04-08-2015\lukpiksignalr-master (1)\lukpiksignalr-master\Lukpik\bin\bin\Owin.dll
+D:\Praveen\04-08-2015\lukpiksignalr-master (1)\lukpiksignalr-master\Lukpik\bin\StoreImages\images\imageback.png
+D:\Praveen\04-08-2015\lukpiksignalr-master (1)\lukpiksignalr-master\Lukpik\bin\bin\Lukpik.dll.config
+D:\Praveen\04-08-2015\lukpiksignalr-master (1)\lukpiksignalr-master\Lukpik\bin\Microsoft.AspNet.SignalR.Core.xml
+D:\Praveen\04-08-2015\lukpiksignalr-master (1)\lukpiksignalr-master\Lukpik\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+D:\Praveen\04-08-2015\lukpiksignalr-master (1)\lukpiksignalr-master\Lukpik\bin\Microsoft.Owin.xml
+D:\Praveen\04-08-2015\lukpiksignalr-master (1)\lukpiksignalr-master\Lukpik\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\Praveen\04-08-2015\lukpiksignalr-master (1)\lukpiksignalr-master\Lukpik\bin\Microsoft.Owin.Security.xml
+D:\Praveen\04-08-2015\lukpiksignalr-master (1)\lukpiksignalr-master\Lukpik\bin\Newtonsoft.Json.xml
+D:\Praveen\04-08-2015\lukpiksignalr-master (1)\lukpiksignalr-master\Lukpik\obj\Debug\Lukpik.dll
+D:\Praveen\04-08-2015\lukpiksignalr-master (1)\lukpiksignalr-master\Lukpik\obj\Debug\Lukpik.pdb
+D:\Praveen\04-08-2015\lukpiksignalr-master (1)\lukpiksignalr-master\Lukpik\bin\Lukpik.dll.config
+D:\Praveen\04-08-2015\lukpiksignalr-master (1)\lukpiksignalr-master\Lukpik\bin\Lukpik.dll
+D:\Praveen\04-08-2015\lukpiksignalr-master (1)\lukpiksignalr-master\Lukpik\bin\Lukpik.pdb
+D:\Praveen\04-08-2015\lukpiksignalr-master (1)\lukpiksignalr-master\Lukpik\obj\Debug\Lukpik.csprojResolveAssemblyReference.cache
+F:\Praveen\OfficeWork\Lukpik\Lukpik\bin\bin\Lukpik.dll
+F:\Praveen\OfficeWork\Lukpik\Lukpik\bin\bin\Lukpik.pdb
+F:\Praveen\OfficeWork\Lukpik\Lukpik\bin\bin\Microsoft.AspNet.SignalR.Core.dll
+F:\Praveen\OfficeWork\Lukpik\Lukpik\bin\bin\Microsoft.AspNet.SignalR.Core.xml
+F:\Praveen\OfficeWork\Lukpik\Lukpik\bin\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+F:\Praveen\OfficeWork\Lukpik\Lukpik\bin\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+F:\Praveen\OfficeWork\Lukpik\Lukpik\bin\bin\Microsoft.Owin.dll
+F:\Praveen\OfficeWork\Lukpik\Lukpik\bin\bin\Microsoft.Owin.Host.SystemWeb.dll
+F:\Praveen\OfficeWork\Lukpik\Lukpik\bin\bin\Microsoft.Owin.Host.SystemWeb.xml
+F:\Praveen\OfficeWork\Lukpik\Lukpik\bin\bin\Microsoft.Owin.Security.dll
+F:\Praveen\OfficeWork\Lukpik\Lukpik\bin\bin\Microsoft.Owin.Security.xml
+F:\Praveen\OfficeWork\Lukpik\Lukpik\bin\bin\Microsoft.Owin.xml
+F:\Praveen\OfficeWork\Lukpik\Lukpik\bin\bin\Microsoft.Web.Infrastructure.dll
+F:\Praveen\OfficeWork\Lukpik\Lukpik\bin\bin\MySql.Data.dll
+F:\Praveen\OfficeWork\Lukpik\Lukpik\bin\bin\Newtonsoft.Json.dll
+F:\Praveen\OfficeWork\Lukpik\Lukpik\bin\bin\Newtonsoft.Json.xml
+F:\Praveen\OfficeWork\Lukpik\Lukpik\bin\bin\Owin.dll
+F:\Praveen\OfficeWork\Lukpik\Lukpik\bin\StoreImages\images\imageback.png
+F:\Praveen\OfficeWork\Lukpik\Lukpik\bin\bin\Lukpik.dll.config
+F:\Praveen\OfficeWork\Lukpik\Lukpik\bin\Lukpik.dll.config
+F:\Praveen\OfficeWork\Lukpik\Lukpik\bin\Lukpik.dll
+F:\Praveen\OfficeWork\Lukpik\Lukpik\bin\Lukpik.pdb
+F:\Praveen\OfficeWork\Lukpik\Lukpik\bin\Microsoft.AspNet.SignalR.Core.xml
+F:\Praveen\OfficeWork\Lukpik\Lukpik\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+F:\Praveen\OfficeWork\Lukpik\Lukpik\bin\Microsoft.Owin.xml
+F:\Praveen\OfficeWork\Lukpik\Lukpik\bin\Microsoft.Owin.Host.SystemWeb.xml
+F:\Praveen\OfficeWork\Lukpik\Lukpik\bin\Microsoft.Owin.Security.xml
+F:\Praveen\OfficeWork\Lukpik\Lukpik\bin\Newtonsoft.Json.xml
+F:\Praveen\OfficeWork\Lukpik\Lukpik\obj\Debug\Lukpik.csprojResolveAssemblyReference.cache
+F:\Praveen\OfficeWork\Lukpik\Lukpik\obj\Debug\Lukpik.dll
+F:\Praveen\OfficeWork\Lukpik\Lukpik\obj\Debug\Lukpik.pdb
+D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\bin\Lukpik.dll
+D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\bin\Lukpik.pdb
+D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\bin\Microsoft.AspNet.SignalR.Core.dll
+D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\bin\Microsoft.AspNet.SignalR.Core.xml
+D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\bin\Microsoft.Owin.dll
+D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\bin\Microsoft.Owin.Security.dll
+D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\bin\Microsoft.Owin.Security.xml
+D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\bin\Microsoft.Owin.xml
+D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\bin\Microsoft.Web.Infrastructure.dll
+D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\bin\MySql.Data.dll
+D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\bin\Newtonsoft.Json.dll
+D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\bin\Newtonsoft.Json.xml
+D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\bin\Owin.dll
+D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\StoreImages\images\imageback.png
+D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\bin\Lukpik.dll.config
 D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\Lukpik.dll.config
 D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\Lukpik.dll
 D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\Lukpik.pdb
+D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\Microsoft.AspNet.SignalR.Core.xml
+D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\Microsoft.Owin.xml
+D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\Microsoft.Owin.Security.xml
+D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\bin\Newtonsoft.Json.xml
+D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\obj\Debug\Lukpik.csprojResolveAssemblyReference.cache
 D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\obj\Debug\Lukpik.dll
 D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\obj\Debug\Lukpik.pdb
-D:\Lukpik_Files\LukpikHTML\GHubSync\Lukpik\obj\Debug\Lukpik.csprojResolveAssemblyReference.cache

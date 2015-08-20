@@ -6,13 +6,15 @@ $(document).ready(function () {
     $.connection.hub.logging = true;
     $.connection.hub.start().done(function () {
         Startup();
+        eraseCookie("productID");
+        eraseCookie("isDuplicate");
         AddProgressBarLoader();
         //alert('success');
         var uname = readCookie("lukpikretailer_usename");
         if (typeof (uname) == typeof (undefined) || uname == null || uname == "")
             location.href = "../login.html";
         else
-            hubEngine.server.getProductDetails(uname, "", $.connection.hub.id);
+            hubEngine.server.getProductDetails(uname, "", "false", $.connection.hub.id);
     });
     $.connection.hub.disconnected(function () {
         setTimeout(function () {
@@ -49,7 +51,7 @@ $(document).ready(function () {
             
             AddAlert("", "Successfully deleted from your product list.");
             $('#' + trID).hide();
-            hubEngine.server.getProductDetails(readCookie("lukpikretailer_usename"), "", $.connection.hub.id);
+            hubEngine.server.getProductDetails(readCookie("lukpikretailer_usename"), "", "false", $.connection.hub.id);
         }
     };
 
@@ -76,10 +78,12 @@ function CreateTableData(myobj, myobj2) {
             var isVisible = "Hide";
             if (status == 1)
                 isVisible = "Show";
+            else if (status == 3)
+                isVisible = "Password protected";
             var trID = "trID" + prodCount;
             var selectID = "select" + prodCount;
             var category = myobj[prodCount].ProductCategoryName + " - " + myobj[prodCount].ProductSubCategoryName;
-            str = str + '<tr class="even pointer" id="' + trID + '"> <td class="a-center "> <input type="checkbox" class="tableflat"></td><td class=" "><img src="' + imgSrc + '" class="img-responsive" width="80"/></td><td class=" " width="45%">' + productname + ' </td><td class=" "  width="20%"> ' + category + ' </td><td class="a-right a-right ">' + isVisible + '</td><td class=" last"> <select name="action" id="' + selectID + '" onchange="ChooseAction(this,\'' + myobj[prodCount].ProductID + '\',' + trID + ');"><option value="0">Choose </option><option value="1">View / Edit</option><option value="2">Delete</option></select></td></tr>';
+            str = str + '<tr class="even pointer" id="' + trID + '"> <td class="a-center "> <input type="checkbox" class="tableflat"></td><td class=" "><img src="' + imgSrc + '" class="img-responsive" width="80"/></td><td class=" " width="45%">' + productname + ' </td><td class=" "  width="20%"> ' + category + ' </td><td class="a-right a-right ">' + isVisible + '</td><td class=" last"> <select name="action" id="' + selectID + '" onchange="ChooseAction(this,\'' + myobj[prodCount].ProductID + '\',' + trID + ');"><option value="0">Choose </option><option value="1">View / Edit</option><option value="3">Duplicate</option><option value="2">Delete</option></select></td></tr>';
             //<option value="1">View / Edit</option><option value="3">See info</option>
             //<td class=" ">' + brand + '</td><td class=" ">' + price + '</td>
             // <a onclick="EditProduct(\'' + myobj[prodCount].ProductID + '\');">View/Edit</a>
@@ -146,10 +150,21 @@ function ChooseAction(control, productID, trID) {
     else if (strUser == "2") {
         DeleteAlertModal(productID, trID);
     }
+    else if (strUser == "3") {
+        Duplicate(productID);
+    }
 }
 
 function EditProduct(productID) {
     createCookie("productID", productID);
+    
+    
+    location.href = "addproduct.html";
+}
+
+function Duplicate(productID) {
+    createCookie("productID", productID);
+    createCookie("isDuplicate", "Duplicate");
     location.href = "addproduct.html";
 }
 

@@ -8,6 +8,8 @@ $(document).ready(function () {
     $.connection.hub.start().done(function () {
         //alert('success');
         hubEngine.server.fillCapctha($.connection.hub.id);
+        $('#addBrandImages').empty();
+        hubEngine.server.getBrandImagesfromFolder($.connection.hub.id);
     });
     $.connection.hub.disconnected(function () {
         setTimeout(function () {
@@ -18,6 +20,15 @@ $(document).ready(function () {
         hubEngine.server.activecall();
     }, 15000);
 
+    hubEngine.client.gotBrands = function (msg, html) {
+        
+        if (msg != "0")
+            $('#addBrandImages').append(html);
+        else
+            $('#addBrandImages').append("No brands listed");
+    }
+
+    
     hubEngine.client.showCaptcha = function (msg, cap) {
         $("#imgcaptcha").attr('src', "StoreImages/captcha/" + msg);
         capt = cap;

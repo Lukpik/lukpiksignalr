@@ -6382,3 +6382,10 @@ ul.notifications {
     font-weight:normal;
     cursor:pointer;
 }
+
+.cssWell{
+    padding:10px;
+    background-color:#eaeaea;
+    
+
+}

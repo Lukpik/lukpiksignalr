@@ -119,7 +119,7 @@ namespace Lukpik.Cl
             }
             return retVal;
         }
-        public int AddStore(string storename, string storecity, string storephone, string storephone2, DateTime firstOpeneddate, DateTime remodeldate, string email, string fname, string lname, int isVerified, int activationFlag, string passsword, int cardsAccepted, int homedeliveryflag, int trailflag)
+        public int AddStore(string storename, string storecity, string storephone, string storephone2, DateTime firstOpeneddate, DateTime remodeldate, string email, string fname, string lname, int isVerified, int activationFlag, string passsword, int cardsAccepted, int homedeliveryflag, int trailflag,string masterPwd)
         {
             // 0 - Transaction failed
             // 1 - Transaction succeeded
@@ -131,7 +131,7 @@ namespace Lukpik.Cl
                 if (!CheckPhoneExistance(storename, storephone) && (email == "" || !CheckEmailExistance(email)))
                 {
                     //string cmdText = "insert into test_table(test_column1,test_column2) values(@col1,@col2)";
-                    string cmdText = "insert into `store` (`store_name`,`store_city`,`store_phone`,`first_opened_date`,`last_remodel_date`,`Email`,`StoreOwnerFirstName`,`StoreOwnerLastName`,`IsVerified`,`ActivationFlag`,`password`,`Cardsaccepted`,`homedeliveryflag`,`trialroomflag`,`StoreAlternativeNumber`) values(@storename,@storecity,@storephone,@firstOpeneddate,@remodeldate,@email,@fname, @lname, @isVerified,@activationFlag,@passsword,@cardsAccepted,@homedeliveryflag,@trailflag,@storephone2);";
+                    string cmdText = "insert into `store` (`store_name`,`store_city`,`store_phone`,`first_opened_date`,`last_remodel_date`,`Email`,`StoreOwnerFirstName`,`StoreOwnerLastName`,`IsVerified`,`ActivationFlag`,`password`,`Cardsaccepted`,`homedeliveryflag`,`trialroomflag`,`StoreAlternativeNumber`,`StoreMasterPassword`) values(@storename,@storecity,@storephone,@firstOpeneddate,@remodeldate,@email,@fname, @lname, @isVerified,@activationFlag,@passsword,@cardsAccepted,@homedeliveryflag,@trailflag,@storephone2,@masterPwd);";
                     cmd = new MySqlCommand(cmdText, con);
                     cmd.Parameters.AddWithValue("@storename", storename);
                     cmd.Parameters.AddWithValue("@storecity", storecity);
@@ -148,7 +148,7 @@ namespace Lukpik.Cl
                     cmd.Parameters.AddWithValue("@homedeliveryflag", homedeliveryflag);
                     cmd.Parameters.AddWithValue("@trailflag", trailflag);
                     cmd.Parameters.AddWithValue("@storephone2", storephone2);
-
+                    cmd.Parameters.AddWithValue("@masterPwd", masterPwd);
                     con.Open();
                     cmd.ExecuteNonQuery();
                     con.Close();
@@ -608,7 +608,7 @@ namespace Lukpik.Cl
             DataTable dt = new DataTable();
             try
             {
-                string cmdText = "select `store_id`,`store_type`,`store_name`,`store_number`,`store_street_addressline1`,`store_city`,`store_state`,`store_postal_code`,`store_country`,`store_manager`,`store_phone`,`store_fax`,`first_opened_date`,`last_remodel_date`,`Email`,`StoreOwnerFirstName`,`StoreOwnerLastName`,`IsVerified`,`CurrencyFormat`,`StoreDescription`,`StoreWebsite`,`StoreTwitterPage`,`StoreFacebookPage`,`StoreGooglePage`,`StoreAlternativePhoneNumber`,`IsStoreActive`,`StoreImage`,`StoreTagLine`,`Latitude`,`Longitude`,`StoreLukpikUrl`,`ActivationFlag`,`Cardsaccepted`,`homedeliveryflag`,`trialroomflag`,`store_street_addressline2` from `store` where `store_id`=@storeID";
+                string cmdText = "select `store_id`,`store_type`,`store_name`,`store_number`,`store_street_addressline1`,`store_city`,`store_state`,`store_postal_code`,`store_country`,`store_manager`,`store_phone`,`store_fax`,`first_opened_date`,`last_remodel_date`,`Email`,`StoreOwnerFirstName`,`StoreOwnerLastName`,`IsVerified`,`CurrencyFormat`,`StoreDescription`,`StoreWebsite`,`StoreTwitterPage`,`StoreFacebookPage`,`StoreGooglePage`,`StoreAlternativePhoneNumber`,`IsStoreActive`,`StoreImage`,`StoreTagLine`,`Latitude`,`Longitude`,`StoreLukpikUrl`,`ActivationFlag`,`Cardsaccepted`,`homedeliveryflag`,`trialroomflag`,`store_street_addressline2`,`StoreMasterPassword` from `store` where `store_id`=@storeID";
                 cmd = new MySqlCommand(cmdText, con);
                 cmd.Parameters.AddWithValue("@storeID", storeID);
                 con.Open();
@@ -622,6 +622,47 @@ namespace Lukpik.Cl
             return dt;
         }
 
+        public bool SetStoreMasterPassword(string phone, int storeID,string masterPwd)
+        {
+            bool retVal = false;
+            try
+            {
+                string cmdText = "SET SQL_SAFE_UPDATES = 0; update `store` set `StoreMasterPassword`=@masterPwd where `store_id`=@storeID;";
+                cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddWithValue("@masterPwd", masterPwd);
+                cmd.Parameters.AddWithValue("@storeID", storeID);
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+                retVal = true;
+            }
+            catch (Exception ex)
+            {
+            }
+            return retVal;
+        }
+
+        public string GetStoremasterPassword(int storeId)
+        {
+            string st = "";
+            try
+            {
+                string cmdText = "select `StoreMasterPassword` from `store` where `store_id`=@storeId;";
+                cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddWithValue("@storeId", storeId);
+                con.Open();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                st = dt.Rows[0].ItemArray[0].ToString();
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                st = "";
+            }
+            return st;
+        }
         public DataTable GetOtherCategories()
         {
             DataTable dt = new DataTable();
@@ -633,6 +674,30 @@ namespace Lukpik.Cl
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(dt);
                 con.Close();
+            }
+            catch (Exception ex)
+            {
+                dt = new DataTable();
+            }
+            return dt;
+        }
+
+        public DataTable GetOtherCategorieswithCount(string storetype)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                //string cmdText = "select * from `storetypecategories`";
+                //string cmdText = "select b.CategoryID as CategoryID , b.CategoryName  , count(a.StoreID) as StoreCount from storecategories a right join storetypecategories b on a.CategoryID = b.CategoryID group by b.CategoryID";
+                if (storetype == "")
+                {
+                    string cmdText = "select b.CategoryID as CategoryID , b.CategoryName  , count(a.StoreID) as StoreCount from storecategories a right join storetypecategories b on a.CategoryID = b.CategoryID group by b.CategoryID";
+                    cmd = new MySqlCommand(cmdText, con);
+                    con.Open();
+                    MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                    da.Fill(dt);
+                    con.Close();
+                }
             }
             catch (Exception ex)
             {
@@ -755,15 +820,16 @@ namespace Lukpik.Cl
         #endregion
 
         #region PRODUCT
-        public int AddProduct(string productname, string gender, int productFamilyID, string productdescription, double price, string quantity, string size, string color, int visibility, int productCategoryID,int productSubCategoryID, int brandID, string collection, string images, int storeID, DateTime dtCreated, string email, List<byte[]> lstByt,byte[] thumbnail,string ecommercelink)
+        public int AddProduct(string productname, string gender, int productFamilyID, string productdescription, double price, string quantity, string size, string color, int visibility, int productCategoryID, int productSubCategoryID, int brandID, string collection, string images, int storeID, DateTime dtCreated, string email, List<byte[]> lstByt, byte[] thumbnail, string ecommercelink, string productSKU,string masterPwd)
         {
             int retVal = 0;
             try
             {
 
-                string cmdText = "insert into `products` (`ProductName`,`ProductLong Description`,`ProductFamilyID`,`ProductCategoryID`,`ProductSubCategoryID`,`Price`,`StoreID`,`ProductImage`,`IsVisible`,`CreatedDate`,`CreatedUser`,`ModifiedDate`,`ModifiedUser`,`Gender`,`BrandID`,`image1`,`image2`,`image3`,`image4`,`image5`,`image6`,`ECommerceLink`) values(@productname,@productdescription,@productFamilyID,@productCategoryID,@productSubCategoryID,@price,@storeID,@thumbnail,@visibility,@dtCreated,@email,@mofifiedDate,@mofifiedUser,@gender,@brandID,@image1,@image2,@image3,@image4,@image5,@image6,@ecommercelink);";
+                string cmdText = "insert into `products` (`ProductName`,`ProductSKU`,`ProductLong Description`,`ProductFamilyID`,`ProductCategoryID`,`ProductSubCategoryID`,`Price`,`StoreID`,`ProductImage`,`IsVisible`,`CreatedDate`,`CreatedUser`,`ModifiedDate`,`ModifiedUser`,`Gender`,`BrandID`,`image1`,`image2`,`image3`,`image4`,`image5`,`image6`,`ECommerceLink`,`ProductMasterPassword`) values(@productname,@productSKU,@productdescription,@productFamilyID,@productCategoryID,@productSubCategoryID,@price,@storeID,@thumbnail,@visibility,@dtCreated,@email,@mofifiedDate,@mofifiedUser,@gender,@brandID,@image1,@image2,@image3,@image4,@image5,@image6,@ecommercelink,@masterPwd);";
                 cmd = new MySqlCommand(cmdText, con);
                 cmd.Parameters.AddWithValue("@productname", productname);
+                cmd.Parameters.AddWithValue("@productSKU", productSKU);
                 cmd.Parameters.AddWithValue("@productdescription", productdescription);
                 cmd.Parameters.AddWithValue("@productFamilyID", productFamilyID);
                 cmd.Parameters.AddWithValue("@productCategoryID", productCategoryID);
@@ -785,7 +851,7 @@ namespace Lukpik.Cl
                 cmd.Parameters.AddWithValue("@image5", lstByt.Count > 4 ? lstByt[4] : null);
                 cmd.Parameters.AddWithValue("@image6", lstByt.Count > 5 ? lstByt[5] : null);
                 cmd.Parameters.AddWithValue("@ecommercelink", ecommercelink);
-
+                cmd.Parameters.AddWithValue("@masterPwd", masterPwd);
 
                 con.Open();
                 cmd.ExecuteNonQuery();
@@ -799,16 +865,18 @@ namespace Lukpik.Cl
             return retVal;
         }
 
-        public int UpdateProduct(int productID,string productname, string gender, int productFamilyID, string productdescription, double price, string quantity, string size, string color, int visibility, int productCategoryID, int productSubCategoryID, int brandID, string collection, int storeID, DateTime dtModified, string email, string ecommercelink)
+        public int UpdateProduct(int productID, string productname, string gender, int productFamilyID, string productdescription, double price, string quantity, string size, string color, int visibility, int productCategoryID, int productSubCategoryID, int brandID, string collection, int storeID, DateTime dtModified, string email, string ecommercelink, string productSKU, string masterPwd)
         {
             int retVal = 0;
             try
             {
 
-                string cmdText = "SET SQL_SAFE_UPDATES = 0; update `products` set `ProductName`=@productname,`ProductLong Description`=@productdescription,`ProductFamilyID`=@productFamilyID,`ProductCategoryID`=@productCategoryID,`ProductSubCategoryID`=@productSubCategoryID,`Price`=@price,`StoreID`=@storeID,`IsVisible`=@visibility,`ModifiedDate`=@modifieddate,`ModifiedUser`=@modifieduser,`Gender`=@gender,`BrandID`=@brandID,`ECommerceLink`=@ecommercelink where `ProductID`=@productID;";
+                string cmdText = "SET SQL_SAFE_UPDATES = 0; update `products` set `ProductName`=@productname,`ProductSKU`=@productSKU,`ProductLong Description`=@productdescription,`ProductFamilyID`=@productFamilyID,`ProductCategoryID`=@productCategoryID,`ProductSubCategoryID`=@productSubCategoryID,`Price`=@price,`StoreID`=@storeID,`IsVisible`=@visibility,`ModifiedDate`=@modifieddate,`ModifiedUser`=@modifieduser,`Gender`=@gender,`BrandID`=@brandID,`ECommerceLink`=@ecommercelink,`ProductMasterPassword`=@masterPwd where `ProductID`=@productID;";
                 // values(@productname,@productdescription,@productFamilyID,@productCategoryID,@productSubCategoryID,@price,@storeID,@thumbnail,@visibility,@dtCreated,@email,@mofifiedDate,@mofifiedUser,@gender,@brandID,@image1,@image2,@image3,@image4,@image5,@image6,@ecommercelink)
                 cmd = new MySqlCommand(cmdText, con);
                 cmd.Parameters.AddWithValue("@productname", productname);
+                cmd.Parameters.AddWithValue("@productSKU", productSKU);
+                
                 cmd.Parameters.AddWithValue("@productdescription", productdescription);
                 cmd.Parameters.AddWithValue("@productFamilyID", productFamilyID);
                 cmd.Parameters.AddWithValue("@productCategoryID", productCategoryID);
@@ -822,6 +890,7 @@ namespace Lukpik.Cl
                 cmd.Parameters.AddWithValue("@brandID", brandID);
                 cmd.Parameters.AddWithValue("@ecommercelink", ecommercelink);
                 cmd.Parameters.AddWithValue("@productID", productID);
+                cmd.Parameters.AddWithValue("@masterPwd", masterPwd);
                 con.Open();
                 cmd.ExecuteNonQuery();
                 con.Close();
@@ -941,7 +1010,7 @@ namespace Lukpik.Cl
                     fromCondition = "and a.`ProductID`=@productID";
                 }
                 //Select a.`ProductID`,a.`ProductName`,a.`ProductLong Description` as `ProductLongDescription`,a.`ProductCategoryID`,a.`ProductSubCategoryID`,a.`Price`,a.`Quantity`, a.`StoreID`,a.`ProductImage`,a.`IsVisible`, a.`IsVariant`,a.`CreatedDate`,a.`CreatedUser`,a.`ModifiedDate`,a.`ModifiedUser`,a.`DiscountPrice`,a.`IsOnSale`,a.`IsNewStock`, b.Name as  `ProductFamilyName`,c.Name as `ProductCategoryName`,e.`Name` as `ProductSubCategoryName`,d.`brandname` as `BrandName`,a.`ECommerceLink`,a.`Gender` FROM `products` a, `productfamily` b, `productcategory` c ,`brands` d,`productsubcategory` e where b.`ProductFamilyID`=a.`ProductFamilyID` and c.`ProductCategoryID`=a.`ProductCategoryID` and d.`BrandID`=a.`BrandID` and a.`ProductSubCategoryID`=e.`ProductSubCategoryID` and a.`StoreID`=14 order by a.`ModifiedDate` desc
-                string cmdText = "Select a.`ProductID`,a.`ProductName`,a.`ProductLong Description` as `ProductLongDescription`,a.`ProductCategoryID`,a.`ProductSubCategoryID`,a.`Price`,a.`Quantity`, a.`StoreID`,a.`ProductImage`,a.`IsVisible`, a.`IsVariant`,a.`CreatedDate`,a.`CreatedUser`,a.`ModifiedDate`,a.`ModifiedUser`,a.`DiscountPrice`,a.`IsOnSale`,a.`IsNewStock`, b.Name as  `ProductFamilyName`,c.Name as `ProductCategoryName`,e.`Name` as `ProductSubCategoryName`,d.`brandname` as `BrandName`,a.`ECommerceLink`,a.`Gender` FROM `products` a, `productfamily` b, `productcategory` c ,`brands` d,`productsubcategory` e where b.`ProductFamilyID`=a.`ProductFamilyID` and c.`ProductCategoryID`=a.`ProductCategoryID` and d.`BrandID`=a.`BrandID` and a.`ProductSubCategoryID`=e.`ProductSubCategoryID` and a.`StoreID`=@storeID " + fromCondition + " order by a.`ModifiedDate` desc";
+                string cmdText = "Select a.`ProductID`,a.`ProductName`,a.`ProductSKU`,a.`ProductLong Description` as `ProductLongDescription`,a.`ProductCategoryID`,a.`ProductSubCategoryID`,a.`Price`,a.`Quantity`, a.`StoreID`,a.`ProductImage`,a.`IsVisible`, a.`IsVariant`,a.`CreatedDate`,a.`CreatedUser`,a.`ModifiedDate`,a.`ModifiedUser`,a.`DiscountPrice`,a.`IsOnSale`,a.`IsNewStock`, b.Name as  `ProductFamilyName`,c.Name as `ProductCategoryName`,e.`Name` as `ProductSubCategoryName`,d.`brandname` as `BrandName`,a.`ECommerceLink`,a.`Gender`,a.`ProductMasterPassword` FROM `products` a, `productfamily` b, `productcategory` c ,`brands` d,`productsubcategory` e where b.`ProductFamilyID`=a.`ProductFamilyID` and c.`ProductCategoryID`=a.`ProductCategoryID` and d.`BrandID`=a.`BrandID` and a.`ProductSubCategoryID`=e.`ProductSubCategoryID` and a.`StoreID`=@storeID " + fromCondition + " order by a.`ModifiedDate` desc";
 
                 cmd = new MySqlCommand(cmdText, con);
                 cmd.Parameters.AddWithValue("@storeID", storeID);
@@ -983,11 +1052,31 @@ namespace Lukpik.Cl
             return dt;
         }
 
+        public bool DeleteProductSpectication(int productID)
+        {
+            bool retVal = false;
+            try
+            {
+                string cmdText = "delete from `productspecifications` where ProductID=@productID";
+                cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddWithValue("@productID", productID);
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+                retVal = true;
+            }
+            catch (Exception ex)
+            {
+            }
+            return retVal;
+        }
         public bool AddSpecification(string email, string colorSpecificationValues, string sizeSpecificaionValues,string collectionValues)
         {
             bool retVal = false;
             try
             {
+                //deletion of product specifications
+             
                 //get product id
                 string cmdText = "SELECT  `ProductID` from `products` where `CreatedUser`=@email order by `CreatedDate` desc limit 1";
                 cmd = new MySqlCommand(cmdText, con);
@@ -1000,7 +1089,7 @@ namespace Lukpik.Cl
                 if (dt.Rows.Count > 0)
                 {
                     int productID = Convert.ToInt32(dt.Rows[0].ItemArray[0]);
-
+                   
                     if (colorSpecificationValues != "")
                     {
                         //color specification
@@ -1178,6 +1267,56 @@ namespace Lukpik.Cl
             return dt;
         }
 
+        public List<string> GetProductrelatedSpecifications(int productID,int specificationID)
+        {
+            List<string> lst = new List<string>();
+            try
+            {
+                // 1 - color
+                // 2 - size
+                // 3 - tag
+                // 4 - brand
+                
+                string cmdText = "SELECT `Value` FROM `productspecifications` where `ProductID`=@productID and `SpecificationID`=@specificationID;";
+                cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddWithValue("@productID", productID);
+                cmd.Parameters.AddWithValue("@specificationID", specificationID);
+                DataTable dt = new DataTable();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
+                lst = dt.AsEnumerable().Select(x => x[0].ToString()).ToList();
+            }
+            catch (Exception ex)
+            {
+            }
+            return lst;
+        }
+
+        public bool UpdateProducts_Image(byte[] imageByte, int productID, string imgIndex,byte[] previewImage)
+        {
+            bool retVal = false;
+            try
+            {
+                string previewCode="";
+                if (imgIndex=="image1")
+                    previewCode = ", `ProductImage`=@previewImage";
+                string cmdText = "SET SQL_SAFE_UPDATES = 0; update `products` set `" + imgIndex + "`=@image " + previewCode + " where `ProductID`=@productID";
+                cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddWithValue("@image", imageByte);
+                cmd.Parameters.AddWithValue("@productID", productID);
+                if (imgIndex == "image1")
+                    cmd.Parameters.AddWithValue("@previewImage", previewImage);
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+                retVal = true;
+            }
+            catch (Exception ex)
+            { }
+            return retVal;
+        }
+
+
         #region SUBSCRIPTION
 
         public int SubscriptionEmail(string email,DateTime date,int subscription)
@@ -1235,6 +1374,156 @@ namespace Lukpik.Cl
             }
             return retVal;
         }
+        #endregion
+
+        #region USER SECTION
+        public DataTable GetAllStores()
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                string cmdText = "select s.`store_id`,s.`store_name`,s.`StoreDescription`,s.`StoreTagLine`,s.`StoreImage`,s.`Latitude`,s.`Longitude`,COUNT(`ProductID`) as `productcount` from `products` p right join `store` s ON p.`storeid`=s.`store_id` group by s.`store_id`;";
+                cmd = new MySqlCommand(cmdText, con);
+                con.Open();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                dt = new DataTable();
+            }
+            return dt;
+        }
+
+        public DataTable GetStoresByStoreID(string storeIDs,string storetype)
+        {
+            storetype = storetype.ToLower();
+            DataTable dt = new DataTable();
+            try
+            {
+                string cmdText = "select s.`store_id`,s.`store_name`,s.`StoreDescription`,s.`StoreTagLine`,s.`StoreImage`,s.`Latitude`,s.`Longitude`,COUNT(`ProductID`) as `productcount` from `products` p right join `store` s ON p.`storeid`=s.`store_id`";
+                bool isWhere = false;
+                if (storeIDs != "" || storetype != "")
+                {
+                    cmdText += "@where";
+                    bool anotherQuery = false;
+                    
+                    if (storeIDs != "")
+                    {
+                        cmdText += "s.`store_id` in (" + storeIDs + ")";
+                        anotherQuery = true;
+                        isWhere = true;
+
+                    }
+
+                    if (storetype != "all" && storetype != "")
+                    {
+                        if (anotherQuery)
+                            cmdText += " and ";
+                        cmdText += "s.`store_type`='" + storetype + "'";
+                        isWhere = true;
+                    }
+                }
+                cmdText += " group by s.`store_id`;";
+                if (isWhere)
+                {
+                    if (cmdText.Contains("@where"))
+                        cmdText = cmdText.Replace("@where", " where ");
+                    
+                }
+                else
+                {
+                    if (cmdText.Contains("@where"))
+                        cmdText = cmdText.Replace("@where", "");
+                }
+                cmd = new MySqlCommand(cmdText, con);
+                con.Open();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                dt = new DataTable();
+            }
+            return dt;
+        }
+
+        public DataTable GetProductsbyStores(int storeID)
+        {
+            //isStore = true - condition of storeID
+            //isStore = false - no condition  for storeID
+
+            DataTable dt = new DataTable();
+            try
+            {
+                string cmdText = "select `ProductID`,`ProductName`,`ProductSKU`,`ProductShortDesc`,`ProductLong Description` as `ProductLongDesc`,`ProductFamilyID`,`ProductTypeID`,`ProductCategoryID`,`ProductSubCategoryID`,`Price`,`Quantity`,`StoreID`,`ProductImage`,`IsVisible`,`IsVariant`,`CreatedDate`,`CreatedUser`,`ModifiedDate`,`ModifiedUser`,`DiscountPrice`,`IsOnSale`,`IsNewStock`,`Gender`,`BrandID`,`ECommerceLink`,`ProductMasterPassword`,`IsApproveImage1`,`IsApproveImage2` from `products` where `storeID`=@storeID and `IsVisible` in (1,3)";
+
+                cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddWithValue("@storeID", storeID);
+                con.Open();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                dt = new DataTable();
+            }
+            return dt;
+        }
+
+        public DataTable GetAllProducts()
+        {
+            //isStore = true - condition of storeID
+            //isStore = false - no condition  for storeID
+
+            DataTable dt = new DataTable();
+            try
+            {
+                string cmdText = "select `ProductID`,`ProductName`,`ProductSKU`,`ProductShortDesc`,`ProductLong Description` as `ProductLongDesc`,`ProductFamilyID`,`ProductTypeID`,`ProductCategoryID`,`ProductSubCategoryID`,`Price`,`Quantity`,`StoreID`,`ProductImage`,`IsVisible`,`IsVariant`,`CreatedDate`,`CreatedUser`,`ModifiedDate`,`ModifiedUser`,`DiscountPrice`,`IsOnSale`,`IsNewStock`,`Gender`,`BrandID`,`ECommerceLink`,`ProductMasterPassword`,`IsApproveImage1`,`IsApproveImage2` from `products` where  `IsVisible` in (1,3)";
+
+                cmd = new MySqlCommand(cmdText, con);
+                con.Open();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                dt = new DataTable();
+            }
+            return dt;
+        }
+
+
+        #region FILTER SECTION
+
+        public List<string> GetStoresbyCategoryID(string categoryID)
+        {
+            List<string> lst = new List<string>();
+            try
+            {
+                string cmdText = "select distinct `StoreID` from `storecategories` where `CategoryID` in (" + categoryID + ");";
+                cmd = new MySqlCommand(cmdText, con);
+                con.Open();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                foreach (DataRow row in dt.Rows)
+                {
+                    lst.Add(row[0].ToString());
+                }
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                lst = new List<string>();
+            }
+            return lst;
+        }
+        #endregion
         #endregion
 
     }

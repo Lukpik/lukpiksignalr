@@ -3,6 +3,7 @@ var hubEngine;
 var _cnt = 0;
 var _isLimitReached = false;
 $(document).ready(function () {
+    AddProgressBarLoader();
     AddSpecification();
     Startup();
     //Hub Connection and functions
@@ -13,16 +14,26 @@ $(document).ready(function () {
         //alert('success');
         $('#divImgPreview').hide();
         hubEngine.server.getProductFamily($.connection.hub.id);
+        
         //hubEngine.server.getProductTypes($.connection.hub.id);
         hubEngine.server.getAllBrands($.connection.hub.id);
         var productID=readCookie("productID");
-        if (productID != null && productID != "") {
+        if (readCookie("isDuplicate") != null && readCookie("isDuplicate") != "") {
             AddProgressBarLoader();
-            hubEngine.server.getProductDetails(readCookie("lukpikretailer_usename"), productID, $.connection.hub.id);
+            hubEngine.server.getProductDetails(readCookie("lukpikretailer_usename"), productID, "true", $.connection.hub.id);
         }
-        else {
-            hubEngine.server.isLimitReached(readCookie("lukpikretailer_usename"), $.connection.hub.id);
+        
+            //createCookie("isDuplicate", "Duplicate");
+        else if (productID != null && productID != "") {
+
+            AddProgressBarLoader();
+            hubEngine.server.getProductDetails(readCookie("lukpikretailer_usename"), productID, "false", $.connection.hub.id);
         }
+        else {  
+            RemoveProgressBarLoader();
+            hubEngine.server.getStoreMasterPassword(readCookie("lukpikretailer_usename"), $.connection.hub.id);
+        }
+        hubEngine.server.isLimitReached(readCookie("lukpikretailer_usename"), $.connection.hub.id);
         
         
     });
@@ -34,7 +45,24 @@ $(document).ready(function () {
     setInterval(function () {
         hubEngine.server.activecall();
     }, 15000);
+    
+    hubEngine.client.setMasterAck = function (msg,pwd) {
+        if (msg == "1") {
+            $('#txtProductMasterPassword').val(pwd);
+        }
+        else {
+            
+        }
+    };
 
+    hubEngine.client.fillCollectionColorSizes = function (msg,colors,tags,sizes) {
+        if (msg != "") {
+            $('#txtColors').val(colors);
+            $('#txtSizes').val(sizes);
+            $('#tags_Collection').val(tags);
+        }
+
+    };
     //Website Home Page
     hubEngine.client.gotProductFamily = function (msg) {
         if (msg != "") {
@@ -69,7 +97,7 @@ $(document).ready(function () {
             }
             else if (msg == "2") {
                 _isLimitReached = false;
-                $('#lblLimitReached').html("Hey, you have almost reached the limit.");
+                $('#lblLimitReached').html("Hey, you have almost reached the limit(" + limit + "), you can add only one more product.");
                 $('#modalLimitReached').modal('show');
                 $('#btnViewProducts').text("Add Product");
                 $('#btnViewProducts').text("Add Product");
@@ -118,6 +146,7 @@ $(document).ready(function () {
             //location.href = "addproduct.html";
             AddAlert("", "Updated successfully.");
             //$('#modalProductAdded').modal('show');
+            $('#modalProductUpdated').modal('show');
         }
         else if (msg == "0")
             AddAlert("error", "Something went wrong, please try again later.");
@@ -138,10 +167,21 @@ $(document).ready(function () {
         RemoveProgressBarLoader();
         if (json1 != "") {
             var obj1 = jQuery.parseJSON(json1);
-            var obj2 = jQuery.parseJSON(json2);
-            $('#lblHeading').text("Edit Product");
-            $('#btnSaveTop').text("Update");
-            $('#btnSaveBottom').text("Update");
+            var obj2 = "";
+            if (json2 != "") {
+                obj2 = jQuery.parseJSON(json2);
+            }
+
+            if ((readCookie("isDuplicate") != null && readCookie("isDuplicate") != "")) {
+                $('#lblHeading').text("Duplicate Product");
+                $('#btnSaveTop').text("Save");
+                $('#btnSaveBottom').text("Save");
+            }
+            else if ((readCookie("productID") != null && readCookie("productID") != "")) {
+                $('#lblHeading').text("Edit Product");
+                $('#btnSaveTop').text("Update");
+                $('#btnSaveBottom').text("Update");
+            }
             FillValues(obj1, obj2);
         }
         else {
@@ -166,12 +206,16 @@ function AddProduct() {
     $('#alertIDBottom').empty();
     $('#alertID').empty();
     AddProgressBarLoader();
+    var productSKU = $('#txtProductSKU').val();
     var productname = $('#txtFullName').val();
     var gender = $('input[name=gender]:checked').val();
     var productFamilyID = document.getElementById("ddProductFamily").value;
     var price = $('#txtPrice').val();
     var productDesc = $('#txtProductDescription').val();
     var visibility = $('input[name=isvisibe]:checked').val();
+    var masterPwd = $('#txtProductMasterPassword').val();
+    if (visibility != "3")
+        masterPwd = "";
     var productCategorySubCategoryID = document.getElementById("selectProduct").value;
     var brandID = document.getElementById("ddBrands").value;
     //var brandID = $('#txtBrand').val();
@@ -188,14 +232,22 @@ function AddProduct() {
   //if (file6 != null && file6 != "") {
   //    ProductImageNames.push(file6Name); ProductImages.push(file6);
   //}
-  if (productname != "" && gender != "" && productFamilyID != "" &&  productCategorySubCategoryID != "") {
+    if (productname != "" && gender != "" && productFamilyID != "" && productCategorySubCategoryID != "") {
       // productname,  gender,  productFamily,  productdescription, price,  quantity,  size,  color,  visibility, prodyctype,  brand, collection,  images, clientID
       var productID = readCookie("productID");
+      var isDuplicate = readCookie("isDuplicate");
+      
       //if (ProductImages.length > 0) {
-      if (productID != null && productID != "") {
+      if (isDuplicate != null && isDuplicate != "") {
+          GetAllImages('add');
+      }
+      else if (productID != null && productID != "") {
           if (price == "")
               price = "-1";
-          hubEngine.server.updateProduct(productID, productname, gender, productFamilyID, productDesc, price, "", "", "", visibility, productCategorySubCategoryID, brandID, tags, ProductImages.toString(), readCookie("lukpikretailer_usename"), $.connection.hub.id, ProductImageNames.toString(), ecommercelink);
+          //hubEngine.server.addProduct(productname, gender, productFamilyID, productDesc, price, "", sizes, colors, visibility, productCategorySubCategoryID, brandID, tags, ProductImages.toString(), readCookie("lukpikretailer_usename"), $.connection.hub.id, ProductImageNames.toString(), ecommercelink);
+          //Main
+          //hubEngine.server.updateProduct(productID, productname, gender, productFamilyID, productDesc, price, "", sizes, colors, visibility, productCategorySubCategoryID, brandID, tags, "", readCookie("lukpikretailer_usename"), $.connection.hub.id, "", ecommercelink);
+          GetAllImages('update');
 
       }
       else {
@@ -206,7 +258,7 @@ function AddProduct() {
           //    RemoveProgressBarLoader();
           //    AddAlert("error", "Please add image(s) to proceed.");
           //}
-          GetAllImages();
+          GetAllImages('add');
       }
 
   }
@@ -223,12 +275,18 @@ function ProductData() {
     $('#alertIDBottom').empty();
     $('#alertID').empty();
     AddProgressBarLoader();
+    var productSKU = $('#txtProductSKU').val();
     var productname = $('#txtFullName').val();
     var gender = $('input[name=gender]:checked').val();
+    
     var productFamilyID = document.getElementById("ddProductFamily").value;
     var price = $('#txtPrice').val();
     var productDesc = $('#txtProductDescription').val();
+
     var visibility = $('input[name=isvisibe]:checked').val();
+    var masterPwd = $('#txtProductMasterPassword').val();
+    if (visibility != "3")
+        masterPwd = "";
     var productCategorySubCategoryID = document.getElementById("selectProduct").value;
     var brandID = document.getElementById("ddBrands").value;
     //var brandID = $('#txtBrand').val();
@@ -236,20 +294,41 @@ function ProductData() {
     var sizes = $('#txtSizes').val();
     var colors = $('#txtColors').val();
     var ecommercelink = $('#txtECommerceLink').val();
-
+    var imageIDs = [];
     var ProductImages = []; var ProductImageNames = [];
     if (file5 != null && file5 != "") {
         ProductImageNames.push(file5Name); ProductImages.push(file5);
+        imageIDs.push("image1");
     }
     if (file6 != null && file6 != "") {
         ProductImageNames.push(file6Name); ProductImages.push(file6);
+        imageIDs.push("image2");
     }
-    if (productname != "" && gender != "" && productFamilyID != "" &&  productCategorySubCategoryID != "") {
-
-        if (ProductImages.length > 0) {
+    
+    if (productname != "" && gender != "" && productFamilyID != "" && productCategorySubCategoryID != "") {
+        var productID = readCookie("productID");
+        var isDuplicate = readCookie("isDuplicate");
+        if (isDuplicate != null && isDuplicate != "") {
             if (price == "")
                 price = "-1";
-            hubEngine.server.addProduct(productname, gender, productFamilyID, productDesc, price, "", sizes, colors, visibility, productCategorySubCategoryID, brandID, tags, ProductImages.toString(), readCookie("lukpikretailer_usename"), $.connection.hub.id, ProductImageNames.toString(), ecommercelink);
+            if (ProductImages.length > 0)
+                hubEngine.server.addProduct(productname, gender, productFamilyID, productDesc, price, "", sizes, colors, visibility, productCategorySubCategoryID, brandID, tags, ProductImages.toString(), readCookie("lukpikretailer_usename"), $.connection.hub.id, ProductImageNames.toString(), ecommercelink, productSKU, masterPwd);
+            else {
+                RemoveProgressBarLoader();
+                AddAlert("error", "Please add image(s) to proceed.");
+            }
+        }
+        else if ((productID != null && productID != "") && (ProductImages.length > 0 || $('#divImgPreview')[0].childElementCount > 0)) {
+            if (price == "")
+                price = "-1";
+            hubEngine.server.updateProduct(productID, productname, gender, productFamilyID, productDesc, price, "", sizes, colors, visibility, productCategorySubCategoryID, brandID, tags, ProductImages.toString(), readCookie("lukpikretailer_usename"), $.connection.hub.id, ProductImageNames.toString(), ecommercelink, imageIDs.toString(), productSKU, masterPwd);
+
+        }
+        else if (ProductImages.length > 0 && productID == null) {
+            if (price == "")
+                price = "-1";
+
+            hubEngine.server.addProduct(productname, gender, productFamilyID, productDesc, price, "", sizes, colors, visibility, productCategorySubCategoryID, brandID, tags, ProductImages.toString(), readCookie("lukpikretailer_usename"), $.connection.hub.id, ProductImageNames.toString(), ecommercelink, productSKU, masterPwd);
         }
         else {
             RemoveProgressBarLoader();
@@ -262,7 +341,7 @@ function ProductData() {
     }
 }
 
-function GetAllImages(id) {
+function GetAllImages(pos) {
     //$('#file-5').fileinput('clear');
     //ProductImages = []; ProductImageNames = [];
     var j = 1;
@@ -304,6 +383,15 @@ function GetAllImages(id) {
             else
                 j++;
         }
+    }
+    else if (pos == 'update') {
+        if ($('#divImgPreview')[0].childElementCount == 0) {
+            RemoveProgressBarLoader();
+            AddAlert("error", "Please add image(s) to proceed.");
+        } else {
+            ProductData();
+        }
+
     }
     else {
         RemoveProgressBarLoader();
@@ -461,9 +549,15 @@ function RemoveSpecification() {
 }
 
 function FillValues(myobj1, myobj2) {
+    var productID = readCookie("productID");
     $('#divImgPreview').show();
+    if (readCookie("isDuplicate") != null && readCookie("isDuplicate") != "") {
+        $('#divImgPreview').hide();
+    }
+    
     $('fileUpdloadDiv').hide();
-
+    $('#txtProductMasterPassword').val(myobj1[0].ProductMasterPassword);
+    $('#txtProductSKU').val(myobj1[0].ProductSKU);
     $('#txtFullName').val(myobj1[0].ProductName);
     if (myobj1[0].Price != "-1")
         $('#txtPrice').val(myobj1[0].Price);
@@ -476,7 +570,10 @@ function FillValues(myobj1, myobj2) {
         return ($(this).text() == myobj1[0].ProductFamilyName);
     }).prop('selected', true);
     $("input[name=isvisibe][value=" + (myobj1[0].IsVisible) * 1 + "]").prop("checked", true);
-
+    if (myobj1[0].IsVisible == "3")
+        $('#txtProductMasterPassword').prop("disabled", false);
+    else
+        hubEngine.server.getStoreMasterPassword(readCookie("lukpikretailer_usename"), $.connection.hub.id);
     $('[name=producttype] option').filter(function () {
         return ($(this).val() == myobj1[0].ProductTypeName);
     }).prop('selected', true);
@@ -486,23 +583,33 @@ function FillValues(myobj1, myobj2) {
     }).prop('selected', true);
     _selectedProductCategory = myobj1[0].ProductSubCategoryID;
     onChangeProductFamily();
-    addImage(myobj2);
-    var productID = readCookie("productID");
+    if (myobj2 != "")
+        addImage(myobj2);
+    
     hubEngine.server.getCollectionColorSizes(productID, readCookie("lukpikretailer_usename"), $.connection.hub.id);
 }
 
 var cnt = 1;
 var _selectedProductCategory = "";
 function addImage(imageObj) {
+    
     if (imageObj.ImageUrl.length > 0) {
 
         for (var i = 0; i < imageObj.ImageUrl.length; i++) {
             var imagePath = imageObj.ImageUrl[i];
             if (imagePath != "NoImage") {
                 var imgSrc = imagePath == "NoImage" ? "images/previewnotavailable.png" : imagePath;
-
+                
                 var divId = "div" + cnt;
-                var str = '<div class="col-md-3" id="' + divId + '" ><div class="well"><div style="text-align:center;"><span style="cursor:pointer;text-decoration:none;" onclick="RemoveImage(\'' + divId + '\');">X</span></div><img src="' + imgSrc + '" class="img-responsive"/></div></div>';
+                var str = '<div class="col-md-3" id="' + divId + '" style="text-align:center;"><div class="cssWell"><div style="text-align:right;padding-bottom:5px;"><span style="cursor:pointer;text-decoration:none;font-weight:bold;" onclick="RemoveImage(\'' + divId + '\',\'' + i + '\');">X</span></div><img src="' + imgSrc + '" class="img-responsive" /></div></div>';
+                switch (i) {
+                    case 0:
+                        $('#file-5').fileinput("disable");
+                        break;
+                    case 1:
+                        $('#file-6').fileinput("disable");
+                        break;
+                }
                 //$('#blah').attr('src', e.target.result);
                 $('#divImgPreview').append(str);
                 cnt++;
@@ -512,9 +619,23 @@ function addImage(imageObj) {
 
     }
 }
-function RemoveImage(id) {
+
+function RemoveImage(id,index) {
     $('#' + id).empty();
     $('#' + id).remove();
+    var fileInput = "";
+    switch (index) {
+        case "0":
+            fileInput = "file-5";
+            break;
+        case "1":
+            fileInput = "file-6";
+            break;
+    }
+    $('#' + fileInput).fileinput("enable");
+    
+    //$('#' + fileInput).prop("disabled", false);
+    //document.getElementById(fileInput).disabled = false;
 }
 
 function Test() {
@@ -531,7 +652,19 @@ function onChangeProductFamily() {
 }
 $("input[name=gender]:radio").change(function () {
     onChangeProductFamily();
-})
+});
+
+$("input[name=isvisibe]:radio").change(function () {
+    var isVisible = $('input[name=isvisibe]:checked').val();
+    if (isVisible == "3") {
+        $('#txtProductMasterPassword').prop("disabled", false);
+    }
+    else {
+        $('#txtProductMasterPassword').prop("disabled", true);
+        //hubEngine.server.getStoreMasterPassword(readCookie("lukpikretailer_usename"), $.connection.hub.id);
+    }
+});
+
 function FormProductCategory(myobj) {
     var str = '';
     $('#selectProduct').empty();
@@ -573,6 +706,8 @@ function FormProductCategory(myobj) {
 
 function CloseModal() {
     $('#modalProductAdded').modal('hide');
+    eraseCookie("productID");
+    eraseCookie("isDuplicate");
     location.href = "addproduct.html";
 }
 

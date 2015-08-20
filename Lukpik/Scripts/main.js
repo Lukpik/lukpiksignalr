@@ -1,11 +1,16 @@
 ﻿var hubEngine;
 var validEmail;
+
+
 $(document).ready(function () {
     //Hub Connection and functions
+    
     hubEngine = $.connection.allHubs;
     $.connection.hub.logging = true;
     $.connection.hub.start().done(function () {
         //alert('success');
+        
+        
     });
     $.connection.hub.disconnected(function () {
         setTimeout(function () {

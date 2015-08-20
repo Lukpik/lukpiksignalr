@@ -231,7 +231,7 @@
                                                                             <div class="avatar-wrapper"></div>
                                                                         </div>
                                                                         <div class="col-md-3">
-                                                                            <div class="avatar-preview preview-lg"></div>
+                                                                            <div ID='imgMainPre' class="avatar-preview preview-lg"></div>
                                                                             <div class="avatar-preview preview-md"></div>
                                                                             <div class="avatar-preview preview-sm"></div>
                                                                         </div>
@@ -624,6 +624,43 @@
                         </div>
                     </div>
 
+                    <!--Master password Section-->
+                    <div class="x_panel">
+                        <div class="x_title">
+
+                            <h2>Advanced options</h2>
+
+
+                            <div class="pull-right">
+                                <!--<button id="" class="btn btn-primary">Cancel</button>
+
+                                <button id="" class="btn btn-success" onclick="">Save</button>-->
+                            </div>
+
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <div class="row cssmarginbotom">
+                                <div class="col-md-12">
+                                    <h3></h3>
+                                </div>
+                            </div>
+                            <div class="row cssmarginbotom">
+                                <div class="col-md-12 col-sm-6 col-xs-12">
+                                    <label>Product Lock password<small>&nbsp;&nbsp;(This password will be used if you choose to display products only for few customers and not all)</small></label>
+                                    <input type="text" id="txtMasterPassword" class="form-control" />
+                                </div>
+                                
+                            </div>
+                            <div class="row">
+
+                                <div class="col-ms-12 col-sm-12 col-xs-12" style="text-align: right;">
+                                    
+                                    <button class="btn btn-success" onclick="SetMasterPassword();">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                   
                 </div>
                 <!-- /page content -->
@@ -695,31 +732,36 @@
         //window.onload = InitializeMap;
         
         function IdentifyLocation() {
-            var addline1 = $('#txtAddressLine1').val();
-            var addline2 = $('#txtAddressLine2').val();
-            $('#lblMapAddress').text("");
-            var city = $('#txtCity')[0].value;
-            var e = document.getElementById("ddState");
-            var state = e.options[e.selectedIndex].text;
-            var country = $('#txtCountry')[0].value;
-            //alert(city + "," + country + "," + state);
+            try {
+                var addline1 = $('#txtAddressLine1').val();
+                var addline2 = $('#txtAddressLine2').val();
+                $('#lblMapAddress').text("");
+                var city = $('#txtCity')[0].value;
+                var e = document.getElementById("ddState");
+                var state = e.options[e.selectedIndex].text;
+                var country = $('#txtCountry')[0].value;
+                //alert(city + "," + country + "," + state);
 
-            if (city == "")
-                city = "hyderabad";
-            var geocoder = new google.maps.Geocoder();
-            var address = addline1 + "," + addline2 + "," + city + "," + country + "," + state;
-            
-            geocoder.geocode({ 'address': address }, function (results, status) {
+                if (city == "")
+                    city = "hyderabad";
+                var geocoder = new google.maps.Geocoder();
+                var address = addline1 + "," + addline2 + "," + city + "," + country + "," + state;
 
-                if (status == google.maps.GeocoderStatus.OK) {
-                    var latitude = results[0].geometry.location.lat();
-                    var longitude = results[0].geometry.location.lng();
-                    //alert(latitude);
+                geocoder.geocode({ 'address': address }, function (results, status) {
 
-                    //var data = markers[i]
-                    AddMapMarker(latitude, longitude, geocoder);
-                }
-            });
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        var latitude = results[0].geometry.location.lat();
+                        var longitude = results[0].geometry.location.lng();
+                        //alert(latitude);
+
+                        //var data = markers[i]
+                        AddMapMarker(latitude, longitude, geocoder);
+                    }
+                });
+            } catch (e) {
+                RemoveProgressBarLoader();
+            }
+           
         }
 
         function AddMapMarker(mapLat, mapLong, geocoder) {

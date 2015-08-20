@@ -211,6 +211,26 @@
                         </div>
                     </div>
 
+                    <div id="modalProductUpdated" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">
+                                        <span aria-hidden="true" onclick="location.href = 'products.html';">×</span>
+                                    </button>
+                                    <h3 class="modal-title" id="">Product updated</h3>
+                                </div>
+                                <div class="modal-body">
+                                    <h4>You have successfully updated product to your store. Do you want to proceed? </h4>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-default" onclick="location.href = 'products.html';">View Products</button>
+                                    <!--<button class="btn btn-success" onclick="CloseModal();">Add Another</button>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div id="modalLimitReached" class="modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -244,7 +264,7 @@
                             <label id="lblmsg"></label>
                             <div class="pull-right">
                                 <div id="divButtonPanel_Top"></div>
-                                <button class="btn btn-primary">Cancel</button>
+                                <button class="btn btn-primary" onclick="location.href = 'products.html';">Cancel</button>
                                 <button id="btnSaveTop" class="btn btn-success" onclick="AddProduct();">Save</button>
                             </div>
 
@@ -290,7 +310,10 @@
                                         <label for="fullname">Full Name * :</label>
                                         <input type="text" id="txtFullName" class="form-control" name="fullname" />
                                     </div>
-
+                                    <div class="col-md-12 cssmarginbotom col-sm-12 col-xs-12">
+                                        <label for="fullname">Product Code/SKU :</label>
+                                        <input type="text" id="txtProductSKU" class="form-control" name="fullname" />
+                                    </div>
 
 
                                     <div class="col-md-12 cssmarginbotom col-sm-12 col-xs-12">
@@ -360,7 +383,11 @@
                                             <label style="font-weight: normal;" for="onn">On&nbsp;&nbsp;&nbsp;&nbsp;</label>
 
                                             <input type="radio" name="isvisibe" id="off" value="0" />
-                                            <label style="font-weight: normal;" for="off">Off</label>
+                                            <label style="font-weight: normal;" for="off">Off&nbsp;&nbsp;&nbsp;&nbsp;</label>
+
+                                            <input type="radio" name="isvisibe" id="" value="3" />
+                                            <label style="font-weight: normal;" for="off">Password protect</label>
+                                            <input type="text" id="txtProductMasterPassword" class="form-control" disabled/>
                                         </p>
                                     </div>
                                     <div class="col-md-12 cssmarginbotom col-sm-12 col-xs-12">
@@ -377,8 +404,8 @@
                                     <div class="col-md-12 cssmarginbotom col-sm-12 col-xs-12">
                                         <label class="control-label ">Collection</label>
                                         <div class="">
-                                            <input id="tags_Collection" type="text" class="tags form-control" value="" />
-                                            <div id="suggestions-container" style="position: relative; float: left; width: 250px; margin: 10px;"></div>
+                                            <input id="tags_Collection" type="text" class="form-control" value="" />
+                                            <!--<div id="suggestions-container" style="position: relative; float: left; width: 250px; margin: 10px;"></div>-->
 
                                         </div>
                                     </div>
@@ -405,7 +432,7 @@
                                         <div class="row" id="divImages">
                                         </div>
                                     </div> onchange="GetAllImages();"-->
-                                    <div id="divImgPreview" style="min-height:250px;max-height:250px;overflow-y:auto;border:solid 1px #cccccc;">
+                                    <div id="divImgPreview" style="min-height:250px;max-height:250px;overflow-y:auto;border:solid 1px #cccccc;margin-bottom:20px;">
 
                                     </div>
                                     <div class="form-group" id="fileUpdloadDiv">
@@ -478,7 +505,7 @@
                             <div class="row" id="divButtonPanel_Bottom">
 
                                 <div class="col-ms-12 col-sm-12 col-xs-12" style="text-align: right;">
-                                    <button class="btn btn-primary">Cancel</button>
+                                    <button class="btn btn-primary" onclick="location.href = 'products.html';">Cancel</button>
                                     <button id="btnSaveBottom" class="btn btn-success" onclick="AddProduct();">Save</button>
                                 </div>
                             </div>
@@ -648,9 +675,9 @@
             $('#txtColorsTags').tagsInput({
                 width: 'auto'
             });
-            $('#tags_Collection').tagsInput({
-                width: 'auto'
-            });
+            //$('#tags_Collection').tagsInput({
+            //    width: 'auto'
+            //});
         });
     </script>
     <!-- /input tags -->
@@ -664,6 +691,7 @@
             language: 'fr',
             uploadUrl: '#',
             maxFileCount: 1,
+            maxFileSize: 16384,
             allowedFileExtensions: ['jpg', 'png', 'gif', 'jpeg'],
         });
 
@@ -671,6 +699,7 @@
             language: 'fr',
             uploadUrl: '#',
             maxFileCount: 1,
+            maxFileSize: 16384,
             allowedFileExtensions: ['jpg', 'png', 'gif', 'jpeg'],
         });
        
