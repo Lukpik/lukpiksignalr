@@ -687,17 +687,26 @@ namespace Lukpik.Cl
             DataTable dt = new DataTable();
             try
             {
+                storetype = storetype.ToLower();
                 //string cmdText = "select * from `storetypecategories`";
                 //string cmdText = "select b.CategoryID as CategoryID , b.CategoryName  , count(a.StoreID) as StoreCount from storecategories a right join storetypecategories b on a.CategoryID = b.CategoryID group by b.CategoryID";
-                if (storetype == "")
+                string cmdText = "";
+                if (storetype == "" || storetype=="all")
                 {
-                    string cmdText = "select b.CategoryID as CategoryID , b.CategoryName  , count(a.StoreID) as StoreCount from storecategories a right join storetypecategories b on a.CategoryID = b.CategoryID group by b.CategoryID";
-                    cmd = new MySqlCommand(cmdText, con);
-                    con.Open();
-                    MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-                    da.Fill(dt);
-                    con.Close();
+                    cmdText = "select b.CategoryID as CategoryID , b.CategoryName  , count(a.StoreID) as StoreCount from storecategories a right join storetypecategories b on a.CategoryID = b.CategoryID group by b.CategoryID";
+                   
                 }
+                else
+                {
+                    cmdText = "select b.CategoryID as CategoryID , b.CategoryName  , count(a.StoreID) as StoreCount from storecategories a right join storetypecategories b on a.CategoryID = b.CategoryID and a.StoreID in (select `store_id` from `store` where `store_type` =LCASE(@storetype) ) group by b.CategoryID having StoreCount > 0 order by StoreCount desc;";
+                }
+                cmd = new MySqlCommand(cmdText, con);
+                if (storetype != "")
+                    cmd.Parameters.AddWithValue("@storetype", storetype);
+                con.Open();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
+                con.Close();
             }
             catch (Exception ex)
             {
