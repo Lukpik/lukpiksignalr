@@ -67,7 +67,7 @@ function CreateTableData(myobj, myobj2) {
         for (var prodCount = 0; prodCount < myobj.length; prodCount++) {
 
             var imagePath = myobj2.ImageUrl[prodCount];
-            var imgSrc = imagePath == "NoImage" ? "images/previewnotavailable.png" : imagePath;
+            var imgSrc = imagePath == "NoImage" ? "images/previewnotavailable.png" : "../StoreImages/" + imagePath;
 
 
             var productname = myobj[prodCount].ProductName;
@@ -83,7 +83,7 @@ function CreateTableData(myobj, myobj2) {
             var trID = "trID" + prodCount;
             var selectID = "select" + prodCount;
             var category = myobj[prodCount].ProductCategoryName + " - " + myobj[prodCount].ProductSubCategoryName;
-            str = str + '<tr class="even pointer" id="' + trID + '"> <td class="a-center "> <input type="checkbox" class="tableflat"></td><td class=" "><img src="' + imgSrc + '" class="img-responsive" width="80"/></td><td class=" " width="45%">' + productname + ' </td><td class=" "  width="20%"> ' + category + ' </td><td class="a-right a-right ">' + isVisible + '</td><td class=" last"> <select name="action" id="' + selectID + '" onchange="ChooseAction(this,\'' + myobj[prodCount].ProductID + '\',' + trID + ');"><option value="0">Choose </option><option value="1">View / Edit</option><option value="3">Duplicate</option><option value="2">Delete</option></select></td></tr>';
+            str = str + '<tr class="even pointer" id="' + trID + '"> <td class="a-center "> <input type="checkbox" class="tableflat"></td><td class=" "><img src="' + imgSrc + '" class="img-responsive" width="80" height="20"/></td><td class=" " width="45%">' + productname + ' </td><td class=" "  width="20%"> ' + category + ' </td><td class="a-right a-right ">' + isVisible + '</td><td class=" last"> <select name="action" id="' + selectID + '" onchange="ChooseAction(this,\'' + myobj[prodCount].ProductID + '\',' + trID + ');"><option value="0">Choose </option><option value="1">View / Edit</option><option value="3">Duplicate</option><option value="2">Delete</option></select></td></tr>';
             //<option value="1">View / Edit</option><option value="3">See info</option>
             //<td class=" ">' + brand + '</td><td class=" ">' + price + '</td>
             // <a onclick="EditProduct(\'' + myobj[prodCount].ProductID + '\');">View/Edit</a>

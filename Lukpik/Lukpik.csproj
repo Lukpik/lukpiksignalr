@@ -181,6 +181,10 @@
     <Content Include="img\emailicons\retailermailbanner.png" />
     <Content Include="img\emailicons\twitter.png" />
     <Content Include="img\emailicons\website.png" />
+    <Content Include="img\markers\mm.png" />
+    <Content Include="img\markers\mm1.png" />
+    <Content Include="img\markers\mm2.png" />
+    <Content Include="img\markers\my_location.png" />
     <Content Include="index.html" />
     <Content Include="js\.DS_Store" />
     <Content Include="js\min\.DS_Store" />

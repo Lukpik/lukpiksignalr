@@ -163,15 +163,17 @@ $(document).ready(function () {
 
     
 
-    hubEngine.client.productDetails = function (json1, json2) {
+    hubEngine.client.productDetails = function (json1, json2,json3) {
         RemoveProgressBarLoader();
         if (json1 != "") {
             var obj1 = jQuery.parseJSON(json1);
             var obj2 = "";
+            var obj3 = "";
             if (json2 != "") {
                 obj2 = jQuery.parseJSON(json2);
             }
-
+            if(json3!="")
+                obj3 = jQuery.parseJSON(json3);
             if ((readCookie("isDuplicate") != null && readCookie("isDuplicate") != "")) {
                 $('#lblHeading').text("Duplicate Product");
                 $('#btnSaveTop').text("Save");
@@ -182,7 +184,7 @@ $(document).ready(function () {
                 $('#btnSaveTop').text("Update");
                 $('#btnSaveBottom').text("Update");
             }
-            FillValues(obj1, obj2);
+            FillValues(obj1, obj2,obj3);
         }
         else {
             AddAlert("error", "Something went wrong, please try again later.");
@@ -548,7 +550,7 @@ function RemoveSpecification() {
     _cnt = 1;
 }
 
-function FillValues(myobj1, myobj2) {
+function FillValues(myobj1, myobj2,myobj3) {
     var productID = readCookie("productID");
     $('#divImgPreview').show();
     if (readCookie("isDuplicate") != null && readCookie("isDuplicate") != "") {
@@ -583,8 +585,8 @@ function FillValues(myobj1, myobj2) {
     }).prop('selected', true);
     _selectedProductCategory = myobj1[0].ProductSubCategoryID;
     onChangeProductFamily();
-    if (myobj2 != "")
-        addImage(myobj2);
+    if (myobj3 != "")
+        addImage(myobj3);
     
     hubEngine.server.getCollectionColorSizes(productID, readCookie("lukpikretailer_usename"), $.connection.hub.id);
 }
@@ -598,7 +600,7 @@ function addImage(imageObj) {
         for (var i = 0; i < imageObj.ImageUrl.length; i++) {
             var imagePath = imageObj.ImageUrl[i];
             if (imagePath != "NoImage") {
-                var imgSrc = imagePath == "NoImage" ? "images/previewnotavailable.png" : imagePath;
+                var imgSrc = imagePath == "NoImage" ? "images/previewnotavailable.png" : "../StoreImages/"+imagePath;
                 
                 var divId = "div" + cnt;
                 var str = '<div class="col-md-3" id="' + divId + '" style="text-align:center;"><div class="cssWell"><div style="text-align:right;padding-bottom:5px;"><span style="cursor:pointer;text-decoration:none;font-weight:bold;" onclick="RemoveImage(\'' + divId + '\',\'' + i + '\');">X</span></div><img src="' + imgSrc + '" class="img-responsive" /></div></div>';

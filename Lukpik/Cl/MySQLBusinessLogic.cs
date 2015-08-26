@@ -829,7 +829,7 @@ namespace Lukpik.Cl
         #endregion
 
         #region PRODUCT
-        public int AddProduct(string productname, string gender, int productFamilyID, string productdescription, double price, string quantity, string size, string color, int visibility, int productCategoryID, int productSubCategoryID, int brandID, string collection, string images, int storeID, DateTime dtCreated, string email, List<byte[]> lstByt, byte[] thumbnail, string ecommercelink, string productSKU,string masterPwd)
+        public int AddProduct(string productname, string gender, int productFamilyID, string productdescription, double price, string quantity, string size, string color, int visibility, int productCategoryID, int productSubCategoryID, int brandID, string collection, string images, int storeID, DateTime dtCreated, string email, List<byte[]> lstByt, byte[] thumbnail, string ecommercelink, string productSKU,string masterPwd,List<string> lstImgIDs,List<string> lstImgPath,List<string> lstOrgPath)
         {
             int retVal = 0;
             try
@@ -865,6 +865,19 @@ namespace Lukpik.Cl
                 con.Open();
                 cmd.ExecuteNonQuery();
                 con.Close();
+                DataTable dt = new DataTable();
+                string cmdText1 = "SELECT  `ProductID` from `products` where `CreatedUser`=@email order by `CreatedDate` desc limit 1";
+                cmd = new MySqlCommand(cmdText1, con);
+                cmd.Parameters.AddWithValue("@email", email);
+                con.Open();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
+                con.Close();
+                for (int i = 0; i < lstImgIDs.Count; i++)
+                {
+                    ProductImagesInsert(Convert.ToInt32(dt.Rows[0].ItemArray[0]), lstImgIDs[i], lstImgPath[i], 0, lstOrgPath[i]);
+                }
+                 
                 retVal = 1;
             }
             catch (Exception)
@@ -872,6 +885,27 @@ namespace Lukpik.Cl
                 retVal = 0;
             }
             return retVal;
+        }
+
+        public void ProductImagesInsert(int productID, string imageID, string imagePath, int isApproved, string orgPath)
+        {
+            try
+            {
+
+                string cmdText = "insert into `ProductImages` (`ProductID`,`ImageID`,`ImagePath`,`IsApproved`,`OriginalImagePath`) values(@productID,@ImageID,@ImagePath,@IsApproved,@OriginalImagePath)";
+                cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddWithValue("@productID", productID);
+                cmd.Parameters.AddWithValue("@ImageID", imageID);
+                cmd.Parameters.AddWithValue("@ImagePath", imagePath);
+                cmd.Parameters.AddWithValue("@IsApproved", isApproved);
+                cmd.Parameters.AddWithValue("@OriginalImagePath", orgPath);
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+            }
         }
 
         public int UpdateProduct(int productID, string productname, string gender, int productFamilyID, string productdescription, double price, string quantity, string size, string color, int visibility, int productCategoryID, int productSubCategoryID, int brandID, string collection, int storeID, DateTime dtModified, string email, string ecommercelink, string productSKU, string masterPwd)
@@ -1301,7 +1335,7 @@ namespace Lukpik.Cl
             return lst;
         }
 
-        public bool UpdateProducts_Image(byte[] imageByte, int productID, string imgIndex,byte[] previewImage)
+        public bool UpdateProducts_Image(byte[] imageByte, int productID, string imgIndex,byte[] previewImage,string path,string orgPath,bool IsUpdate)
         {
             bool retVal = false;
             try
@@ -1309,7 +1343,7 @@ namespace Lukpik.Cl
                 string previewCode="";
                 if (imgIndex=="image1")
                     previewCode = ", `ProductImage`=@previewImage";
-                string cmdText = "SET SQL_SAFE_UPDATES = 0; update `products` set `" + imgIndex + "`=@image " + previewCode + " where `ProductID`=@productID";
+                string cmdText = "SET SQL_SAFE_UPDATES = 0; update `products` set `" + imgIndex + "`=@image " + previewCode + " where `ProductID`=@productID;";
                 cmd = new MySqlCommand(cmdText, con);
                 cmd.Parameters.AddWithValue("@image", imageByte);
                 cmd.Parameters.AddWithValue("@productID", productID);
@@ -1318,6 +1352,23 @@ namespace Lukpik.Cl
                 con.Open();
                 cmd.ExecuteNonQuery();
                 con.Close();
+                if (IsUpdate)
+                {
+                    string cmdText1 = "SET SQL_SAFE_UPDATES = 0; update `ProductImages` set `ImagePath`=@image,`OriginalImagePath`=@orgPath where `ProductID`=@productID and `ImageID`=@ImageID;";
+                    cmd = new MySqlCommand(cmdText1, con);
+                    cmd.Parameters.AddWithValue("@image", path);
+                    cmd.Parameters.AddWithValue("@orgPath", orgPath);
+                    cmd.Parameters.AddWithValue("@ImageID", imgIndex);
+                    cmd.Parameters.AddWithValue("@productID", productID);
+
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                }
+                else {
+                    ProductImagesInsert(productID, imgIndex, path, 0, orgPath);
+                }
+
                 retVal = true;
             }
             catch (Exception ex)
@@ -1534,6 +1585,29 @@ namespace Lukpik.Cl
         }
         #endregion
         #endregion
+
+        public DataTable GetProductImagePaths(int prod_ID, int sID)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                string cmdText = "";
+                if (prod_ID != 0)
+                    cmdText = "select `ImageID`,`ImagePath`,`OriginalImagePath` from `ProductImages` where `ProductID`=" + prod_ID + " and `IsApproved`=0;";
+                else
+                    cmdText = "Select b.`ProductID`,b.`ImagePath` FROM `products` a , `ProductImages` b where  a.`productID` = b.`ProductID` and b.`ImageID` = 'Image1' and a.`StoreID`= " + sID + " and b.`IsApproved`=0 order by `ModifiedDate` desc;";
+                cmd = new MySqlCommand(cmdText, con);
+                con.Open();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
+                con.Close();
+
+
+            }
+            catch (Exception ex)
+            { }
+            return dt;
+        }
 
     }
 }
